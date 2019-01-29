@@ -1,0 +1,25 @@
+<?php
+declare(strict_types=1);
+
+namespace App\Listeners;
+
+use App\Domain\Task\Events\TaskCreated;
+use App\Domain\Timer\Commands\CreateTimerCommand;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+
+/**
+ * Class CreateTimerForTask
+ * @package App\Listeners
+ */
+class CreateTimerForTask
+{
+    use DispatchesJobs;
+
+    /**
+     * @param TaskCreated $event
+     */
+    public function handle(TaskCreated $event)
+    {
+        $this->dispatch(new CreateTimerCommand($event));
+    }
+}
