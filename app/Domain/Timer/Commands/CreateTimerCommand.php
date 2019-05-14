@@ -12,15 +12,15 @@ use App\Timer;
  */
 class CreateTimerCommand
 {
-    private $task;
+    private $event;
 
     /**
      * CreateTimerCommand constructor.
-     * @param TaskCreated $task
+     * @param TaskCreated $event
      */
-    public function __construct(TaskCreated $task)
+    public function __construct(TaskCreated $event)
     {
-        $this->task = $task;
+        $this->event = $event;
     }
 
     /**
@@ -29,7 +29,7 @@ class CreateTimerCommand
     public function handle(): bool
     {
         $timer = new Timer();
-        $timer->fill(['task_id' => $this->task->id]);
+        $timer->fill(['task_id' => $this->event->task->id]);
 
         return $timer->save();
     }

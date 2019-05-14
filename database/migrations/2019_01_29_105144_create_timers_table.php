@@ -17,7 +17,12 @@ class CreateTimersTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('task_id');
             $table->integer('total')->default(0);
-            $table->integer('task_start')->default(0);
+            $table->integer('job_start')->default(0);
+
+            $table->foreign('task_id')
+                ->references('id')
+                ->on('tasks')
+                ->onDelete('cascade');
         });
     }
 
