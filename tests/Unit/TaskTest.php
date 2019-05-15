@@ -16,6 +16,5 @@ class TaskTest extends TestCase
         $task = create(Task::class);
 
         $this->assertDatabaseHas('tasks', ['body' => $task->body]);
-
     }
 }

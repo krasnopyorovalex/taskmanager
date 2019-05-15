@@ -35,6 +35,8 @@ class Task extends Model
 
     protected $guarded = ['id'];
 
+    protected $with = ['initiator', 'developer', 'timer'];
+
     /**
      * The event map for the model.
      *

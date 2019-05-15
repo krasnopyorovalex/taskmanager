@@ -16,6 +16,6 @@ class GetAllTasksQuery
      */
     public function handle()
     {
-        return Task::with(['initiator'])->paginate(Task::LIMIT_TASKS);
+        return Task::paginate(Task::LIMIT_TASKS);
     }
 }
