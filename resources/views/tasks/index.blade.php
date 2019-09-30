@@ -16,12 +16,12 @@
 
                         <th scope="col" class="border-top-0">Статус</th>
                         <th scope="col" class="border-top-0">Затраченное время</th>
-                        <th scope="col" class="border-top-0 text-right">Username</th>
+                        <th scope="col" class="border-top-0 text-right">Дата сдачи</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($tasks as $task)
-                        <tr>
+                        <tr class="status status-{{ strtolower($task->status) }}">
                             <td class=" align-middle text-center">
                                 <span class="user-initials bg-success-light25 text-success">{{ $loop->index + 1 }}</span>
                             </td>
@@ -30,10 +30,10 @@
                                 <div><a href="{{ route('tasks.show', $task) }}" class="weight-400">{{ $task->name }}</a></div>
                             </td>
                             <td class="align-middle">
-                                <div class="weight-400">{{ $task->status }}</div>
+                                <div class="weight-400">{{ $task->labelStatus }}</div>
                             </td>
-                            <td class="align-middle"><span class="material-icons align-middle md-18 text-danger">expand_more</span> 32 Sec</td>
-                            <td class="align-middle text-right">@mdo</td>
+                            <td class="align-middle">{{ $task->timer->formatTotal }}</td>
+                            <td class="align-middle text-right">{{ $task->getDeadline() }}</td>
                         </tr>
                     @endforeach
                     </tbody>

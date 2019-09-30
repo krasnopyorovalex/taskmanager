@@ -4,22 +4,27 @@ use App\Task;
 use App\User;
 use Faker\Generator as Faker;
 
-$factory->define(Task::class, function (Faker $faker) {
+$factory->define(Task::class, static function (Faker $faker) {
 
-    $status = array_random(Task::STATUSES);
+    $status = array_rand(Task::STATUSES_LABELS);
+
+    $closedAt = $status === 'CLOSED'
+        ? date('Y-m-d H:i:s')
+        : null;
 
     return [
         'name' => $faker->domainName,
         'body' => $faker->sentence,
         'status' => $status,
-        'initiator_id' => function () {
+        'deadline' => $status !== 'CLOSED'
+            ? date('Y-'. random_int(date('m'), 12) .'-'. random_int(1, 28) .' H:i:s')
+            : $closedAt,
+        'initiator_id' => static function () {
             return factory(User::class)->create()->id;
         },
-        'developer_id' => function () {
+        'developer_id' => static function () {
             return factory(User::class)->create()->id;
         },
-        'closed_at' => ($status == "CLOSED"
-            ? date('Y-m-d H:i:s')
-            : null)
+        'closed_at' => $closedAt
     ];
 });

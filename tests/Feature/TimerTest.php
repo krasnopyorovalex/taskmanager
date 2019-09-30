@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Task;
-use App\Timer;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
@@ -27,17 +26,7 @@ class TimerTest extends TestCase
     }
 
     /** @test */
-    public function task_always_has_a_timer()
-    {
-        $this->assertInstanceOf(Timer::class, $this->timer);
-
-        $this->assertEquals(0, $this->timer->total);
-
-        $this->assertEquals(0, $this->timer->job_start);
-    }
-
-    /** @test */
-    public function task_timer_calculate_start()
+    public function task_timer_start()
     {
         $this->post(route('timer.start', $this->timer))
             ->assertStatus(204);
@@ -49,7 +38,7 @@ class TimerTest extends TestCase
     }
 
     /** @test */
-    public function task_timer_calculate_stop()
+    public function task_timer_calculate_stop_and_calculate_total()
     {
         $this->post(route('timer.start', $this->timer));
 

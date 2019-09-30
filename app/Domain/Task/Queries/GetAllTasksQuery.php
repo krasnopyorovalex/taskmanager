@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Domain\Task\Queries;
@@ -16,6 +17,6 @@ class GetAllTasksQuery
      */
     public function handle()
     {
-        return Task::paginate(Task::LIMIT_TASKS);
+        return Task::paginate();
     }
 }

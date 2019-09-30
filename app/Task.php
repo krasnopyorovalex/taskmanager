@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App;
 
 use App\Domain\Task\Events\TaskCreated;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * Class Task
@@ -22,20 +26,24 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Task extends Model
 {
-    public const STATUSES = [
-        'NEW',
-        'IN_WORK',
-        'PAUSED',
-        'COMPLETED',
-        'RETURNED',
-        'CLOSED'
+    public const STATUSES_LABELS = [
+        'NEW' => 'Новый',
+        'IN_WORK' => 'В работе',
+        'PAUSED' => 'Приостановлено',
+        'COMPLETED' => 'Выполнено',
+        'RETURNED' => 'Возврат',
+        'CLOSED' => 'Закрыто'
     ];
 
-    public const LIMIT_TASKS = 25;
+    public $perPage = 25;
 
-    protected $guarded = ['id'];
+    protected $guarded = [];
 
     protected $with = ['initiator', 'developer', 'timer'];
+
+    protected $dates = [
+        'deadline'
+    ];
 
     /**
      * The event map for the model.
@@ -48,25 +56,49 @@ class Task extends Model
 
     /**
      * Get the timer record associated with the task.
+     *
+     * @return HasOne
      */
-    public function timer()
+    public function timer(): HasOne
     {
-        return $this->hasOne('App\Timer');
+        return $this->hasOne(Timer::class);
     }
 
     /**
      * Get the user which created a task.
+     *
+     * @return BelongsTo
      */
-    public function initiator()
+    public function initiator(): BelongsTo
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
     }
 
     /**
      * Get the user which take to perform a task.
+     *
+     * @return BelongsTo
      */
-    public function developer()
+    public function developer(): BelongsTo
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return string
+     */
+    public function getDeadline(): string
+    {
+        return $this->deadline
+            ? $this->deadline->formatLocalized('%d %b %Y')
+            : '';
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function getLabelStatusAttribute()
+    {
+        return self::STATUSES_LABELS[$this->status] ?? 'Пропишите метку для статуса';
     }
 }

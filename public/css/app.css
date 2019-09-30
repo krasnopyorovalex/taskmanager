@@ -1,7 +1,13 @@
 .sidebar .navbar {
   padding: 0.5rem;
 }
+
 .sidebar .material-icons {
   margin-top: 2px;
   vertical-align: top;
 }
+
+.status-in_work {
+  background-color: #ffebcd;
+}
+

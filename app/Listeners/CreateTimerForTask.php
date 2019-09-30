@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Listeners;
@@ -18,7 +19,7 @@ class CreateTimerForTask
     /**
      * @param TaskCreated $event
      */
-    public function handle(TaskCreated $event)
+    public function handle(TaskCreated $event): void
     {
         $this->dispatch(new CreateTimerCommand($event));
     }

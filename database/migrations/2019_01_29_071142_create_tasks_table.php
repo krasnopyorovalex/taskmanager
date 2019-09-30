@@ -13,7 +13,7 @@ class CreateTasksTable extends Migration
      */
     public function up()
     {
-        Schema::create('tasks', function (Blueprint $table) {
+        Schema::create('tasks', static function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 255);
             $table->text('body');
@@ -29,7 +29,7 @@ class CreateTasksTable extends Migration
             $table->unsignedInteger('developer_id');
             $table->timestamp('deadline')->nullable();
             $table->timestamps();
-            $table->timestamp('closed_at', 0)->nullable();
+            $table->timestamp('closed_at')->nullable();
 
             $table->index(['initiator_id']);
             $table->foreign('initiator_id')
@@ -52,7 +52,7 @@ class CreateTasksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tasks', function (Blueprint $table) {
+        Schema::dropIfExists('tasks', static function (Blueprint $table) {
             $table->dropForeign(['initiator_id','developer_id']);
         });
     }
