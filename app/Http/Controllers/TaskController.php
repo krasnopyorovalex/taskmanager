@@ -1,13 +1,23 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Domain\Task\Queries\GetAllTasksQuery;
-use App\Domain\Task\Queries\GetTaskByIdQuery;
+use Domain\Task\Queries\GetAllTasksQuery;
+use Domain\Task\Queries\GetTaskByIdQuery;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\View\View;
 
+/**
+ * Class TaskController
+ * @package App\Http\Controllers
+ */
 class TaskController extends Controller
 {
+    /**
+     * @return Factory|View
+     */
     public function index()
     {
         $tasks = $this->dispatch(new GetAllTasksQuery());
@@ -15,6 +25,10 @@ class TaskController extends Controller
         return view('tasks.index', compact('tasks'));
     }
 
+    /**
+     * @param int $id
+     * @return Factory|View
+     */
     public function show(int $id)
     {
         $task = $this->dispatch(new GetTaskByIdQuery($id));

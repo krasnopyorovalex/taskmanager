@@ -1,9 +1,8 @@
 <?php
 
-Route::group(['prefix' => 'tasks', 'as' => 'tasks.'], function () {
+Route::group(['prefix' => 'task', 'as' => 'task.'], static function () {
     Route::pattern('id', '[0-9]+');
 
-    Route::get('', 'TaskController@index')->name('index');
     Route::get('{id}', 'TaskController@show')->name('show');
     Route::get('create', 'TaskController@create')->name('create');
     Route::post('', 'TaskController@store')->name('store');

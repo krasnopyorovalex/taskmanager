@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Listeners;
 
-use App\Domain\Task\Events\TaskCreated;
-use App\Domain\Timer\Commands\CreateTimerCommand;
+use Domain\Task\Events\TaskCreated;
+use Domain\Timer\Commands\CreateTimerCommand;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**

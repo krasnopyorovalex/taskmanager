@@ -14,31 +14,31 @@ class CreateTasksTable extends Migration
     public function up()
     {
         Schema::create('tasks', static function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('author_id');
+            $table->unsignedBigInteger('performer_id');
             $table->string('name', 255);
             $table->text('body');
-            $table->enum('status',[
+            $table->enum('status', [
                 'NEW',
                 'IN_WORK',
                 'PAUSED',
                 'COMPLETED',
-                'RETURNED',
                 'CLOSED'
             ])->default('NEW');
-            $table->unsignedInteger('initiator_id');
-            $table->unsignedInteger('developer_id');
             $table->timestamp('deadline')->nullable();
-            $table->timestamps();
             $table->timestamp('closed_at')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
 
-            $table->index(['initiator_id']);
-            $table->foreign('initiator_id')
+            //$table->index(['author_id']);
+            $table->foreign('author_id')
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
 
-            $table->index(['developer_id']);
-            $table->foreign('developer_id')
+            //$table->index(['performer_id']);
+            $table->foreign('performer_id')
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');

@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Carbon;
 
 /**
  * Class Timer
@@ -41,8 +42,8 @@ class Timer extends Model
      */
     public function getFormatTotalAttribute(): string
     {
-        $hours = (int)($this->total/3600) > 0 ? (int)($this->total/3600) . ' ч' : '';
-        $minutes = ($this->total/60)%60 > 0 ? ($this->total/60)%60 . ' мин' : '';
+        $hours = (int)($this->total/3600) > 0 ? (int)($this->total/3600) . '<span>ч</span>' : '';
+        $minutes = ($this->total/60)%60 > 0 ? ($this->total/60)%60 . '<span>мин</span>' : '';
 
         return sprintf('%s %s', $hours, $minutes);
     }

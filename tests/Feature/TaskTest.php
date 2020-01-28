@@ -11,22 +11,20 @@ class TaskTest extends TestCase
 {
     use DatabaseMigrations;
 
-    private $task;
-
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->signIn();
-
-        $this->task = create(Task::class, ['initiator_id' => auth()->id()]);
     }
 
     /** @test */
     public function auth_user_can_see_task()
     {
-        $this->get(route('tasks.show', $this->task))
-            ->assertSee($this->task->name);
+        $task = $this->createTask();
+
+        $this->get(route('task.show', $task))
+            ->assertSee($task->name);
     }
 
     /** @test */
@@ -34,7 +32,7 @@ class TaskTest extends TestCase
     {
         $tasks = create(Task::class, ['initiator_id' => auth()->id()], 5);
 
-        $this->get(route('tasks.index'))
+        $this->get(route('task.index'))
             ->assertSee($tasks[0]->name)
             ->assertStatus(200);
     }
@@ -42,12 +40,22 @@ class TaskTest extends TestCase
     /** @test */
     public function task_always_has_a_timer()
     {
-        $this->assertInstanceOf(Timer::class, $this->task->timer);
+        $task = $this->createTask()->fresh();
 
-        $this->assertDatabaseHas('timers', ['task_id' => $this->task->id]);
+        $this->assertInstanceOf(Timer::class, $task->timer);
 
-        $this->assertEquals(0, $this->task->timer->total);
+        $this->assertDatabaseHas('timers', ['task_id' => $task->id]);
 
-        $this->assertEquals(0, $this->task->timer->job_start);
+        $this->assertEquals(0, $task->timer->total);
+
+        $this->assertEquals(0, $task->timer->job_start);
+    }
+
+    /**
+     * @return mixed
+     */
+    private function createTask()
+    {
+        return create(Task::class, ['initiator_id' => auth()->id()]);
     }
 }

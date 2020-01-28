@@ -1,47 +1,75 @@
 @extends('layouts.app')
 
 @section('content')
-
-    <div class="content-wrapper">
-
-        <div class="card">
-
-            <div class="card-body table-responsive p-0">
-
-                <table class="table  m-0">
+    <div class="row">
+        <div class="col-12">
+            <div class="responsive-table rounded-block with-shadow" xmlns:xlink="">
+                <table class="tasks-list">
                     <thead>
                     <tr>
-                        <th scope="col" width="1" class="border-top-0">#</th>
-                        <th scope="col" class="border-top-0">Название</th>
-
-                        <th scope="col" class="border-top-0">Статус</th>
-                        <th scope="col" class="border-top-0">Затраченное время</th>
-                        <th scope="col" class="border-top-0 text-right">Дата сдачи</th>
+                        <th>
+                            Название
+                        </th>
+                        <th class="align-right">
+                            Время
+                        </th>
+                        <th>
+                            Статус
+                        </th>
+                        <th>
+                            Исполнитель
+                        </th>
+                        <th>
+                            Дата сдачи
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($tasks as $task)
-                        <tr class="status status-{{ strtolower($task->status) }}">
-                            <td class=" align-middle text-center">
-                                <span class="user-initials bg-success-light25 text-success">{{ $loop->index + 1 }}</span>
+                        <tr>
+                            <td>
+                                <a href="{{ route('task.show', $task) }}" class="task-name">{{ $task->name }}</a>
+                                <div class="author">{{ $task->author->name }}</div>
                             </td>
-                            <td class="align-middle">
-                                <small class="text-muted weight-300">{{ $task->developer->name }}</small>
-                                <div><a href="{{ route('tasks.show', $task) }}" class="weight-400">{{ $task->name }}</a></div>
+                            <td class="align-right">
+                                <div class="with-icon">
+                                    <div class="time">
+                                        {{ svg('icon-time') }}
+                                        <div class="time-value">
+                                            {!! $task->timer->formatTotal !!}
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
-                            <td class="align-middle">
-                                <div class="weight-400">{{ $task->labelStatus }}</div>
+                            <td>
+                                <div class="status status_{{ Illuminate\Support\Str::slug($task->status, '_') }} with-icon">
+                                    {{ svg($task->icon) }}
+                                    <div class="status-value">
+                                        {{ $task->labelStatus }}
+                                    </div>
+                                </div>
                             </td>
-                            <td class="align-middle">{{ $task->timer->formatTotal }}</td>
-                            <td class="align-middle text-right">{{ $task->getDeadline() }}</td>
+                            <td>
+                                <div class="with-icon">
+                                    <div class="user">
+                                        {{ $task->performer->name }}
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="date with-icon">
+                                    {{ svg('icon-calendar-date') }}
+                                    <div class="date-value">
+                                        {{ $task->deadline->formatLocalized('%d %b %Y') }}
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
-
+                {{ $tasks->links('vendor/pagination/paginate') }}
             </div>
         </div>
-
     </div>
-
 @endsection

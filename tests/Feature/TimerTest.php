@@ -17,7 +17,7 @@ class TimerTest extends TestCase
     private $task;
     private $timer;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

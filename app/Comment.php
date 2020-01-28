@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
@@ -9,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @package App
  *
  * @property integer $parent_id
+ * @property integer $task_id
  * @property integer $user_id
  * @property string $body
  */

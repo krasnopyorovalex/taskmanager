@@ -11,9 +11,14 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.sass('resources/sass/app.scss', 'public/css')
-    .js('resources/js/app.js', 'public/js')
-    .styles([
-        'resources/css/*.*'
-    ], 'public/css/base.css')
-    .version();
+mix.react('resources/js/app.js', 'public/js')
+   .sass('resources/sass/app.scss', 'public/css');
+
+if (mix.inProduction()) {
+    mix.version();
+} else {
+    mix.sourceMaps();
+    mix.browserSync({
+        proxy: 'http://taskmanager.ld',
+    });
+}

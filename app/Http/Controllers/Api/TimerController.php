@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Domain\Timer\Queries\TimerStartQuery;
-use App\Domain\Timer\Queries\TimerStopQuery;
+use Domain\Timer\Queries\TimerStartQuery;
+use Domain\Timer\Queries\TimerStopQuery;
 
 /**
  * Class TimerController

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Task\Events;
+namespace Domain\Task\Events;
 
 use App\Task;
 use Illuminate\Queue\SerializesModels;
 
 /**
  * Class TaskCreated
- * @package App\Domain\Task\Events
+ * @package Domain\Task\Events
  */
 class TaskCreated
 {

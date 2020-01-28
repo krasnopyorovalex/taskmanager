@@ -19,10 +19,10 @@ $factory->define(Task::class, static function (Faker $faker) {
         'deadline' => $status !== 'CLOSED'
             ? date('Y-'. random_int(date('m'), 12) .'-'. random_int(1, 28) .' H:i:s')
             : $closedAt,
-        'initiator_id' => static function () {
+        'author_id' => static function () {
             return factory(User::class)->create()->id;
         },
-        'developer_id' => static function () {
+        'performer_id' => static function () {
             return factory(User::class)->create()->id;
         },
         'closed_at' => $closedAt

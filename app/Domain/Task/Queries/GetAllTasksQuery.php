@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Task\Queries;
+namespace Domain\Task\Queries;
 
 use App\Task;
 
 /**
  * Class GetAllTasksQuery
- * @package App\Domain\Task\Queries
+ * @package Domain\Task\Queries
  */
 class GetAllTasksQuery
 {
@@ -17,6 +17,6 @@ class GetAllTasksQuery
      */
     public function handle()
     {
-        return Task::paginate();
+        return Task::actual()->paginate();
     }
 }

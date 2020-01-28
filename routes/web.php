@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('', 'TaskController@index')->name('task.index');
 
 foreach (glob(app_path('Domain/**/routes.php')) as $item) {
     require $item;

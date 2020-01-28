@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Timer\Commands;
+namespace Domain\Timer\Commands;
 
-use App\Domain\Task\Events\TaskCreated;
+use Domain\Task\Events\TaskCreated;
 use App\Timer;
 
 /**
  * Class CreateTimerCommand
- * @package App\Domain\Timer\Commands
+ * @package Domain\Timer\Commands
  */
 class CreateTimerCommand
 {

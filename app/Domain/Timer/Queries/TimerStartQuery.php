@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Timer\Queries;
+namespace Domain\Timer\Queries;
 
 use App\Timer;
 
 /**
  * Class TimerStartQuery
- * @package App\Domain\Timer\Queries
+ * @package Domain\Timer\Queries
  */
 class TimerStartQuery
 {

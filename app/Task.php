@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Domain\Task\Events\TaskCreated;
+use Domain\Task\Events\TaskCreated;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -17,8 +17,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property string $name
  * @property string $body
  * @property string $status
- * @property integer $initiator_id
- * @property integer $developer_id
+ * @property integer $author_id
+ * @property integer $performer_id
  * @property string $deadline
  * @property string $created_at
  * @property string $updated_at
@@ -27,19 +27,18 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Task extends Model
 {
     public const STATUSES_LABELS = [
-        'NEW' => 'Новый',
-        'IN_WORK' => 'В работе',
-        'PAUSED' => 'Приостановлено',
-        'COMPLETED' => 'Выполнено',
-        'RETURNED' => 'Возврат',
-        'CLOSED' => 'Закрыто'
+        'NEW' => 'новый',
+        'IN_WORK' => 'в работе',
+        'PAUSED' => 'приостановлено',
+        'COMPLETED' => 'выполнено',
+        'CLOSED' => 'закрыто'
     ];
 
-    public $perPage = 25;
+    public $perPage = 10;
 
     protected $guarded = [];
 
-    protected $with = ['initiator', 'developer', 'timer'];
+    protected $with = ['author', 'performer', 'timer'];
 
     protected $dates = [
         'deadline'
@@ -69,7 +68,7 @@ class Task extends Model
      *
      * @return BelongsTo
      */
-    public function initiator(): BelongsTo
+    public function author(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -79,9 +78,18 @@ class Task extends Model
      *
      * @return BelongsTo
      */
-    public function developer(): BelongsTo
+    public function performer(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeActual($query)
+    {
+        return $query->whereIn('status', ['NEW', 'IN_WORK', 'PAUSED']);
     }
 
     /**
@@ -95,10 +103,18 @@ class Task extends Model
     }
 
     /**
-     * @return mixed|string
+     * @return mixed
      */
     public function getLabelStatusAttribute()
     {
-        return self::STATUSES_LABELS[$this->status] ?? 'Пропишите метку для статуса';
+        return self::STATUSES_LABELS[$this->status];
+    }
+
+    /**
+     * @return string
+     */
+    public function getIconAttribute(): string
+    {
+        return $this->status === 'IN_WORK' ? 'icon-pause' : 'icon-play';
     }
 }

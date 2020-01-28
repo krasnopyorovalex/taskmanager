@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Task\Queries;
+namespace Domain\Task\Queries;
 
 use App\Task;
 
 /**
  * Class GetTaskByIdQuery
- * @package App\Domain\Article\Queries
+ * @package Domain\Article\Queries
  */
 class GetTaskByIdQuery
 {

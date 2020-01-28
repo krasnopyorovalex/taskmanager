@@ -2,62 +2,59 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Laravel</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>List of tasks - PHP task tracker</title>
+    <meta name="theme-color" content="#fff">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="shortcut icon" href="{{ asset('img/favicons/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" sizes="16x16" href="{{ asset('img/favicons/favicon-16x16.png') }}" type="image/png">
+    <link rel="icon" sizes="32x32" href="{{ asset('img/favicons/favicon-32x32.png') }}" type="image/png">
+    <link rel="apple-touch-icon-precomposed" href="{{ asset('img/favicons/apple-touch-icon-precomposed.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('img/favicons/apple-touch-icon.png') }}">
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('img/favicons/apple-touch-icon-57x57.png') }}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('img/favicons/apple-touch-icon-60x60.png') }}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('img/favicons/apple-touch-icon-72x72.png') }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('img/favicons/apple-touch-icon-76x76.png') }}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('img/favicons/apple-touch-icon-114x114.png') }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('img/favicons/apple-touch-icon-120x120.png') }}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('img/favicons/apple-touch-icon-144x144.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('img/favicons/apple-touch-icon-152x152.png') }}">
+    <link rel="apple-touch-icon" sizes="167x167" href="{{ asset('img/favicons/apple-touch-icon-167x167.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('img/favicons/apple-touch-icon-180x180.png') }}">
+    <link rel="apple-touch-icon" sizes="1024x1024" href="{{ asset('img/favicons/apple-touch-icon-1024x1024.png') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link href="{{ asset('favicon.ico') }}" rel="shortcut icon" type="image/x-icon" />
-    <link href="{{ mix('css/base.css') }}" rel="stylesheet">
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/main.min.css') }}" rel="stylesheet">
 </head>
 <body>
-<section class="wrapper">
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="col-1">
+                <div class="develop-logo">
+                    <a href="{{ route('task.index') }}">
+                        <img src="{{ asset('img/php_elephant.svg') }}" alt="PHP task tracker logo">
+                    </a>
+                </div>
+            </div>
+            <div class="col-11">
+                <div class="menu_with-btn">
+                    <ul class="main-menu">
+                        <li class="active"><a href="{{ route('task.index') }}">Текущие</a></li>
+                        <li><a href="#">Выполненные</a></li>
+                        <li><a href="#">Закрытые</a></li>
+                    </ul>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <nav class="navbar navbar-dark bg-primary">
-            <a class="navbar-brand m-0 py-2 brand-title" href="#">
-                [ Управление задачами ]
-            </a>
-            <span></span>
-        </nav>
-
-        <nav class="navigation" >
-            <ul>
-                <li><a href="{{ route('tasks.index') }}"><span class="nav-icon material-icons">all_inclusive</span> Текущие</a></li>
-                <li><a href="theme-setting.html"><span class="nav-icon material-icons">close</span> Закрытые</a></li>
-                <li><a href="theme-setting.html"><span class="nav-icon material-icons">keyboard_return</span> Возвращенные</a></li>
-            </ul>
-        </nav>
-
-    </aside>
-
-
-
-    <!--RIGHT CONTENT AREA-->
-    <div class="content-area">
-
-        <header class="header sticky-top">
-            <nav class="navbar navbar-light bg-white px-sm-4 ">
-                <a class="navbar-brand py-2 d-md-none  m-0 material-icons toggle-sidebar" href="ecommerce-customers.html#">menu</a>
-                <ul class="navbar-nav flex-row ml-auto">
-                    <li class="nav-item ml-sm-3 "><a href="#" class="btn btn-primary">Добавить задачу</a></li>
-                    <li class="nav-item ml-sm-3 "><a href="#" class="btn btn-info">Доступы</a></li>
-                    <li class="nav-item ml-sm-3 user-logedin dropdown">
-                        <a href="ecommerce-customers.html#" class="nav-link weight-400">
-                            <img src="{{ asset('images/user.png') }}" class="mr-2 rounded" width="28">Наточка
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </header>
-
-
+                    <a href="{{ route('task.create') }}" class="btn btn-add with-icon">
+                        {{ svg('icon-add-circle') }}
+                        Добавить задачу
+                    </a>
+                </div>
+            </div>
+        </div>
         @yield('content')
-
     </div>
-
-</section>
-<script src="{{ mix('js/app.js') }}" async></script>
+</main>
+<script src="{{ asset('js/main.min.js') }}"></script>
 </body>
 </html>

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Timer\Commands;
+namespace Domain\Timer\Commands;
 
 use App\Timer;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class StartCommand
- * @package App\Domain\Timer\Commands
+ * @package Domain\Timer\Commands
  */
 class StartCommand
 {
