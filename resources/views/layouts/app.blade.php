@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>List of tasks - PHP task tracker</title>
-    <meta name="theme-color" content="#fff">
+    <meta name="theme-color" content="#eceff4">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link rel="shortcut icon" href="{{ asset('img/favicons/favicon.ico') }}" type="image/x-icon">
@@ -32,20 +32,24 @@
         <div class="row">
             <div class="col-1">
                 <div class="develop-logo">
-                    <a href="{{ route('task.index') }}">
-                        <img src="{{ asset('img/php_elephant.svg') }}" alt="PHP task tracker logo">
+                    <a href="{{ route('tasks.index') }}">
+                        <img src="{{ asset('img/php_elephant.svg') }}" alt="PHP task tracker logo" title="Перейти к списку текущих задач">
                     </a>
                 </div>
             </div>
             <div class="col-11">
                 <div class="menu_with-btn">
                     <ul class="main-menu">
-                        <li class="active"><a href="{{ route('task.index') }}">Текущие</a></li>
+                        <li{{ is_active_link(route('tasks.index')) }}><a href="{{ route('tasks.index') }}">Текущие</a></li>
                         <li><a href="#">Выполненные</a></li>
                         <li><a href="#">Закрытые</a></li>
+                        @if(auth()->check() && auth()->user()->isAdmin())
+                            <li{{ is_active_link(route('users.index')) }}><a href="{{ route('users.index') }}">Пользователи</a></li>
+                            <li{{ is_active_link(route('groups.index')) }}><a href="{{ route('groups.index') }}">Группы</a></li>
+                        @endif
                     </ul>
 
-                    <a href="{{ route('task.create') }}" class="btn btn-add with-icon">
+                    <a href="{{ route('tasks.create') }}" class="btn btn-add with-icon">
                         {{ svg('icon-add-circle') }}
                         Добавить задачу
                     </a>

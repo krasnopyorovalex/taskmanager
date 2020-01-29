@@ -14,6 +14,12 @@ class GroupsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        factory(App\Group::class, 2)->create();
+        factory(App\Group::class)->create([
+            'name' => 'Красбер'
+        ]);
+
+        factory(App\Group::class)->create([
+            'name' => 'АКК'
+        ]);
     }
 }

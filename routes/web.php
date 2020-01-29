@@ -11,8 +11,23 @@
 |
 */
 
-Route::get('', 'TaskController@index')->name('task.index');
+Route::pattern('id', '[0-9]+');
 
-foreach (glob(app_path('Domain/**/routes.php')) as $item) {
-    require $item;
-}
+Auth::routes(['register' => false]);
+
+Route::group(['middleware' => ['auth']], static function () {
+
+    Route::get('', 'TaskController@index')->name('tasks.index');
+
+    foreach (glob(app_path('Domain/**/routes.php')) as $item) {
+        require $item;
+    }
+
+    Route::group(['middleware' => ['is.admin']], static function () {
+
+        Route::resources([
+            'users' => 'UserController',
+            'groups' => 'GroupController'
+        ]);
+    });
+});

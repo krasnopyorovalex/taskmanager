@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['prefix' => 'task', 'as' => 'task.'], static function () {
+Route::group(['prefix' => 'tasks', 'as' => 'tasks.'], static function () {
     Route::pattern('id', '[0-9]+');
 
     Route::get('{id}', 'TaskController@show')->name('show');

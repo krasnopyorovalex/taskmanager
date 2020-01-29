@@ -28,7 +28,7 @@
                     @foreach($tasks as $task)
                         <tr>
                             <td>
-                                <a href="{{ route('task.show', $task) }}" class="task-name">{{ $task->name }}</a>
+                                <a href="{{ route('tasks.show', $task) }}" class="task-name">{{ $task->name }}</a>
                                 <div class="author">{{ $task->author->name }}</div>
                             </td>
                             <td class="align-right">

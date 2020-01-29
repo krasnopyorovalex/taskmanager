@@ -8,6 +8,7 @@ use Domain\Task\Events\TaskCreated;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Task
@@ -26,6 +27,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  */
 class Task extends Model
 {
+    use SoftDeletes;
+
     public const STATUSES_LABELS = [
         'NEW' => 'новый',
         'IN_WORK' => 'в работе',
