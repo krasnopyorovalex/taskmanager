@@ -4,83 +4,89 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use Domain\Group\Commands\CreateGroupCommand;
+use Domain\Group\Commands\DeleteGroupCommand;
+use Domain\Group\Commands\UpdateGroupCommand;
+use Domain\Group\Queries\GetAllGroupsQuery;
+use Domain\Group\Queries\GetGroupByIdQuery;
+use Domain\Group\Requests\UpdateGroupRequest;
+use Domain\User\Requests\CreateUserRequest;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
+use Illuminate\View\View;
 
+/**
+ * Class GroupController
+ * @package App\Http\Controllers
+ */
 class GroupController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return Factory|View
      */
     public function index()
     {
-        //
+        $groups = $this->dispatch(new GetAllGroupsQuery);
+
+        return view('groups.index', compact('groups'));
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return Factory|View
      */
     public function create()
     {
-        //
+        return view('groups.create');
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param CreateUserRequest $request
+     * @return RedirectResponse|Redirector
      */
-    public function store(Request $request)
+    public function store(CreateUserRequest $request)
     {
-        //
+        $this->dispatch(new CreateGroupCommand($request));
+
+        return redirect(route('groups.index'))
+            ->with('message', 'Новая группа успешно добавлена');
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Factory|View
      */
-    public function show($id)
+    public function edit(int $id)
     {
-        //
+        $group = $this->dispatch(new GetGroupByIdQuery($id));
+
+        return view('groups.edit', compact('group'));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UpdateGroupRequest $request
+     * @param int $id
+     * @return RedirectResponse|Redirector
      */
-    public function edit($id)
+    public function update(UpdateGroupRequest $request, int $id)
     {
-        //
+        $this->dispatch(new UpdateGroupCommand($id, $request));
+
+        return redirect(route('groups.index'))
+            ->with('message', 'Информация о группе обновлена');
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return RedirectResponse|Redirector
      */
-    public function update(Request $request, $id)
+    public function destroy(int $id)
     {
-        //
-    }
+        $this->dispatch(new DeleteGroupCommand($id));
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return redirect(route('groups.index'))
+            ->with('message', 'Группа успешно удалена');
     }
 }

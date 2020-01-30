@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Domain\User\Queries;
+namespace Domain\Group\Queries;
 
-use App\User;
+use App\Group;
 
 /**
- * Class GetUserByIdQuery
- * @package Domain\User\Queries
+ * Class GetGroupByIdQuery
+ * @package Domain\Group\Queries
  */
-class GetUserByIdQuery
+class GetGroupByIdQuery
 {
     /**
      * @var int
@@ -18,7 +18,7 @@ class GetUserByIdQuery
     private $id;
 
     /**
-     * GetUserByIdQuery constructor.
+     * GetGroupByIdQuery constructor.
      * @param int $id
      */
     public function __construct(int $id)
@@ -31,6 +31,6 @@ class GetUserByIdQuery
      */
     public function handle()
     {
-        return User::with(['groups'])->findOrFail($this->id);
+        return Group::findOrFail($this->id);
     }
 }

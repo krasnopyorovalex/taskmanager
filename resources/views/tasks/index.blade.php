@@ -29,7 +29,7 @@
                         <tr>
                             <td>
                                 <a href="{{ route('tasks.show', $task) }}" class="task-name">{{ $task->name }}</a>
-                                <div class="author">{{ $task->author->name }}</div>
+                                <div class="author{{ $task->author->deleted_at ? ' deleted-record' : '' }}">{{ $task->author->name }}</div>
                             </td>
                             <td class="align-right">
                                 <div class="with-icon">

@@ -2,20 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Domain\User\Commands;
+namespace Domain\Group\Commands;
 
-use Domain\User\Queries\GetUserByIdQuery;
+use Domain\Group\Queries\GetGroupByIdQuery;
 use App\Http\Requests\Request;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 
 /**
- * Class UpdateUserCommand
- * @package Domain\User\Commands
+ * Class UpdateGroupCommand
+ * @package Domain\Group\Commands
  */
-class UpdateUserCommand
+class UpdateGroupCommand
 {
+
     use DispatchesJobs;
 
     private $request;
@@ -27,7 +28,7 @@ class UpdateUserCommand
     ];
 
     /**
-     * UpdateUserCommand constructor.
+     * UpdateGroupCommand constructor.
      * @param int $id
      * @param Request $request
      */
@@ -42,16 +43,13 @@ class UpdateUserCommand
      */
     public function handle(): bool
     {
-        $user = $this->dispatch(new GetUserByIdQuery($this->id));
+        $group = $this->dispatch(new GetGroupByIdQuery($this->id));
 
         if ($this->request->get('password') && $this->validatePassword()->validate()) {
-            $user->password = Hash::make($this->request->get('password'));
+            $group->password = Hash::make($this->request->get('password'));
         }
 
-        $groups = $this->request->has('groups') ? array_keys($this->request->post('groups')) : [];
-        $user->groups()->sync($groups);
-
-        return $user->update($this->request->except($this->except));
+        return $group->update($this->request->except($this->except));
     }
 
     /**

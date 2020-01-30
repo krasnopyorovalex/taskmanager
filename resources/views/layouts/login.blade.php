@@ -55,7 +55,8 @@
                             </div>
                             <div class="box box_remember-forgot_password">
                                 <div class="remember">
-                                    <input type="checkbox" name="remember" id="f-remember_me" {{ old('remember') ? 'checked' : '' }}>
+                                    <input type="hidden" name="remember" value="0">
+                                    <input type="checkbox" name="remember" value="1" id="f-remember_me" {{ old('remember') ? 'checked' : '' }}>
                                     <label for="f-remember_me">Запомнить меня</label>
                                 </div>
                                 <div class="forgot-password">
@@ -64,9 +65,7 @@
                             </div>
                             <div class="box">
                                 <button type="submit" class="btn-login with-icon">
-                                    <svg>
-                                        <use xlink:href="../img/sprites/sprite.svg#icon-door-enter"></use>
-                                    </svg>
+                                    {{ svg('icon-door-enter') }}
                                     Войти
                                 </button>
                             </div>

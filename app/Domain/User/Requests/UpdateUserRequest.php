@@ -17,9 +17,11 @@ class UpdateUserRequest extends Request
     {
         $user = (int) $this->user;
         return [
+            'name' => 'required|string',
             'email' => ['required', 'email', Rule::unique('users')->ignore($user)],
             'password' => ['string', 'min:8', 'confirmed', 'nullable'],
-            'is_admin' => 'boolean'
+            'is_admin' => 'boolean',
+            'groups' => 'array'
         ];
     }
 }

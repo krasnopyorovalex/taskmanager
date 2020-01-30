@@ -23,16 +23,16 @@ class TaskTest extends TestCase
     {
         $task = $this->createTask();
 
-        $this->get(route('task.show', $task))
+        $this->get(route('tasks.show', $task))
             ->assertSee($task->name);
     }
 
     /** @test */
     public function auth_user_can_see_all_tasks_list()
     {
-        $tasks = create(Task::class, ['initiator_id' => auth()->id()], 5);
+        $tasks = create(Task::class, ['author_id' => auth()->id()], 5);
 
-        $this->get(route('task.index'))
+        $this->get(route('tasks.index'))
             ->assertSee($tasks[0]->name)
             ->assertStatus(200);
     }
@@ -56,6 +56,6 @@ class TaskTest extends TestCase
      */
     private function createTask()
     {
-        return create(Task::class, ['initiator_id' => auth()->id()]);
+        return create(Task::class, ['author_id' => auth()->id()]);
     }
 }

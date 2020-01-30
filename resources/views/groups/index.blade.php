@@ -10,9 +10,9 @@
             </div>
             @endif
             <div class="add-record-btn_box">
-                <a href="{{ route('users.create') }}" class="btn btn-add with-icon">
+                <a href="{{ route('groups.create') }}" class="btn btn-add with-icon">
                     {{ svg('icon-add-circle') }}
-                    Добавить пользователя
+                    Добавить группу
                 </a>
             </div>
             <div class="responsive-table rounded-block with-shadow">
@@ -21,22 +21,13 @@
                     <tr>
                         <th>#</th>
                         <th>
-                            Пользователь
-                        </th>
-                        <th>
-                            Email
-                        </th>
-                        <th>
-                            Админ
-                        </th>
-                        <th>
-                            Группы
+                            Название группы
                         </th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($users as $user)
+                    @foreach($groups as $group)
                         <tr>
                             <td>
                                 <div class="label label-iteration">
@@ -44,31 +35,16 @@
                                 </div>
                             </td>
                             <td>
-                                <a href="{{ route('users.update', $user) }}" class="task-name">{{ $user->name }}</a>
-                            </td>
-                            <td>
-                                {{ $user->email }}
-                            </td>
-                            <td>
-                                <div class="label label-info">
-                                    {{ $user->isAdmin() ? 'Да' : 'Нет' }}
-                                </div>
-                            </td>
-                            <td>
-                                @if(count($user->groups))
-                                <div class="label label-info">
-                                    {{ $user->groups->implode('name', ', ') }}
-                                </div>
-                                @endif
+                                <a href="{{ route('groups.edit', $group) }}" class="task-name">{{ $group->name }}</a>
                             </td>
                             <td>
                                 <div class="actions">
                                     <div class="btn-update with-icon">
-                                        <a href="{{ route('users.edit', $user) }}">
+                                        <a href="{{ route('groups.edit', $group) }}">
                                             {{ svg('icon-edit') }}
                                         </a>
                                     </div>
-                                    <form method="POST" action="{{ route('users.destroy', $user) }}">
+                                    <form method="POST" action="{{ route('groups.destroy', $group) }}">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
                                         <button type="submit" class="btn-destroy with-icon">
@@ -81,7 +57,6 @@
                     @endforeach
                     </tbody>
                 </table>
-                {{ $users->links('vendor/pagination/paginate') }}
             </div>
         </div>
     </div>

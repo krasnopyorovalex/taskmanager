@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Domain\Task\Queries\GetAllTasksQuery;
+use Domain\Task\Queries\GetAllTasksByGroupsQuery;
 use Domain\Task\Queries\GetTaskByIdQuery;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\View\View;
@@ -20,7 +20,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = $this->dispatch(new GetAllTasksQuery());
+        $tasks = $this->dispatch(new GetAllTasksByGroupsQuery());
 
         return view('tasks.index', compact('tasks'));
     }

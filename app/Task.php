@@ -41,7 +41,7 @@ class Task extends Model
 
     protected $guarded = [];
 
-    protected $with = ['author', 'performer', 'timer'];
+    protected $with = ['timer'];
 
     protected $dates = [
         'deadline'

@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Domain\User\Commands;
+namespace Domain\Group\Commands;
 
-use Domain\User\Queries\GetUserByIdQuery;
+use Domain\Group\Queries\GetGroupByIdQuery;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class DeleteUserCommand
- * @package Domain\User\Commands
+ * Class DeleteGroupCommand
+ * @package Domain\Group\Commands
  */
-class DeleteUserCommand
+class DeleteGroupCommand
 {
 
     use DispatchesJobs;
@@ -22,7 +22,7 @@ class DeleteUserCommand
     private $id;
 
     /**
-     * DeleteUserCommand constructor.
+     * DeleteGroupCommand constructor.
      * @param int $id
      */
     public function __construct(int $id)
@@ -37,9 +37,9 @@ class DeleteUserCommand
      */
     public function handle(): bool
     {
-        $user = $this->dispatch(new GetUserByIdQuery($this->id));
+        $group = $this->dispatch(new GetGroupByIdQuery($this->id));
 
-        return $user->delete();
+        return $group->delete();
     }
 
 }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Domain\User\Commands;
 
+use App\Http\Requests\Request;
 use App\User;
-use Illuminate\Support\Facades\Hash;
 
 /**
  * Class CreateUserCommand
@@ -14,29 +14,42 @@ use Illuminate\Support\Facades\Hash;
 class CreateUserCommand
 {
     /**
-     * @var array
+     * @var Request
      */
-    private $data;
+    private $request;
 
     /**
      * CreateUserCommand constructor.
-     * @param array $data
+     * @param Request $request
      */
-    public function __construct(array $data)
+    public function __construct(Request $request)
     {
-        $this->data = $data;
+        $this->request = $request;
     }
 
     /**
-     * @return User
+     * @return bool
      */
-    public function handle(): User
+    public function handle(): bool
     {
-        return User::create([
-            'name' => $this->data['name'],
-            'email' => $this->data['email'],
-            'password' => Hash::make($this->data['password']),
-        ]);
+        $user = new User();
+        $user->fill($this->request->all());
+
+        $result = $user->save();
+
+        $this->attachGroups($user);
+
+        return $result;
     }
 
+    /**
+     * @param User $user
+     */
+    protected function attachGroups(User $user): void
+    {
+        if ($this->request->has('groups')) {
+            $groups = array_keys($this->request->post('groups'));
+            $user->groups()->attach($groups);
+        }
+    }
 }

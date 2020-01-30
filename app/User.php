@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -22,7 +23,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'is_admin', 'email', 'password',
     ];
 
     /**
@@ -33,6 +34,23 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * @return BelongsToMany
+     */
+    public function groups(): BelongsToMany
+    {
+        return $this->belongsToMany(Group::class, 'user_groups');
+    }
+
+    /**
+     * @param Group $group
+     * @return bool
+     */
+    public function hasGroup(Group $group): bool
+    {
+        return in_array($group->id, $this->groups->pluck('id')->toArray(), true);
+    }
 
     /**
      * @return bool

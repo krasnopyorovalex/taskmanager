@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use Domain\Group\Queries\GetAllGroupsQuery;
+use Domain\User\Commands\CreateUserCommand;
+use Domain\User\Commands\DeleteUserCommand;
 use Domain\User\Commands\UpdateUserCommand;
 use Domain\User\Queries\GetAllUsersQuery;
 use Domain\User\Queries\GetUserByIdQuery;
+use Domain\User\Requests\CreateUserRequest;
 use Domain\User\Requests\UpdateUserRequest;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\View\View;
 
@@ -32,24 +34,25 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
+     * @return Factory|View
      */
     public function create()
     {
-        //
+        $groups = $this->dispatch(new GetAllGroupsQuery);
+
+        return view('users.create', compact('groups'));
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Response
+     * @param CreateUserRequest $request
+     * @return RedirectResponse|Redirector
      */
-    public function store(Request $request)
+    public function store(CreateUserRequest $request)
     {
-        //
+        $this->dispatch(new CreateUserCommand($request));
+
+        return redirect(route('users.index'))
+            ->with('message', 'Новый пользователь успешно добавлен в систему');
     }
 
     /**
@@ -59,8 +62,9 @@ class UserController extends Controller
     public function edit(int $id)
     {
         $user = $this->dispatch(new GetUserByIdQuery($id));
+        $groups = $this->dispatch(new GetAllGroupsQuery);
 
-        return view('users.edit', compact('user'));
+        return view('users.edit', compact('user', 'groups'));
     }
 
     /**
@@ -72,17 +76,19 @@ class UserController extends Controller
     {
         $this->dispatch(new UpdateUserCommand($id, $request));
 
-        return redirect(route('users.index'));
+        return redirect(route('users.index'))
+            ->with('message', 'Информация о пользователе обновлена');
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
+     * @param int $id
+     * @return RedirectResponse|Redirector
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
-        //
+        $this->dispatch(new DeleteUserCommand($id));
+
+        return redirect(route('users.index'))
+            ->with('message', 'Пользователь успешно удален');
     }
 }

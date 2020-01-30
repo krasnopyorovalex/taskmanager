@@ -22,7 +22,7 @@ class IsAdmin
     {
 
         if (! $request->user()->isAdmin()) {
-            return redirect(route('welcome.show'));
+            return redirect(route('tasks.index'));
         }
 
         return $next($request);

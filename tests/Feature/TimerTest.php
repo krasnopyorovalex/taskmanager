@@ -21,6 +21,8 @@ class TimerTest extends TestCase
     {
         parent::setUp();
 
+        $this->signIn();
+
         $this->task = create(Task::class);
         $this->timer = $this->task->timer;
     }
