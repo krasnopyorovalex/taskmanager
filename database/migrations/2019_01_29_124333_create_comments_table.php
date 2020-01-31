@@ -19,6 +19,8 @@ class CreateCommentsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('task_id');
             $table->text('body');
+            $table->unsignedBigInteger('commentable_id');
+            $table->string('commentable_type');
             $table->timestamps();
 
             $table->foreign('parent_id')

@@ -7,8 +7,10 @@ namespace App;
 use Domain\Task\Events\TaskCreated;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 /**
  * Class Task
@@ -27,7 +29,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Task extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, CommentableTrait;
 
     public const STATUSES_LABELS = [
         'NEW' => 'новый',
@@ -46,6 +48,23 @@ class Task extends Model
     protected $dates = [
         'deadline'
     ];
+
+    /**
+     * @return string
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
+
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::creating(static function ($model) {
+            $model->uuid = (string) Str::uuid();
+        });
+    }
 
     /**
      * The event map for the model.
@@ -87,6 +106,16 @@ class Task extends Model
     }
 
     /**
+     * Get the files for the task.
+     *
+     * @return HasMany
+     */
+    public function files(): HasMany
+    {
+        return $this->hasMany(File::class);
+    }
+
+    /**
      * @param $query
      * @return mixed
      */
@@ -102,7 +131,7 @@ class Task extends Model
     {
         return $this->deadline
             ? $this->deadline->formatLocalized('%d %b %Y')
-            : '';
+            : 'Не задано';
     }
 
     /**

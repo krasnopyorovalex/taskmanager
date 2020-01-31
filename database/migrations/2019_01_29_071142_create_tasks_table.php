@@ -16,7 +16,10 @@ class CreateTasksTable extends Migration
         Schema::create('tasks', static function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('author_id');
-            $table->unsignedBigInteger('performer_id');
+            $table->unsignedBigInteger('performer_id')->nullable();
+
+            $table->char('uuid', 36)->unique();
+
             $table->string('name', 255);
             $table->text('body');
             $table->enum('status', [
@@ -26,7 +29,7 @@ class CreateTasksTable extends Migration
                 'COMPLETED',
                 'CLOSED'
             ])->default('NEW');
-            $table->timestamp('deadline')->nullable();
+            $table->date('deadline')->nullable();
             $table->timestamp('closed_at')->nullable();
             $table->timestamps();
             $table->softDeletes();

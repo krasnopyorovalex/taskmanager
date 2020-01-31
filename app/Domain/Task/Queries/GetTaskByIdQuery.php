@@ -31,6 +31,10 @@ class GetTaskByIdQuery
      */
     public function handle()
     {
-        return Task::findOrFail($this->id);
+        return Task::with(['author' => static function ($query) {
+            return $query->withTrashed();
+        }, 'performer' => static function ($query) {
+            return $query->withTrashed();
+        }])->findOrFail($this->id);
     }
 }

@@ -14,10 +14,10 @@ $factory->define(Task::class, static function (Faker $faker) {
 
     return [
         'name' => $faker->domainName,
-        'body' => $faker->sentence,
+        'body' => $faker->paragraph(random_int(2,5)),
         'status' => $status,
         'deadline' => $status !== 'CLOSED'
-            ? date('Y-'. random_int(date('m'), 12) .'-'. random_int(1, 28) .' H:i:s')
+            ? date('Y-'. random_int(date('m'), 12) .'-'. random_int(1, 28))
             : $closedAt,
         'author_id' => static function () {
             return factory(User::class)->create()->id;

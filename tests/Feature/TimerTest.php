@@ -14,26 +14,22 @@ class TimerTest extends TestCase
 {
     use DatabaseMigrations;
 
-    private $task;
-    private $timer;
-
     public function setUp(): void
     {
         parent::setUp();
 
         $this->signIn();
-
-        $this->task = create(Task::class);
-        $this->timer = $this->task->timer;
     }
 
     /** @test */
     public function task_timer_start()
     {
-        $this->post(route('timer.start', $this->timer))
+        $task = create(Task::class);
+
+        $this->post(route('timer.start', $task->timer))
             ->assertStatus(204);
 
-        tap($this->timer->fresh(), function ($timer) {
+        tap($task->timer->fresh(), function ($timer) {
             $this->assertEquals(0, $timer->total);
             $this->assertGreaterThan(0, $timer->job_start);
         });
@@ -42,14 +38,16 @@ class TimerTest extends TestCase
     /** @test */
     public function task_timer_calculate_stop_and_calculate_total()
     {
-        $this->post(route('timer.start', $this->timer));
+        $task = create(Task::class);
+
+        $this->post(route('timer.start', $task->timer));
 
         sleep(1);
 
-        $this->post(route('timer.stop', $this->timer))
+        $this->post(route('timer.stop', $task->timer))
             ->assertStatus(204);
 
-        tap($this->timer->fresh(), function ($timer) {
+        tap($task->timer->fresh(), function ($timer) {
             $this->assertEquals(1, $timer->total);
         });
     }

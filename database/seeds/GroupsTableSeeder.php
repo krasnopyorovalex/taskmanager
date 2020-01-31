@@ -19,7 +19,7 @@ class GroupsTableSeeder extends Seeder
         ]);
 
         factory(App\Group::class)->create([
-            'name' => 'АКК'
+            'name' => 'Ассоциация курортов Крыма'
         ]);
     }
 }

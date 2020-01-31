@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Domain\User\Queries;
 
 use App\User;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
  * Class GetAllUsersQuery
@@ -15,8 +16,8 @@ class GetAllUsersQuery
     /**
      * Execute the job.
      */
-    public function handle()
+    public function handle(): LengthAwarePaginator
     {
-        return User::paginate();
+        return User::with(['groups'])->paginate();
     }
 }

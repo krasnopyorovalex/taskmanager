@@ -3,12 +3,7 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            @if (session('message'))
-            <div class="message-info with-icon rounded-block with-shadow">
-                {{ svg('icon-information') }}
-                {{ session('message') }}
-            </div>
-            @endif
+           @include('layouts.partials.flash-message')
             <div class="add-record-btn_box">
                 <a href="{{ route('users.create') }}" class="btn btn-add with-icon">
                     {{ svg('icon-add-circle') }}

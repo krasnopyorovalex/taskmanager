@@ -9,10 +9,10 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use App\Task;
 
 /**
- * Class GetAllTasksByGroupsQuery
+ * Class GetTasksByGroupsQuery
  * @package Domain\Task\Queries
  */
-class GetAllTasksByGroupsQuery
+class GetTasksByGroupsQuery
 {
     use DispatchesJobs;
 
@@ -28,6 +28,9 @@ class GetAllTasksByGroupsQuery
             return $query->withTrashed();
         }, 'performer' => static function ($query) {
             return $query->withTrashed();
-        }])->whereIn('author_id', $authors->pluck('id'))->paginate();
+        }])->where(static function ($query) use ($authors) {
+            $query->whereIn('author_id', $authors->pluck('id'))
+                ->orWhere('author_id', auth()->user()->id);
+        })->paginate();
     }
 }

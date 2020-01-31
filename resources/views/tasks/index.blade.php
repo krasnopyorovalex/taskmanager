@@ -3,6 +3,7 @@
 @section('content')
     <div class="row">
         <div class="col-12">
+            @include('layouts.partials.flash-message')
             <div class="responsive-table rounded-block with-shadow" xmlns:xlink="">
                 <table class="tasks-list">
                     <thead>
@@ -52,7 +53,7 @@
                             <td>
                                 <div class="with-icon">
                                     <div class="user">
-                                        {{ $task->performer->name }}
+                                        {{ $task->performer ? $task->performer->name : '' }}
                                     </div>
                                 </div>
                             </td>
@@ -60,7 +61,7 @@
                                 <div class="date with-icon">
                                     {{ svg('icon-calendar-date') }}
                                     <div class="date-value">
-                                        {{ $task->deadline->formatLocalized('%d %b %Y') }}
+                                        {{ $task->getDeadline() }}
                                     </div>
                                 </div>
                             </td>
