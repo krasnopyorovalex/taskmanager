@@ -25,6 +25,7 @@
     <link rel="apple-touch-icon" sizes="1024x1024" href="{{ asset('img/favicons/apple-touch-icon-1024x1024.png') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="{{ asset('css/main.min.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
 <main>
@@ -60,5 +61,6 @@
     </div>
 </main>
 <script src="{{ asset('js/main.min.js') }}"></script>
+<script src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>

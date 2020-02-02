@@ -14,8 +14,8 @@ use Illuminate\Support\Str;
 
 /**
  * Class Task
- * @package App
  *
+ * @package App
  * @property integer $id
  * @property string $name
  * @property string $body
@@ -26,6 +26,8 @@ use Illuminate\Support\Str;
  * @property string $created_at
  * @property string $updated_at
  * @property string $closed_at
+ * @property string $uuid
+ * @property-read Timer $timer
  */
 class Task extends Model
 {
@@ -116,12 +118,24 @@ class Task extends Model
     }
 
     /**
+     * @todo refactor method
+     *
      * @param $query
      * @return mixed
      */
     public function scopeActual($query)
     {
         return $query->whereIn('status', ['NEW', 'IN_WORK', 'PAUSED']);
+    }
+
+    /**
+     * @todo refactor method
+     *
+     * @return bool
+     */
+    public function inWork(): bool
+    {
+        return $this->status === 'IN_WORK';
     }
 
     /**
@@ -143,6 +157,8 @@ class Task extends Model
     }
 
     /**
+     * @todo refactor method
+     *
      * @return string
      */
     public function getIconAttribute(): string

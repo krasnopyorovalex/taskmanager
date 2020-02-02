@@ -18,7 +18,7 @@ if (mix.inProduction()) {
     mix.version();
 } else {
     mix.sourceMaps();
-    mix.browserSync({
-        proxy: 'http://taskmanager.ld',
-    });
+    // mix.browserSync({
+    //     proxy: 'http://taskmanager.ld',
+    // });
 }

@@ -4,17 +4,21 @@ declare(strict_types=1);
 
 namespace App;
 
+use Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class Timer
- * @package App
  *
+ * @package App
  * @property integer $id
  * @property integer $task_id
  * @property integer $total
  * @property integer $job_start
+ * @property-read string $format_total
+ * @property-read Task $task
+ * @mixin Eloquent
  */
 class Timer extends Model
 {
@@ -35,6 +39,26 @@ class Timer extends Model
     public function task(): BelongsTo
     {
         return $this->belongsTo(Task::class);
+    }
+
+    /**
+     * @param bool $taskStatus
+     */
+    public function updateTime(bool $taskStatus): void
+    {
+        $taskStatus
+            ? $this->total += time() - $this->job_start
+            : $this->job_start = time();
+    }
+
+    public function updateTimeOnlyInWork(): void
+    {
+        $time = time();
+
+        $this->update([
+            'total' => $this->total + $time - $this->job_start,
+            'job_start' => $time
+        ]);
     }
 
     /**

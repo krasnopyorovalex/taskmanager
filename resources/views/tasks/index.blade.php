@@ -43,7 +43,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="status status_{{ Illuminate\Support\Str::slug($task->status, '_') }} with-icon">
+                                <div class="status status_{{ Illuminate\Support\Str::slug($task->status, '_') }} with-icon" data-uuid="{{ $task->uuid }}">
                                     {{ svg($task->icon) }}
                                     <div class="status-value">
                                         {{ $task->labelStatus }}

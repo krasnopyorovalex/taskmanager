@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Domain\File\Commands;
 
 use App\File;
-use App\Http\Requests\Request;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use App\Task;
+use Storage;
 
 /**
  * Class CreateFileCommand
@@ -14,24 +15,41 @@ use App\Task;
  */
 class CreateFileCommand
 {
+    use DispatchesJobs;
+
     /**
      * @var Task
      */
     private $task;
     /**
-     * @var Request
+     * @var string
      */
-    private $request;
+    private $path;
+    /**
+     * @var string
+     */
+    private $clientOriginalName;
 
-    public function __construct(Request $request, Task $task)
+    /**]
+     * CreateFileCommand constructor.
+     * @param string $path
+     * @param string $clientOriginalName
+     * @param Task $task
+     */
+    public function __construct(string $path, string $clientOriginalName, Task $task)
     {
-        $this->request = $request;
         $this->task = $task;
+        $this->path = $path;
+        $this->clientOriginalName = $clientOriginalName;
     }
 
-    public function handle()
+    public function handle(): void
     {
         $file = new File();
+        $file->task_id = $this->task->id;
+        $file->name = $this->clientOriginalName;
+        $file->path = Storage::url($this->path);
 
+        $file->save();
     }
 }

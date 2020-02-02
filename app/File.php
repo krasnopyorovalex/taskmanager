@@ -9,7 +9,21 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class File
+ *
  * @package App
+ * @property int $id
+ * @property int $task_id
+ * @property string $name
+ * @property string $path
+ * @property-read \App\Task $task
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\File newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\File newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\File query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\File whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\File whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\File wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\File whereTaskId($value)
+ * @mixin \Eloquent
  */
 class File extends Model
 {

@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use Domain\Task\Commands\ChangeTaskStatusCommand;
 use App\Http\Controllers\Controller;
-use Domain\Timer\Queries\TimerStartQuery;
-use Domain\Timer\Queries\TimerStopQuery;
+use Domain\Task\Queries\GetTaskByUuidQuery;
+use Domain\Timer\Commands\TimerChangeCommand;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Response;
 
 /**
  * Class TimerController
@@ -14,16 +17,17 @@ use Domain\Timer\Queries\TimerStopQuery;
  */
 class TimerController extends Controller
 {
-    public function start(int $id)
+    /**
+     * @param string $uuid
+     * @return ResponseFactory|Response
+     */
+    public function __invoke(string $uuid)
     {
-        $this->dispatch(new TimerStartQuery($id));
+        $task = $this->dispatch(new GetTaskByUuidQuery($uuid));
 
-        return response([], 204);
-    }
+        $this->dispatch(new TimerChangeCommand($task));
 
-    public function stop(int $id)
-    {
-        $this->dispatch(new TimerStopQuery($id));
+        $this->dispatch(new ChangeTaskStatusCommand($task));
 
         return response([], 204);
     }

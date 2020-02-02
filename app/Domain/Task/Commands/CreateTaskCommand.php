@@ -6,6 +6,8 @@ namespace Domain\Task\Commands;
 
 use App\Http\Requests\Request;
 use App\Task;
+use Domain\File\Commands\UploadFileCommand;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class CreateTaskCommand
@@ -13,6 +15,8 @@ use App\Task;
  */
 class CreateTaskCommand
 {
+    use DispatchesJobs;
+
     /**
      * @var Request
      */
@@ -33,12 +37,14 @@ class CreateTaskCommand
     public function handle(): bool
     {
         $task = new Task();
-        $task->fill($this->request->all());
+        $task->fill($this->request->except('files'));
+
+        $result = $task->save();
 
         if ($this->request->has('files')) {
-            dd($this->request->files);
+            $this->dispatch(new UploadFileCommand($this->request->file('files'), $task));
         }
 
-        return $task->save();
+        return $result;
     }
 }

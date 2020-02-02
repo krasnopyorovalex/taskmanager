@@ -16,7 +16,7 @@
                     </div>
                     <div class="box">
                         <label for="editor">Описание задачи</label>
-                        <textarea id="editor" name="body" required>{{ old('body') }}</textarea>
+                        <textarea id="editor" class="simple-editor" name="body" required>{{ old('body') }}</textarea>
                     </div>
                     <div class="row">
                         <div class="col-3">
@@ -41,7 +41,7 @@
                     </div>
                 </form>
             </div>
-
         </div>
     </div>
+    <script src="{{ asset('js/simple-editor/bundle.js') }}"></script>
 @endsection

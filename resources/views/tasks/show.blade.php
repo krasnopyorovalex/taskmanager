@@ -188,17 +188,19 @@
                     <div class="task_tech-info-item-value">{{ $task->author->name }}</div>
                 </div>
             </div>
+            @if(count($task->files))
             <div class="files-box box-white rounded-block with-shadow">
                 <div class="title with-icon">
                     {{ svg('icon-attach') }}
                     Прикрепленные файлы
                 </div>
                 <ul class="files-list">
-                    <li><a href="#" target="_blank">Screen-01.img</a></li>
-                    <li><a href="#" target="_blank">Screen-02.img</a></li>
-                    <li><a href="#" target="_blank">Screen-03.img</a></li>
+                    @foreach($task->files as $file)
+                    <li><a href="{{ $file->path }}" target="_blank">{{ $file->name }}</a></li>
+                    @endforeach
                 </ul>
             </div>
+            @endif
         </div>
     </div>
 @endsection

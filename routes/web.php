@@ -17,7 +17,7 @@ Auth::routes(['register' => false]);
 
 Route::group(['middleware' => ['auth']], static function () {
 
-    Route::get('', 'TaskController@index')->name('tasks.index');
+    Route::get('', 'TaskController@index')->name('tasks.index')->middleware('timers.update');
 
     foreach (glob(app_path('Domain/**/routes.php')) as $item) {
         require $item;

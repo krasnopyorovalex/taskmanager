@@ -1,8 +1,7 @@
 <?php
 
 Route::group(['prefix' => 'timer', 'as' => 'timer.', 'namespace' => 'Api'], static function () {
-    Route::pattern('id', '[0-9]+');
+    Route::pattern('uuid', '\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b');
 
-    Route::post('start/{id}', 'TimerController@start')->name('start');
-    Route::post('stop/{id}', 'TimerController@stop')->name('stop');
+    Route::get('change/{uuid}', 'TimerController');
 });

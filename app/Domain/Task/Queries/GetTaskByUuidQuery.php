@@ -35,6 +35,6 @@ class GetTaskByUuidQuery
             return $query->withTrashed();
         }, 'performer' => static function ($query) {
             return $query->withTrashed();
-        }, 'comments'])->firstOrFail();
+        }, 'files'])->firstOrFail();
     }
 }
