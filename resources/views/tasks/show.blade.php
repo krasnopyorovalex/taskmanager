@@ -157,12 +157,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="status status_{{ words_to_lower_case($task->status) }} with-icon">
-                    {{ svg($taskStatus->icon($task)) }}
-                    <div class="status-value">
-                        {{ $taskStatus->getLabelStatus($task) }}
-                    </div>
-                </div>
+                @include('layouts.partials.task_status')
                 <div class="btn btn-complete with-icon">
                     {{ svg('icon-check') }}
                     Выполнено

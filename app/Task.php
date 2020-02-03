@@ -28,6 +28,8 @@ use Illuminate\Support\Str;
  * @property string $closed_at
  * @property string $uuid
  * @property-read Timer $timer
+ * @property-read User $performer
+ * @property-read User $author
  */
 class Task extends Model
 {

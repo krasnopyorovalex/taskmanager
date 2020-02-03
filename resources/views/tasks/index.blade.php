@@ -43,12 +43,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="status status_{{ words_to_lower_case($task->status) }} with-icon" data-uuid="{{ $task->uuid }}">
-                                    {{ svg($taskStatus->icon($task)) }}
-                                    <div class="status-value">
-                                        {{ $taskStatus->getLabelStatus($task) }}
-                                    </div>
-                                </div>
+                                @include('layouts.partials.task_status')
                             </td>
                             <td>
                                 <div class="with-icon">

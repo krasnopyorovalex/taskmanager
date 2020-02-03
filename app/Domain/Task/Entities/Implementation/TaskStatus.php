@@ -6,6 +6,7 @@ namespace Domain\Task\Entities\Implementation;
 
 use App\Task;
 use Domain\Task\Entities\AbstractTaskStatus;
+use Illuminate\Support\HtmlString;
 
 /**
  * Class TaskStatus
@@ -79,6 +80,6 @@ class TaskStatus extends AbstractTaskStatus
      */
     public function icon(Task $task): string
     {
-        return $this->inWork($task) ? self::ICON_PAUSE : self::ICON_PLAY;
+        return $this->inWork($task) ? (string) svg(self::ICON_PAUSE) : (string) svg(self::ICON_PLAY);
     }
 }

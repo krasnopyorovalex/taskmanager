@@ -39,7 +39,10 @@ class ChangeTaskStatusCommand
     public function handle(): bool
     {
         return $this->task->update([
-            'status' => $this->taskStatus->changeStatus($this->task)
+            'status' => $this->taskStatus->changeStatus($this->task),
+            'performer_id' => $this->task->performer
+                ? $this->task->performer->id
+                : auth()->id()
         ]);
     }
 }

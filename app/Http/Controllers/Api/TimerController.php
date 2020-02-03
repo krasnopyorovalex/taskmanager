@@ -9,8 +9,7 @@ use App\Http\Controllers\Controller;
 use Domain\Task\Entities\AbstractTaskStatus;
 use Domain\Task\Queries\GetTaskByUuidQuery;
 use Domain\Timer\Commands\TimerChangeCommand;
-use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 
 /**
  * Class TimerController
@@ -30,7 +29,7 @@ class TimerController extends Controller
 
     /**
      * @param string $uuid
-     * @return ResponseFactory|Response
+     * @return JsonResponse
      */
     public function __invoke(string $uuid)
     {
@@ -40,6 +39,11 @@ class TimerController extends Controller
 
         $this->dispatch(new ChangeTaskStatusCommand($task, $this->taskStatus));
 
-        return response([], 204);
+        return response()->json([
+            'status' => $task->status,
+            'icon' => $this->taskStatus->icon($task),
+            'label' => $this->taskStatus->getLabelStatus($task),
+            'time' => (string) format_seconds($task->timer->total)
+        ]);
     }
 }
