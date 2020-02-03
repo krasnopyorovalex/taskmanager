@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use Domain\Task\Commands\CreateTaskCommand;
 use Domain\Task\Commands\DeleteTaskCommand;
+use Domain\Task\Entities\AbstractTaskStatus;
 use Domain\Task\Queries\GetTaskByUuidQuery;
 use Domain\Task\Queries\GetTasksByGroupsQuery;
 use Domain\Task\Requests\CreateTaskRequest;
@@ -22,13 +23,30 @@ use Illuminate\View\View;
 class TaskController extends Controller
 {
     /**
+     * @var AbstractTaskStatus
+     */
+    private $taskStatus;
+
+    /**
+     * TaskController constructor.
+     * @param AbstractTaskStatus $taskStatus
+     */
+    public function __construct(AbstractTaskStatus $taskStatus)
+    {
+        $this->taskStatus = $taskStatus;
+    }
+
+    /**
      * @return Factory|View
      */
     public function index()
     {
-        $tasks = $this->dispatch(new GetTasksByGroupsQuery());
+        $tasks = $this->dispatch(new GetTasksByGroupsQuery($this->taskStatus));
 
-        return view('tasks.index', compact('tasks'));
+        return view('tasks.index', [
+            'tasks' => $tasks,
+            'taskStatus' => $this->taskStatus
+        ]);
     }
 
     /**
@@ -42,7 +60,10 @@ class TaskController extends Controller
 
         $this->authorize('view', $task);
 
-        return view('tasks.show', compact('task'));
+        return view('tasks.show', [
+            'task' => $task,
+            'taskStatus' => $this->taskStatus
+        ]);
     }
 
     /**

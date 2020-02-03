@@ -153,14 +153,14 @@
                     <div class="time">
                         {{ svg('icon-time') }}
                         <div class="time-value">
-                            {!! $task->timer->formatTotal !!}
+                            {{ format_seconds($task->timer->total) }}
                         </div>
                     </div>
                 </div>
-                <div class="status status_{{ Illuminate\Support\Str::slug($task->status, '_') }} with-icon">
-                    {{ svg($task->icon) }}
+                <div class="status status_{{ words_to_lower_case($task->status) }} with-icon">
+                    {{ svg($taskStatus->icon($task)) }}
                     <div class="status-value">
-                        {{ $task->labelStatus }}
+                        {{ $taskStatus->getLabelStatus($task) }}
                     </div>
                 </div>
                 <div class="btn btn-complete with-icon">
@@ -175,7 +175,7 @@
                 </div>
                 <div class="task_tech-info-item">
                     <div class="task_tech-info-item-label">Дата сдачи</div>
-                    <div class="task_tech-info-item-value">{{ $task->getDeadline() }}</div>
+                    <div class="task_tech-info-item-value">{{ format_deadline($task->deadline) }}</div>
                 </div>
                 @if($task->performer)
                 <div class="task_tech-info-item">

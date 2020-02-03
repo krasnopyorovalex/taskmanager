@@ -46,29 +46,14 @@ class Timer extends Model
      */
     public function updateTime(bool $taskStatus): void
     {
-        $taskStatus
-            ? $this->total += time() - $this->job_start
-            : $this->job_start = time();
-    }
-
-    public function updateTimeOnlyInWork(): void
-    {
         $time = time();
 
+        $total = $taskStatus ? $this->total + $time - $this->job_start : $this->total;
+        $jobStart = $taskStatus ? $this->job_start : $time;
+
         $this->update([
-            'total' => $this->total + $time - $this->job_start,
-            'job_start' => $time
+            'total' => $total,
+            'job_start' => $jobStart
         ]);
-    }
-
-    /**
-     * @return string
-     */
-    public function getFormatTotalAttribute(): string
-    {
-        $hours = (int)($this->total/3600) > 0 ? (int)($this->total/3600) . '<span>ч</span>' : '';
-        $minutes = ($this->total/60)%60 > 0 ? ($this->total/60)%60 . '<span>мин</span>' : '';
-
-        return sprintf('%s %s', $hours, $minutes);
     }
 }

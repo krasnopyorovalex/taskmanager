@@ -6,6 +6,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Domain\Task\Commands\UpdateTimersCommand;
+use Domain\Task\Entities\AbstractTaskStatus;
 use Domain\Task\Queries\GetTasksByGroupsQuery;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -19,17 +20,27 @@ class TimersUpdate
     use DispatchesJobs;
 
     /**
+     * @var AbstractTaskStatus
+     */
+    private $taskStatus;
+
+    public function __construct(AbstractTaskStatus $taskStatus)
+    {
+        $this->taskStatus = $taskStatus;
+    }
+
+    /**
      * Handle an incoming request.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @param Closure $next
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
-        $tasks = $this->dispatch(new GetTasksByGroupsQuery(false, 'IN_WORK'));
+        $tasks = $this->dispatch(new GetTasksByGroupsQuery($this->taskStatus, false, $this->taskStatus->onlyInWork()));
 
-        $this->dispatch(new UpdateTimersCommand($tasks));
+        $this->dispatch(new UpdateTimersCommand($tasks, $this->taskStatus));
 
         return $next($request);
     }

@@ -6,6 +6,7 @@ namespace Domain\Timer\Commands;
 
 use App\Task;
 use App\Timer;
+use Domain\Task\Entities\AbstractTaskStatus;
 
 /**
  * Class TimerChangeCommand
@@ -17,14 +18,20 @@ class TimerChangeCommand
      * @var Task
      */
     private $task;
+    /**
+     * @var AbstractTaskStatus
+     */
+    private $taskStatus;
 
     /**
      * TimerChangeQuery constructor.
      * @param Task $task
+     * @param AbstractTaskStatus $taskStatus
      */
-    public function __construct(Task $task)
+    public function __construct(Task $task, AbstractTaskStatus $taskStatus)
     {
         $this->task = $task;
+        $this->taskStatus = $taskStatus;
     }
 
     /**
@@ -34,7 +41,7 @@ class TimerChangeCommand
     {
         $timer = $this->task->timer;
 
-        $timer->updateTime($this->task->inWork());
+        $timer->updateTime($this->taskStatus->inWork($this->task));
 
         return $timer->save();
     }

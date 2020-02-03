@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Domain\Task\Commands;
 
 use App\Task;
+use Domain\Task\Entities\AbstractTaskStatus;
 
 /**
  * Class ChangeTaskStatusCommand
@@ -16,14 +17,20 @@ class ChangeTaskStatusCommand
      * @var Task
      */
     private $task;
+    /**
+     * @var AbstractTaskStatus
+     */
+    private $taskStatus;
 
     /**
      * ChangeTaskStatusCommand constructor.
      * @param Task $task
+     * @param AbstractTaskStatus $taskStatus
      */
-    public function __construct(Task $task)
+    public function __construct(Task $task, AbstractTaskStatus $taskStatus)
     {
         $this->task = $task;
+        $this->taskStatus = $taskStatus;
     }
 
     /**
@@ -31,10 +38,8 @@ class ChangeTaskStatusCommand
      */
     public function handle(): bool
     {
-        $this->task->inWork()
-            ? $this->task->status = 'PAUSED'
-            : $this->task->status = 'IN_WORK';
-
-        return $this->task->save();
+        return $this->task->update([
+            'status' => $this->taskStatus->changeStatus($this->task)
+        ]);
     }
 }

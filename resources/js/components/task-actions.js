@@ -1,11 +1,9 @@
 import {changeTimer} from "../utils/utils";
+import endpoints from "../endpoints";
 
 document.addEventListener('DOMContentLoaded', () => {
 
     const tasks = document.querySelectorAll('.tasks-list .status');
-    const endpoints = {
-        timerChange: 'timer/change/'
-    };
 
     if (tasks.length) {
         const tasksLength = tasks.length;

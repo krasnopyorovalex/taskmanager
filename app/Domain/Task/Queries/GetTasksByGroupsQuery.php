@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Domain\Task\Queries;
 
+use Domain\Task\Entities\AbstractTaskStatus;
 use Domain\User\Queries\GetUsersWithMyGroupsQuery;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use App\Task;
@@ -23,14 +24,20 @@ class GetTasksByGroupsQuery
      * @var bool
      */
     private $paginate;
+    /**
+     * @var AbstractTaskStatus
+     */
+    private $taskStatus;
 
     /**
      * GetTasksByGroupsQuery constructor.
+     * @param AbstractTaskStatus $taskStatus
      * @param bool $paginate
      * @param string|null $byStatus
      */
-    public function __construct(bool $paginate = true, ?string $byStatus = null)
+    public function __construct(AbstractTaskStatus $taskStatus, bool $paginate = true, ?string $byStatus = null)
     {
+        $this->taskStatus = $taskStatus;
         $this->byStatus = $byStatus;
         $this->paginate = $paginate;
     }
@@ -43,7 +50,7 @@ class GetTasksByGroupsQuery
         $groups = auth()->user()->groups()->get()->pluck('id')->toArray();
         $authors = $this->dispatch(new GetUsersWithMyGroupsQuery($groups));
 
-        $query = Task::actual()->with(['author' => static function ($query) {
+        $query = Task::whereIn('status', $this->taskStatus->onlyActual())->with(['author' => static function ($query) {
             return $query->withTrashed();
         }, 'performer' => static function ($query) {
             return $query->withTrashed();

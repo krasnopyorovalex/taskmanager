@@ -37,16 +37,16 @@
                                     <div class="time">
                                         {{ svg('icon-time') }}
                                         <div class="time-value">
-                                            {!! $task->timer->formatTotal !!}
+                                            {{ format_seconds($task->timer->total) }}
                                         </div>
                                     </div>
                                 </div>
                             </td>
                             <td>
-                                <div class="status status_{{ Illuminate\Support\Str::slug($task->status, '_') }} with-icon" data-uuid="{{ $task->uuid }}">
-                                    {{ svg($task->icon) }}
+                                <div class="status status_{{ words_to_lower_case($task->status) }} with-icon" data-uuid="{{ $task->uuid }}">
+                                    {{ svg($taskStatus->icon($task)) }}
                                     <div class="status-value">
-                                        {{ $task->labelStatus }}
+                                        {{ $taskStatus->getLabelStatus($task) }}
                                     </div>
                                 </div>
                             </td>
@@ -61,7 +61,7 @@
                                 <div class="date with-icon">
                                     {{ svg('icon-calendar-date') }}
                                     <div class="date-value">
-                                        {{ $task->getDeadline() }}
+                                        {{ format_deadline($task->deadline) }}
                                     </div>
                                 </div>
                             </td>
