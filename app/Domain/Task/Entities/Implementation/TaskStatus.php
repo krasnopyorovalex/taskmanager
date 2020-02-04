@@ -10,7 +10,7 @@ use Illuminate\Support\HtmlString;
 
 /**
  * Class TaskStatus
- * @package Domain\Task\Entities
+ * @package Domain\Task\DataMaps
  */
 class TaskStatus extends AbstractTaskStatus
 {

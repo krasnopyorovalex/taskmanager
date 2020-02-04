@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\NewStoryHasAppeared;
+use App\Listeners\CreateRecordForHistory;
 use Domain\Task\Events\TaskCreated;
 use App\Listeners\CreateTimerForTask;
 use Illuminate\Auth\Events\Registered;
@@ -22,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         TaskCreated::class => [
             CreateTimerForTask::class
         ],
+        NewStoryHasAppeared::class => [
+            CreateRecordForHistory::class
+        ]
     ];
 
     /**

@@ -9,7 +9,7 @@ export function changeTimer(event, endpoint) {
 
     return axios.get(endpoint + uuid)
         .then(function (response) {
-            const { status, icon, label, time } = response.data;
+            const { status, icon, label, time, performer } = response.data;
 
             const classNames = target.className;
             const statusModified = status.toLowerCase();
@@ -18,9 +18,11 @@ export function changeTimer(event, endpoint) {
 
             target.querySelector('.status-value').innerText = label;
 
-            target.querySelector('.svg-element').innerHTML = icon;
+            target.querySelector('.svg-icon').innerHTML = icon;
 
-            target.closest('tr').querySelector('.time-value').innerHTML = time;
+            const containerStatus = target.closest('tr') || target.closest('.aside-box');
+            containerStatus.querySelector('.time-value').innerHTML = time;
+            containerStatus.querySelector('.user').innerHTML = performer;
         })
         .catch(function (error) {
             // handle error

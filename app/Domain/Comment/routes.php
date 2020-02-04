@@ -1,9 +1,11 @@
 <?php
 
-Route::group(['prefix' => 'comments', 'as' => 'comments.'], static function () {
+Route::group(['prefix' => 'comments', 'as' => 'comments.', 'namespace' => 'Api'], static function () {
     Route::pattern('id', '[0-9]+');
+    Route::pattern('uuid', '\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b');
 
-    Route::get('', 'CommentController@index')->name('index');
+    Route::get('{uuid}', 'CommentController@load');
+
     Route::get('create', 'CommentController@create')->name('create');
     Route::post('', 'CommentController@store')->name('store');
     Route::get('{id}/edit', 'CommentController@edit')->name('edit');

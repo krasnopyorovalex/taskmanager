@@ -17,7 +17,6 @@ class CreateCommentsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('task_id');
             $table->text('body');
             $table->unsignedBigInteger('commentable_id');
             $table->string('commentable_type');
@@ -31,11 +30,6 @@ class CreateCommentsTable extends Migration
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
-                ->onDelete('cascade');
-
-            $table->foreign('task_id')
-                ->references('id')
-                ->on('tasks')
                 ->onDelete('cascade');
         });
     }

@@ -11,7 +11,7 @@ namespace App;
 trait CommentableTrait
 {
     /**
-     * Get all of the task's comments.
+     * @return mixed
      */
     public function comments()
     {

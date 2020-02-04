@@ -1,3 +1,4 @@
 export default {
-    timerChange: 'timer/change/'
+    timerChange: '/timer/change/',
+    getComments: '/comments/'
 };

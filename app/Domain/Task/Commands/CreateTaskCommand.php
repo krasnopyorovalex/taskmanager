@@ -32,19 +32,19 @@ class CreateTaskCommand
     }
 
     /**
-     * @return bool
+     * @return Task
      */
-    public function handle(): bool
+    public function handle(): Task
     {
         $task = new Task();
         $task->fill($this->request->except('files'));
 
-        $result = $task->save();
+        $task->save();
 
         if ($this->request->has('files')) {
             $this->dispatch(new UploadFileCommand($this->request->file('files'), $task));
         }
 
-        return $result;
+        return $task;
     }
 }

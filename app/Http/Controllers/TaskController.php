@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Events\NewStoryHasAppeared;
 use Domain\Task\Commands\CreateTaskCommand;
 use Domain\Task\Commands\DeleteTaskCommand;
 use Domain\Task\Entities\AbstractTaskStatus;
@@ -80,7 +81,9 @@ class TaskController extends Controller
      */
     public function store(CreateTaskRequest $request)
     {
-        $this->dispatch(new CreateTaskCommand($request));
+        $task = $this->dispatch(new CreateTaskCommand($request));
+
+        event(new NewStoryHasAppeared("Создана новая задача #{$task->name}"));
 
         return redirect(route('tasks.index'))
             ->with('message', 'Новая задача добавлена');

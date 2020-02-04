@@ -35,15 +35,7 @@ class Task extends Model
 {
     use SoftDeletes, CommentableTrait;
 
-    public const STATUSES_LABELS = [
-        'NEW' => 'новый',
-        'IN_WORK' => 'в работе',
-        'PAUSED' => 'приостановлено',
-        'COMPLETED' => 'выполнено',
-        'CLOSED' => 'закрыто'
-    ];
-
-    public $perPage = 10;
+    public $perPage = 12;
 
     protected $guarded = [];
 

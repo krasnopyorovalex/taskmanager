@@ -1,6 +1,5 @@
 <?php
 
-use Domain\Task\Entities\TaskStatus;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -23,7 +22,13 @@ class CreateTasksTable extends Migration
 
             $table->string('name', 255);
             $table->text('body');
-            $table->enum('status', (new TaskStatus())->toArray())->default('NEW');
+            $table->enum('status', [
+                'NEW',
+                'IN_WORK',
+                'PAUSED',
+                'COMPLETED',
+                'CLOSED'
+            ])->default('NEW');
             $table->date('deadline')->nullable();
             $table->timestamp('closed_at')->nullable();
             $table->timestamps();

@@ -10,7 +10,7 @@ use ReflectionException;
 
 /**
  * Interface TaskStatus
- * @package App\Domain\Task\Entities
+ * @package App\Domain\Task\DataMaps
  */
 abstract class AbstractTaskStatus
 {

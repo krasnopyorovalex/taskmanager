@@ -6,7 +6,16 @@ use Faker\Generator as Faker;
 
 $factory->define(Task::class, static function (Faker $faker) {
 
-    $status = array_rand(Task::STATUSES_LABELS);
+    $statuses = [
+        'NEW',
+        'IN_WORK',
+        'PAUSED',
+        'COMPLETED',
+        'CLOSED'
+    ];
+    $key = array_rand($statuses);
+
+    $status = $statuses[$key];
 
     $closedAt = $status === 'CLOSED'
         ? date('Y-m-d H:i:s')
@@ -20,10 +29,10 @@ $factory->define(Task::class, static function (Faker $faker) {
             ? date('Y-'. random_int(date('m'), 12) .'-'. random_int(1, 28))
             : $closedAt,
         'author_id' => static function () {
-            return factory(User::class)->create()->id;
+            return factory(User::class)->create(['is_admin' => false])->id;
         },
         'performer_id' => static function () {
-            return factory(User::class)->create()->id;
+            return factory(User::class)->create(['is_admin' => false])->id;
         },
         'closed_at' => $closedAt
     ];

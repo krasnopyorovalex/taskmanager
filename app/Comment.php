@@ -4,7 +4,13 @@ declare(strict_types=1);
 
 namespace App;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Carbon;
 
 /**
  * Class Comment
@@ -17,32 +23,38 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $commentable_id
  * @property string $commentable_type
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $commentable
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereBody($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereCommentableId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereCommentableType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereParentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereTaskId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereUserId($value)
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Model|Eloquent $commentable
+ * @mixin Eloquent
  */
 class Comment extends Model
 {
     protected $fillable = ['parent_id', 'body'];
 
+    protected $with = ['user', 'comments'];
+
     /**
-     * Get the owning commentable model.
+     * @return MorphTo
      */
-    public function commentable()
+    public function commentable(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function comments(): HasMany
+    {
+        return $this->hasMany(__CLASS__, 'parent_id', 'id')->latest();
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\NewStoryHasAppeared;
 use Domain\Task\Commands\ChangeTaskStatusCommand;
 use App\Http\Controllers\Controller;
 use Domain\Task\Entities\AbstractTaskStatus;
 use Domain\Task\Queries\GetTaskByUuidQuery;
 use Domain\Timer\Commands\TimerChangeCommand;
+use Domain\Timer\DataMaps\DataMapForTimer;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -39,11 +41,10 @@ class TimerController extends Controller
 
         $this->dispatch(new ChangeTaskStatusCommand($task, $this->taskStatus));
 
-        return response()->json([
-            'status' => $task->status,
-            'icon' => $this->taskStatus->icon($task),
-            'label' => $this->taskStatus->getLabelStatus($task),
-            'time' => (string) format_seconds($task->timer->total)
-        ]);
+        event(new NewStoryHasAppeared("Изменён статус задачи #{$task->name} на «{$this->taskStatus->getLabelStatus($task)}»"));
+
+        return response()->json(
+            (new DataMapForTimer($task->fresh(), $this->taskStatus))->toArray()
+        );
     }
 }

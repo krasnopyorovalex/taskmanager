@@ -42,18 +42,17 @@ class Timer extends Model
     }
 
     /**
-     * @param bool $taskStatus
+     * @param bool $taskStatusInWork
      */
-    public function updateTime(bool $taskStatus): void
+    public function updateTime(bool $taskStatusInWork): void
     {
         $time = time();
 
-        $total = $taskStatus ? $this->total + $time - $this->job_start : $this->total;
-        $jobStart = $taskStatus ? $this->job_start : $time;
+        $total = $taskStatusInWork ? $this->total + $time - $this->job_start : $this->total;
 
         $this->update([
             'total' => $total,
-            'job_start' => $jobStart
+            'job_start' => $time
         ]);
     }
 }

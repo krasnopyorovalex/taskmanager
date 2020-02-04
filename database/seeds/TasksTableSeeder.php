@@ -13,6 +13,7 @@ class TasksTableSeeder extends Seeder
     {
         factory(App\Task::class, 5)->create()->each(static function ($task) {
             $task->timer->total = random_int(1, 5000);
+            $task->timer->job_start = time();
             $task->timer->save();
         });
     }

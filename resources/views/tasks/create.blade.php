@@ -43,5 +43,4 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/simple-editor/bundle.js') }}"></script>
 @endsection
