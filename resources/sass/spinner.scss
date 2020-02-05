@@ -1,0 +1,9 @@
+.spinner {
+    min-height: 40px;
+    &:before {
+        display: none;
+    }
+    &:after {
+        top: calc(50% - 8px);
+    }
+}

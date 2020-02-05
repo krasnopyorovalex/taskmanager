@@ -13,13 +13,5 @@ function newSimpleEditor(item) {
 
     simpleEditor.addEventListener('keyup', function () {
         return item.innerHTML = simpleEditor.innerHTML.replace('<br>', '');
-    })
-}
-
-export function newSimpleEditorWithoutTextarea(item) {
-    const textAreaElement = document.createElement('div');
-    textAreaElement.className = 'simple-editor comment-editor';
-    item.parentNode.insertBefore(textAreaElement, item.nextSibling);
-
-    return newSimpleEditor(textAreaElement);
+    });
 }

@@ -1,0 +1,25 @@
+.jodit_container {
+    margin: .5rem 0 0 0;
+    padding: 1rem 0 0 0;
+    border-top: 1px solid #eff2f5;
+    .jodit_workplace {
+        background: #f3f7fa;
+    }
+    .jodit_toolbar {
+        background-color: #edf0f5;
+        border-top: 1px solid #e1e2e4;
+        border-right: 1px solid #e1e2e4;
+        border-left: 1px solid #e1e2e4;
+    }
+}
+.jodit_container:not(.jodit_inline) .jodit_workplace {
+    border: 1px solid #e1e2e4;
+}
+.editor_btn-box {
+    display: block;
+    margin: .5rem 0 0 0;
+    .btn {
+        font-size: 12px;
+        display: inline-block;
+    }
+}
