@@ -11,6 +11,7 @@ export default ({task}) => {
     const { getComments } = new TaskmanagerService();
 
     const [comments, setComments] = useState(null);
+    const [comment, setComment] = useState('');
 
     useEffect(() => {
         getComments(task).then(function ({data}) {
@@ -21,6 +22,8 @@ export default ({task}) => {
     if (! comments) {
         return <Spinner />;
     }
+
+    console.log(comment);
 
     const items = comments.map((item) => {
         return (
@@ -33,8 +36,8 @@ export default ({task}) => {
             <ul>
                 {items}
             </ul>
-            <CommentsEditor />
-            <Button label="Добавить комментарий"/>
+            <CommentsEditor onChangedComment={(text) => setComment(text)} />
+            <Button label="Добавить комментарий" />
         </Fragment>
     );
 };

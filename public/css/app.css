@@ -87,27 +87,6 @@ select.__toolbar-item {
   top: calc(50% - 8px);
 }
 
-.jodit_container {
-  margin: 0.5rem 0 0 0;
-  padding: 1rem 0 0 0;
-  border-top: 1px solid #eff2f5;
-}
-
-.jodit_container .jodit_workplace {
-  background: #f3f7fa;
-}
-
-.jodit_container .jodit_toolbar {
-  background-color: #edf0f5;
-  border-top: 1px solid #e1e2e4;
-  border-right: 1px solid #e1e2e4;
-  border-left: 1px solid #e1e2e4;
-}
-
-.jodit_container:not(.jodit_inline) .jodit_workplace {
-  border: 1px solid #e1e2e4;
-}
-
 .editor_btn-box {
   display: block;
   margin: 0.5rem 0 0 0;
@@ -116,5 +95,85 @@ select.__toolbar-item {
 .editor_btn-box .btn {
   font-size: 12px;
   display: inline-block;
+}
+
+.rich-editor-root {
+  border: 1px solid #e1e2e4;
+  font-size: 14px;
+  margin: 1rem 0 0 0;
+  background-color: #f3f7fa;
+  line-height: 20px;
+}
+
+.rich-editor-root ol {
+  line-height: 20px;
+}
+
+.rich-editor-root ul {
+  line-height: 20px;
+  list-style: disc;
+}
+
+.rich-editor-root ul li {
+  margin: 0;
+}
+
+.rich-editor-editor {
+  border-top: 1px solid #e1e2e4;
+  cursor: text;
+  font-size: 14px;
+  padding: 1rem;
+}
+
+.rich-editor-editor .public-DraftEditor-content {
+  min-height: 120px;
+}
+
+.rich-editor-hidePlaceholder .public-DraftEditorPlaceholder-root {
+  display: none;
+}
+
+.rich-editor-editor .rich-editor-blockquote {
+  border-left: 5px solid #e1e2e4;
+  color: #666;
+  font-style: italic;
+  margin: 16px 0;
+  padding: 10px 20px;
+}
+
+.rich-editor-editor .public-DraftStyleDefault-pre {
+  background-color: rgba(0, 0, 0, 0.05);
+  font-size: 16px;
+  padding: 20px;
+}
+
+.toolbar {
+  background-color: #edf0f5;
+}
+
+.rich-editor-controls {
+  font-size: 14px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  display: inline-block;
+  padding: 0.5rem;
+}
+
+.rich-editor-styleButton {
+  color: #6e6e6e;
+  cursor: pointer;
+  margin-right: 4px;
+  border-radius: 3px;
+  line-height: normal;
+  padding: 2px 8px;
+  display: inline-block;
+  border: 1px solid #ddd;
+}
+
+.rich-editor-activeButton {
+  color: #2f3034;
+  background-color: #f3f7fa;
 }
 

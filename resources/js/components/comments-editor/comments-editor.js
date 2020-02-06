@@ -1,33 +1,89 @@
-import React, {useState, useRef} from 'react';
-import JoditEditor from "jodit-react";
+import React, {Component} from 'react';
+import {Editor, EditorState, RichUtils} from 'draft-js';
+import BlockStyleControls from "./block-style-controls";
+import InlineStyleControls from "./inline-style-controls"
+import {stateToHTML} from 'draft-js-export-html';
 
-const CommentsEditor = ({}) => {
-    const editor = useRef(null);
-    const [content, setContent] = useState('');
+class CommentsEditor extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {editorState: EditorState.createEmpty()};
 
-    const config = {
-        readonly: false, // all options from https://xdsoft.net/jodit/doc/
-        showPlaceholder: false,
-        showXPathInStatusbar: false,
-        showWordsCounter: false,
-        showCharsCounter: false,
-        minHeight: '180',
-        removeButtons: [
-            'font', 'fontsize', 'copyformat', 'paragraph', 'brush', 'fullsize', 'video', 'file', 'indent', 'left',
-            'paste', 'copy', 'cut', 'selectall', 'break', 'outdent', 'subscript', 'superscript', 'symbol', 'print', 'about'
-        ]
-    };
+        this.focus = () => this.refs.editor.focus();
+        this.onChange = (editorState) => this.setState({editorState});
 
-    return (
-        <JoditEditor
-            ref={editor}
-            value={content}
-            config={config}
-            tabIndex={1} // tabIndex of textarea
-            onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
-            onChange={newContent => {}}
-        />
-    );
-};
+        this.handleKeyCommand = (command) => this._handleKeyCommand(command);
+        this.toggleBlockType = (type) => this._toggleBlockType(type);
+        this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
+    }
+
+    _handleKeyCommand(command) {
+        const {editorState} = this.state;
+        const newState = RichUtils.handleKeyCommand(editorState, command);
+        if (newState) {
+            this.onChange(newState);
+            return true;
+        }
+        return false;
+    }
+
+    _toggleBlockType(blockType) {
+        this.onChange(
+            RichUtils.toggleBlockType(
+                this.state.editorState,
+                blockType
+            )
+        );
+    }
+
+    _toggleInlineStyle(inlineStyle) {
+        this.onChange(
+            RichUtils.toggleInlineStyle(
+                this.state.editorState,
+                inlineStyle
+            )
+        );
+    }
+
+    render() {
+        const {editorState} = this.state;
+        const {onChangedComment} = this.props;
+
+        onChangedComment(stateToHTML(editorState.getCurrentContent()));
+
+        return (
+            <div className="rich-editor-root">
+                <div className="toolbar">
+                    <InlineStyleControls
+                        editorState={editorState}
+                        onToggle={this.toggleInlineStyle}
+                    />
+                    <BlockStyleControls
+                        editorState={editorState}
+                        onToggle={this.toggleBlockType}
+                    />
+                </div>
+                <div className="rich-editor-editor" onClick={this.focus}>
+                    <Editor
+                        blockStyleFn={getBlockStyle}
+                        editorState={editorState}
+                        handleKeyCommand={this.handleKeyCommand}
+                        onChange={this.onChange}
+                        placeholder=""
+                        ref="editor"
+                        spellCheck={true}
+                    />
+                </div>
+            </div>
+        );
+    }
+}
+
+function getBlockStyle(block) {
+    switch (block.getType()) {
+        case 'blockquote': return 'rich-editor-blockquote';
+        default: return null;
+    }
+}
 
 export default CommentsEditor;
