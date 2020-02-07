@@ -6,9 +6,9 @@ Route::group(['prefix' => 'comments', 'as' => 'comments.', 'namespace' => 'Api']
 
     Route::get('{uuid}', 'CommentController@load');
 
-    Route::get('create', 'CommentController@create')->name('create');
-    Route::post('', 'CommentController@store')->name('store');
-    Route::get('{id}/edit', 'CommentController@edit')->name('edit');
-    Route::put('{id}', 'CommentController@update')->name('update');
-    Route::delete('{id}', 'CommentController@destroy')->name('destroy');
+    Route::post('{uuid}', 'CommentController@store')->name('store');
+
+//    Route::get('{id}/edit', 'CommentController@edit')->name('edit');
+//    Route::put('{id}', 'CommentController@update')->name('update');
+//    Route::delete('{id}', 'CommentController@destroy')->name('destroy');
 });

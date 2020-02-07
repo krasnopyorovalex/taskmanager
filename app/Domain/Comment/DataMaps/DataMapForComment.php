@@ -30,7 +30,7 @@ class DataMapForComment
      * @param Comment $comment
      * @return array
      */
-    protected function transform(Comment $comment): array
+    public function transform(Comment $comment): array
     {
         return [
             'id' => $comment->id,

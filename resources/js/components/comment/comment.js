@@ -1,6 +1,10 @@
 import React from 'react';
+import Comments from "../comments";
 
-const Comment = ({body, user, created_at}) => {
+const Comment = ({body, user, created_at, comments}) => {
+
+    const newBranchComments = <Comments comments={comments} />;
+
     return (
         <li>
             <div className="comment-header with-icon">
@@ -21,6 +25,7 @@ const Comment = ({body, user, created_at}) => {
                     Ответить
                 </div>
             </div>
+            {newBranchComments}
         </li>
     );
 };

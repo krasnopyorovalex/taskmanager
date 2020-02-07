@@ -12,6 +12,9 @@ use App\Http\Requests\Request;
  */
 class CreateTaskRequest extends Request
 {
+    /**
+     * @return array
+     */
     public function rules(): array
     {
         return [

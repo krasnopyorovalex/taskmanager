@@ -30,7 +30,7 @@ use Illuminate\Support\Carbon;
  */
 class Comment extends Model
 {
-    protected $fillable = ['parent_id', 'body'];
+    protected $fillable = ['parent_id', 'body', 'user_id'];
 
     protected $with = ['user', 'comments'];
 
@@ -47,7 +47,7 @@ class Comment extends Model
      */
     public function comments(): HasMany
     {
-        return $this->hasMany(__CLASS__, 'parent_id', 'id')->latest();
+        return $this->hasMany(__CLASS__, 'parent_id', 'id')->oldest();
     }
 
     /**

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Editor, EditorState, RichUtils} from 'draft-js';
 import BlockStyleControls from "./block-style-controls";
 import InlineStyleControls from "./inline-style-controls"
+
 import {stateToHTML} from 'draft-js-export-html';
 
 class CommentsEditor extends Component {
@@ -15,6 +16,20 @@ class CommentsEditor extends Component {
         this.handleKeyCommand = (command) => this._handleKeyCommand(command);
         this.toggleBlockType = (type) => this._toggleBlockType(type);
         this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const {editorState} = this.state;
+
+        if (this.props.clearEditor) {
+            this.props.toggleClearEditor();
+            this.setState({editorState: EditorState.createEmpty()});
+        }
+
+        if (prevState.editorState !== editorState) {
+            const {onChangedComment} = this.props;
+            onChangedComment(stateToHTML(editorState.getCurrentContent()));
+        }
     }
 
     _handleKeyCommand(command) {
@@ -46,10 +61,7 @@ class CommentsEditor extends Component {
     }
 
     render() {
-        const {editorState} = this.state;
-        const {onChangedComment} = this.props;
-
-        onChangedComment(stateToHTML(editorState.getCurrentContent()));
+        const { editorState } = this.state;
 
         return (
             <div className="rich-editor-root">
