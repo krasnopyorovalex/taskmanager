@@ -1,7 +1,7 @@
 import React from 'react';
 import Comments from "../comments";
 
-const Comment = ({body, user, created_at, comments}) => {
+const Comment = ({body, author, created_at, comments}) => {
 
     const newBranchComments = <Comments comments={comments} />;
 
@@ -12,7 +12,7 @@ const Comment = ({body, user, created_at, comments}) => {
                     <div className="comment-header-user-img" dangerouslySetInnerHTML={{__html: '<svg><use xlink:href="../img/sprites/sprite.svg#icon-user"></use></svg>'}}>
                     </div>
                     <div className="comment-header-user-name">
-                        {user}
+                        {author}
                     </div>
                 </div>
                 <div className="comment-header-date">

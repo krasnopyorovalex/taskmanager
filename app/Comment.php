@@ -30,9 +30,9 @@ use Illuminate\Support\Carbon;
  */
 class Comment extends Model
 {
-    protected $fillable = ['parent_id', 'body', 'user_id'];
+    protected $fillable = ['parent_id', 'body', 'author_id'];
 
-    protected $with = ['user', 'comments'];
+    protected $with = ['author', 'comments'];
 
     /**
      * @return MorphTo
@@ -53,8 +53,8 @@ class Comment extends Model
     /**
      * @return BelongsTo
      */
-    public function user(): BelongsTo
+    public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'author_id');
     }
 }

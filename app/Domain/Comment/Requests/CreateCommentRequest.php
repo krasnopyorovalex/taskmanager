@@ -19,7 +19,7 @@ class CreateCommentRequest extends Request
     {
         return [
             'body' => 'required|string',
-            'user_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:users,id',
             'parent_id' => 'integer|exists:comments,id|nullable'
         ];
     }
@@ -27,7 +27,7 @@ class CreateCommentRequest extends Request
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'user_id' => auth()->user()->id
+            'author_id' => auth()->user()->id
         ]);
     }
 }

@@ -35,7 +35,7 @@ class DataMapForComment
         return [
             'id' => $comment->id,
             'body' => $comment->body,
-            'user' => $comment->user->name,
+            'author' => $comment->author->name,
             'created_at' => $comment->created_at->shortRelativeDiffForHumans(),
             'comments' => $comment->comments ? $this->toArray($comment->comments) : []
         ];
