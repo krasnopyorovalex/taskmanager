@@ -1,11 +1,17 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {Editor, EditorState, RichUtils} from 'draft-js';
 import BlockStyleControls from "./block-style-controls";
 import InlineStyleControls from "./inline-style-controls"
 
 import {stateToHTML} from 'draft-js-export-html';
+import Button from "../button";
 
 class CommentsEditor extends Component {
+
+    state = {
+        commentBody: null
+    };
+
     constructor(props) {
         super(props);
         this.state = {editorState: EditorState.createEmpty()};
@@ -27,8 +33,9 @@ class CommentsEditor extends Component {
         }
 
         if (prevState.editorState !== editorState) {
-            const {onChangedComment} = this.props;
-            onChangedComment(stateToHTML(editorState.getCurrentContent()));
+            this.setState({
+                commentBody: stateToHTML(editorState.getCurrentContent())
+            });
         }
     }
 
@@ -63,30 +70,35 @@ class CommentsEditor extends Component {
     render() {
         const { editorState } = this.state;
 
+        const { saveComment } = this.props;
+
         return (
-            <div className="rich-editor-root">
-                <div className="toolbar">
-                    <InlineStyleControls
-                        editorState={editorState}
-                        onToggle={this.toggleInlineStyle}
-                    />
-                    <BlockStyleControls
-                        editorState={editorState}
-                        onToggle={this.toggleBlockType}
-                    />
+            <Fragment>
+                <div className="rich-editor-root">
+                    <div className="toolbar">
+                        <InlineStyleControls
+                            editorState={editorState}
+                            onToggle={this.toggleInlineStyle}
+                        />
+                        <BlockStyleControls
+                            editorState={editorState}
+                            onToggle={this.toggleBlockType}
+                        />
+                    </div>
+                    <div className="rich-editor-editor" onClick={this.focus}>
+                        <Editor
+                            blockStyleFn={getBlockStyle}
+                            editorState={editorState}
+                            handleKeyCommand={this.handleKeyCommand}
+                            onChange={this.onChange}
+                            placeholder=""
+                            ref="editor"
+                            spellCheck={true}
+                        />
+                    </div>
                 </div>
-                <div className="rich-editor-editor" onClick={this.focus}>
-                    <Editor
-                        blockStyleFn={getBlockStyle}
-                        editorState={editorState}
-                        handleKeyCommand={this.handleKeyCommand}
-                        onChange={this.onChange}
-                        placeholder=""
-                        ref="editor"
-                        spellCheck={true}
-                    />
-                </div>
-            </div>
+                <Button label="Добавить комментарий" onEventSave={() => saveComment(this.state.commentBody)} />
+            </Fragment>
         );
     }
 }

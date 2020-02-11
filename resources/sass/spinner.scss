@@ -1,9 +1,9 @@
 .spinner {
-    min-height: 40px;
+    min-height: 18px;
     &:before {
         display: none;
     }
     &:after {
-        top: calc(50% - 8px);
+        top: 0;
     }
 }

@@ -4,7 +4,8 @@
     <div class="row">
         <div class="col-9">
             <div class="task-description box-white rounded-block with-shadow">
-                <div class="task-name">{{ $task->name }}</div>
+                <div class="task-name">#{{ $task->name }}</div>
+                <p><b>Описание задачи</b></p>
                 {!! $task->body !!}
             </div>
             <div class="comments box-white with-shadow rounded-block">
@@ -25,11 +26,14 @@
                         </div>
                     </div>
                 </div>
-                @include('layouts.partials.task_status')
-                <div class="btn btn-complete with-icon">
-                    {{ svg('icon-check') }}
-                    Выполнено
-                </div>
+
+                @unless($taskStatus->isClosed($task))
+                    @include('layouts.partials.task_status')
+                @endunless
+
+                @unless($taskStatus->isCompleted($task) || $taskStatus->isClosed($task))
+                    @include('layouts.partials.task_complete_btn')
+                @endunless
             </div>
             <div class="aside-box box-white rounded-block with-shadow">
                 <div class="task_tech-info-item">

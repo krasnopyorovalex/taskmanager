@@ -36,7 +36,7 @@ class GetCommentsByTaskUuid
     {
         $uuid = $this->uuid;
 
-        return Comment::where('parent_id', null)->whereHasMorph(
+        return Comment::whereHasMorph(
             'commentable',
             'App\\Task',
             static function (Builder $query) use ($uuid) {

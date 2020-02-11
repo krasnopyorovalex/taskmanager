@@ -1,9 +1,9 @@
 import React from 'react';
 import Comments from "../comments";
 
-const Comment = ({body, author, created_at, comments}) => {
+const Comment = ({id, body, author, created_at, comments, replyTo}) => {
 
-    const newBranchComments = <Comments comments={comments} />;
+    const childComments = <Comments comments={comments} replyTo={replyTo} />;
 
     return (
         <li>
@@ -21,11 +21,11 @@ const Comment = ({body, author, created_at, comments}) => {
             </div>
             <div className="comment-body" dangerouslySetInnerHTML={{__html: body}}></div>
             <div className="comment-footer">
-                <div className="btn-reply">
+                <div className="btn-reply" onClick={() => replyTo(id)}>
                     Ответить
                 </div>
             </div>
-            {newBranchComments}
+            {childComments}
         </li>
     );
 };

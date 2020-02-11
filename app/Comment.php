@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App;
 
 use Eloquent;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -32,7 +31,7 @@ class Comment extends Model
 {
     protected $fillable = ['parent_id', 'body', 'author_id'];
 
-    protected $with = ['author', 'comments'];
+    protected $with = ['author'];
 
     /**
      * @return MorphTo

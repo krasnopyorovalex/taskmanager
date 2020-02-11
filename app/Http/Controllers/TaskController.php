@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Events\NewStoryHasAppeared;
+use Domain\Task\Commands\SetStatusCommand;
+use Domain\Task\Queries\GetClosedTasksByGroupsQuery;
+use Domain\Task\Queries\GetCompletedTasksByGroupsQuery;
 use Domain\Task\Commands\CreateTaskCommand;
 use Domain\Task\Commands\DeleteTaskCommand;
 use Domain\Task\Entities\AbstractTaskStatus;
 use Domain\Task\Queries\GetTaskByUuidQuery;
 use Domain\Task\Queries\GetTasksByGroupsQuery;
 use Domain\Task\Requests\CreateTaskRequest;
+use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
@@ -103,5 +107,48 @@ class TaskController extends Controller
         $this->dispatch(new DeleteTaskCommand($task));
 
         return redirect(route('tasks.index'));
+    }
+
+    /**
+     * @param string $uuid
+     * @return RedirectResponse|Redirector
+     */
+    public function complete(string $uuid)
+    {
+        try {
+            $task = $this->dispatch(new GetTaskByUuidQuery($uuid));
+
+            $this->dispatch(new SetStatusCommand($task, $this->taskStatus, $this->taskStatus->getCompletedStatus()));
+        } catch (Exception $exception) {
+            return redirect(route('tasks.index'))->with('message', $exception->getMessage());
+        }
+
+        return redirect(route('tasks.index'));
+    }
+
+    /**
+     * @return Factory|View
+     */
+    public function completed()
+    {
+        $tasks = $this->dispatch(new GetCompletedTasksByGroupsQuery($this->taskStatus));
+
+        return view('tasks.completed', [
+            'tasks' => $tasks,
+            'taskStatus' => $this->taskStatus
+        ]);
+    }
+
+    /**
+     * @return Factory|View
+     */
+    public function closed()
+    {
+        $tasks = $this->dispatch(new GetClosedTasksByGroupsQuery($this->taskStatus));
+
+        return view('tasks.closed', [
+            'tasks' => $tasks,
+            'taskStatus' => $this->taskStatus
+        ]);
     }
 }

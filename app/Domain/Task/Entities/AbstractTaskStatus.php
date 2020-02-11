@@ -37,11 +37,21 @@ abstract class AbstractTaskStatus
 
     abstract public function onlyInWork(): string;
 
+    abstract public function onlyCompleted(): string;
+
+    abstract public function onlyClosed(): string;
+
     abstract public function getLabelStatus(Task $task): string;
+
+    abstract public function getCompletedStatus(): string;
 
     abstract public function icon(Task $task): string;
 
     abstract public function inWork(Task $task): bool;
+
+    abstract public function isCompleted(Task $task): bool;
+
+    abstract public function isClosed(Task $task): bool;
 
     abstract public function changeStatus(Task $task): string;
 }

@@ -7,7 +7,6 @@ namespace Domain\Task\Commands;
 use App\Comment;
 use App\Http\Requests\Request;
 use App\Task;
-use Domain\Task\Queries\GetTaskByUuidQuery;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -26,16 +25,20 @@ class CreateTaskCommentCommand
      * @var string
      */
     private $uuid;
+    /**
+     * @var Task
+     */
+    private $task;
 
     /**
      * CreateTaskCommentCommand constructor.
      * @param Request $request
-     * @param string $uuid
+     * @param Task $task
      */
-    public function __construct(Request $request, string $uuid)
+    public function __construct(Request $request, Task $task)
     {
         $this->request = $request;
-        $this->uuid = $uuid;
+        $this->task = $task;
     }
 
     /**
@@ -43,11 +46,8 @@ class CreateTaskCommentCommand
      */
     public function handle()
     {
-        /** @var Task $task */
-        $task = $this->dispatch(new GetTaskByUuidQuery($this->uuid));
-
         $comment = new Comment();
 
-        return $task->comments()->save($comment->fill($this->request->all()));
+        return $this->task->comments()->save($comment->fill($this->request->all()));
     }
 }

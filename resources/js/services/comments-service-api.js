@@ -3,10 +3,10 @@ export default class CommentsServiceApi {
         return axios.get(`/comments/${task}`);
     };
 
-    saveComment = async (task, comment) => {
+    saveComment = async (task, comment, replyTo) => {
         return await axios.post(`/comments/${task}`, {
             body: comment,
-            parent_id: null
+            parent_id: replyTo
         });
     };
 }

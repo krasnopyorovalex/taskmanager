@@ -42,7 +42,8 @@ class Task extends Model
     protected $with = ['timer'];
 
     protected $dates = [
-        'deadline'
+        'deadline',
+        'closed_at'
     ];
 
     /**

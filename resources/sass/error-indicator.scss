@@ -1,0 +1,15 @@
+.error-indicator {
+    margin: .5rem 0;
+    padding: .5rem;
+    border: 1px solid #eff2f5;
+    border-radius: 3px;
+    background-color: #f8f9fb;
+    p {
+        text-align: center;
+        margin: 0;
+        &.boom {
+            font-weight: 500;
+            font-size: 16px;
+        }
+    }
+}

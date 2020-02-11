@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace App\Domain\Comment\DataMaps;
 
 use App\Comment;
+use Domain\Comment\DataMaps\DataMap;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class DataMapForComment
  * @package App\Domain\Comment\DataMaps
  */
-class DataMapForComment
+class DataMapForComment extends DataMap
 {
     /**
      * @param Collection $comments
@@ -22,7 +23,7 @@ class DataMapForComment
         $instance = $this;
 
         return $comments->map(static function (Comment $comment) use ($instance) {
-            return $instance->transform($comment);
+            return $instance->itemToArray($comment);
         })->toArray();
     }
 
@@ -30,14 +31,15 @@ class DataMapForComment
      * @param Comment $comment
      * @return array
      */
-    public function transform(Comment $comment): array
+    public function itemToArray(Comment $comment): array
     {
         return [
             'id' => $comment->id,
+            'parent_id' => $comment->parent_id,
             'body' => $comment->body,
             'author' => $comment->author->name,
             'created_at' => $comment->created_at->shortRelativeDiffForHumans(),
-            'comments' => $comment->comments ? $this->toArray($comment->comments) : []
+            'comments' => []
         ];
     }
 }

@@ -42,8 +42,8 @@
                 <div class="menu_with-btn">
                     <ul class="main-menu">
                         <li{{ is_active_link(route('tasks.index')) }}><a href="{{ route('tasks.index') }}">Текущие</a></li>
-                        <li><a href="#">Выполненные</a></li>
-                        <li><a href="#">Закрытые</a></li>
+                        <li{{ is_active_link(route('tasks.completed')) }}><a href="{{ route('tasks.completed') }}">Выполненные</a></li>
+                        <li{{ is_active_link(route('tasks.closed')) }}><a href="{{ route('tasks.closed') }}">Закрытые</a></li>
                         @if(auth()->check() && auth()->user()->isAdmin())
                             <li{{ is_active_link(route('users.index')) }}><a href="{{ route('users.index') }}">Пользователи</a></li>
                             <li{{ is_active_link(route('groups.index')) }}><a href="{{ route('groups.index') }}">Группы</a></li>

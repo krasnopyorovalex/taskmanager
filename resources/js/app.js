@@ -14,4 +14,4 @@ require('./bootstrap');
 
 require('./components/simple-editor/index');
 require('./components/tasks/tasks');
-require('./comments-app');
+require('./commentable');

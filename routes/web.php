@@ -18,6 +18,8 @@ Auth::routes(['register' => false]);
 Route::group(['middleware' => ['auth']], static function () {
 
     Route::get('', 'TaskController@index')->name('tasks.index')->middleware('timers.update');
+    Route::get('completed', 'TaskController@completed')->name('tasks.completed');
+    Route::get('closed', 'TaskController@closed')->name('tasks.closed');
 
     foreach (glob(app_path('Domain/**/routes.php')) as $item) {
         require $item;

@@ -85,4 +85,12 @@ class User extends Authenticatable
     {
         return $this->is_admin === 1;
     }
+
+    /**
+     * @return array
+     */
+    public function onlyMyGroups(): array
+    {
+        return $this->groups()->get()->pluck('id')->toArray();
+    }
 }

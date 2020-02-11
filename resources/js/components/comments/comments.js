@@ -1,22 +1,17 @@
 import React from 'react';
 
 import Comment from '../comment';
-import Spinner from "../spinner";
 
-const Comments = ({comments}) => {
-
-    if (! comments) {
-        return <Spinner />;
-    }
+const Comments = ({comments, replyTo}) => {
 
     const items = comments.map((item) => {
-        return <Comment key={item.id} {...item} />;
+        return <Comment key={item.id} {...item} replyTo={replyTo} />;
     });
 
     return (
-        <ul>
-            {items}
-        </ul>
+        items.length
+            ? <ul>{items}</ul>
+            : ''
     );
 };
 

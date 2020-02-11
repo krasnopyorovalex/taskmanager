@@ -48,6 +48,22 @@ class TaskStatus extends AbstractTaskStatus
     }
 
     /**
+     * @return string
+     */
+    public function onlyCompleted(): string
+    {
+        return self::TASK_COMPLETED_STATUS;
+    }
+
+    /**
+     * @return string
+     */
+    public function onlyClosed(): string
+    {
+        return self::TASK_CLOSED_STATUS;
+    }
+
+    /**
      * @param Task $task
      * @return bool
      */
@@ -58,11 +74,37 @@ class TaskStatus extends AbstractTaskStatus
 
     /**
      * @param Task $task
+     * @return bool
+     */
+    public function isCompleted(Task $task): bool
+    {
+        return $task->status === self::TASK_COMPLETED_STATUS || $task->status === self::TASK_CLOSED_STATUS;
+    }
+
+    /**
+     * @param Task $task
+     * @return bool
+     */
+    public function isClosed(Task $task): bool
+    {
+        return $task->status === self::TASK_CLOSED_STATUS;
+    }
+
+    /**
+     * @param Task $task
      * @return string
      */
     public function getLabelStatus(Task $task): string
     {
         return $this->labels[$task->status];
+    }
+
+    /**
+     * @return string
+     */
+    public function getCompletedStatus(): string
+    {
+        return self::TASK_COMPLETED_STATUS;
     }
 
     /**

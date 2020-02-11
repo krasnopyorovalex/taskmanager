@@ -32,3 +32,11 @@ export function changeTimer(event, endpoint) {
             return target.classList.toggle('loading');
         });
 }
+
+export function modifyCommentsArray(comments) {
+    return comments ? comments.map((comment) => {
+        comment.comments = comments.filter(({parent_id}) => parent_id === comment.id);
+
+        return comment;
+    }).filter(({parent_id}) => ! parent_id) : null;
+}

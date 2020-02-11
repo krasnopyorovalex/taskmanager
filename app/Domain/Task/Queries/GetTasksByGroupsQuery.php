@@ -47,7 +47,7 @@ class GetTasksByGroupsQuery
      */
     public function handle()
     {
-        $groups = auth()->user()->groups()->get()->pluck('id')->toArray();
+        $groups = auth()->user()->onlyMyGroups();
         $authors = $this->dispatch(new GetUsersWithMyGroupsQuery($groups));
 
         $query = Task::whereIn('status', $this->taskStatus->onlyActual())->with(['author' => static function ($query) {
@@ -55,7 +55,7 @@ class GetTasksByGroupsQuery
         }, 'performer' => static function ($query) {
             return $query->withTrashed();
         }])->where(static function ($query) use ($authors) {
-            $query->whereIn('author_id', $authors->pluck('id'))
+            return $query->whereIn('author_id', $authors->pluck('id'))
                 ->orWhere('author_id', auth()->user()->id);
         });
 

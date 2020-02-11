@@ -23,7 +23,7 @@ $factory->define(Task::class, static function (Faker $faker) {
 
     return [
         'name' => $faker->domainName,
-        'body' => $faker->paragraph(random_int(2,5)),
+        'body' => "<p>{$faker->paragraph(random_int(2,5))}</p>",
         'status' => $status,
         'deadline' => $status !== 'CLOSED'
             ? date('Y-'. random_int(date('m'), 12) .'-'. random_int(1, 28))
