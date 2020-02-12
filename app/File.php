@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $task_id
  * @property string $name
  * @property string $path
+ * @property int $is_image
  * @property-read \App\Task $task
  * @method static \Illuminate\Database\Eloquent\Builder|\App\File newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\File newQuery()
@@ -31,6 +32,10 @@ class File extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'is_image' => 'boolean'
+    ];
+
     /**
      * Get the task that owns the file.
      *
@@ -39,5 +44,21 @@ class File extends Model
     public function task(): BelongsTo
     {
         return $this->belongsTo(Task::class);
+    }
+
+    /**
+     * @return string
+     */
+    public function path(): string
+    {
+        return asset(str_replace('public', 'storage', $this->path));
+    }
+
+    /**
+     * @return string
+     */
+    public function thumb(): string
+    {
+        return asset(str_replace(['public', '.'], ['storage', '_thumb.'], $this->path));
     }
 }

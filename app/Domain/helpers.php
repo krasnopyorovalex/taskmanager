@@ -52,3 +52,12 @@ if (! function_exists('words_to_lower_case')) {
         return Illuminate\Support\Str::slug($words, '_');
     }
 }
+
+if (! function_exists('only_images_files')) {
+    function only_images_files(Illuminate\Database\Eloquent\Collection $files, bool $flag = true): Illuminate\Database\Eloquent\Collection
+    {
+        return $files->filter(static function (\App\File $file) use ($flag) {
+            return $file->is_image === $flag;
+        });
+    }
+}

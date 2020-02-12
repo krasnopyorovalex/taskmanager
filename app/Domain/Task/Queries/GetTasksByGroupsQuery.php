@@ -57,7 +57,7 @@ class GetTasksByGroupsQuery
         }])->where(static function ($query) use ($authors) {
             return $query->whereIn('author_id', $authors->pluck('id'))
                 ->orWhere('author_id', auth()->user()->id);
-        });
+        })->latest();
 
         if (is_string($this->byStatus)) {
             $query->where('status', $this->byStatus);

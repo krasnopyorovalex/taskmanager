@@ -60,6 +60,7 @@
         @yield('content')
     </div>
 </main>
+<script src="{{ asset('js/vendor.min.js') }}"></script>
 <script src="{{ asset('js/main.min.js') }}"></script>
 <script src="{{ mix('js/app.js') }}"></script>
 </body>

@@ -18,6 +18,7 @@ class CreateFilesTable extends Migration
             $table->unsignedBigInteger('task_id');
             $table->string('name');
             $table->string('path');
+            $table->boolean('is_image')->default(false);
 
             $table->foreign('task_id')
                 ->references('id')

@@ -1,6 +1,7 @@
 <?php
 
 use App\Providers\TaskStatusProvider;
+use App\Providers\ThumbCreatorProvider;
 
 return [
 
@@ -168,6 +169,7 @@ return [
          * Package Service Providers...
          */
         TaskStatusProvider::class,
+        ThumbCreatorProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         /*
