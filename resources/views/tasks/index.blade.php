@@ -47,7 +47,7 @@
                             </td>
                             <td>
                                 <div class="with-icon">
-                                    <div class="user">
+                                    <div class="user{{ $task->performer && $task->performer->deleted_at ? ' deleted-record' : '' }}">
                                         {{ $task->performer ? $task->performer->name : '' }}
                                     </div>
                                 </div>

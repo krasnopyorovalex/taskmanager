@@ -14,6 +14,16 @@ use Intervention\Image\ImageManager;
 class ThumbCreator
 {
     /**
+     * @var ImageNameChanger
+     */
+    private $imageNameChanger;
+
+    public function __construct(ImageNameChanger $imageNameChanger)
+    {
+        $this->imageNameChanger = $imageNameChanger;
+    }
+
+    /**
      * @var int
      */
     private const WIDTH_THUMB = 180;
@@ -28,7 +38,7 @@ class ThumbCreator
      */
     public function createThumb(UploadedFile $uploadedFile, string $path): void
     {
-        $imageHashName = $this->getImageHashName($uploadedFile->hashName());
+        $imageHashName = $this->imageNameChanger->getImageHashName($uploadedFile->hashName());
 
         (new ImageManager())
             ->make($path)
@@ -37,13 +47,10 @@ class ThumbCreator
     }
 
     /**
-     * @param string $hashName
-     * @return string
+     * @return ImageNameChanger
      */
-    protected function getImageHashName(string $hashName):string
+    public function getImageNameChanger(): ImageNameChanger
     {
-        $chunks = explode('.', $hashName);
-
-        return (string) array_shift($chunks);
+        return $this->imageNameChanger;
     }
 }

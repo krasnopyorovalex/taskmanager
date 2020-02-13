@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Domain\Task\Queries;
 
+use App\Scopes\WithUsersByMyGroupsScope;
 use App\Task;
 
 /**
@@ -31,6 +32,8 @@ class ExistTaskByUuidQuery
      */
     public function handle(): bool
     {
-        return Task::where('uuid', $this->uuid)->exist();
+        return Task::withoutGlobalScope(WithUsersByMyGroupsScope::class)
+            ->where('uuid', $this->uuid)
+            ->exist();
     }
 }

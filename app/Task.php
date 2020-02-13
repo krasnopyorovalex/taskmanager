@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Scopes\WithUsersByMyGroupsScope;
 use Domain\Task\Events\TaskCreated;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -39,7 +40,7 @@ class Task extends Model
 
     protected $guarded = [];
 
-    protected $with = ['timer'];
+    //protected $with = ['timer'];
 
     protected $dates = [
         'deadline',
@@ -61,6 +62,8 @@ class Task extends Model
         static::creating(static function ($model) {
             $model->uuid = (string) Str::uuid();
         });
+
+        static::addGlobalScope(new WithUsersByMyGroupsScope);
     }
 
     /**
@@ -89,7 +92,7 @@ class Task extends Model
      */
     public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withTrashed();
     }
 
     /**
@@ -99,7 +102,7 @@ class Task extends Model
      */
     public function performer(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withTrashed();
     }
 
     /**

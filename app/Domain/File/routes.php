@@ -6,4 +6,6 @@ Route::group(['prefix' => 'files', 'as' => 'files.'], static function () {
 
     Route::get('{uuid}/{id}', 'FileController@download')->name('download');
     Route::post('{uuid}', 'FileController@upload')->name('upload');
+
+    Route::delete('{id}', 'FileController@destroy')->name('destroy');
 });

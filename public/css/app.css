@@ -195,7 +195,12 @@ select.__toolbar-item {
   font-size: 16px;
 }
 
-.reply-to-info {
+.reply-box {
+  display: flex;
+  align-items: center;
+}
+
+.reply-box .reply-to-info {
   background-color: #ffeded;
   padding: 0 10px;
   line-height: 20px;
@@ -203,6 +208,19 @@ select.__toolbar-item {
   font-size: 0.7175rem;
   color: #2f3034;
   display: inline-block;
+}
+
+.reply-box .clear-reply {
+  margin: 0 0 0 2px;
+}
+
+.reply-box .clear-reply:hover {
+  cursor: pointer;
+}
+
+.reply-box .clear-reply svg {
+  width: 20px;
+  height: 20px;
 }
 
 pre {

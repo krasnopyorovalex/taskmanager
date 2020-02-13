@@ -50,19 +50,15 @@
                 @if($task->performer)
                 <div class="task_tech-info-item">
                     <div class="task_tech-info-item-label">Исполнитель</div>
-                    <div class="task_tech-info-item-value">{{ $task->performer->name }}</div>
+                    <div class="task_tech-info-item-value{{ $task->performer->deleted_at ? ' deleted-record' : '' }}">{{ $task->performer->name }}</div>
                 </div>
                 @endif
                 <div class="task_tech-info-item">
                     <div class="task_tech-info-item-label">Инициатор</div>
-                    <div class="task_tech-info-item-value">{{ $task->author->name }}</div>
+                    <div class="task_tech-info-item-value{{ $task->author->deleted_at ? ' deleted-record' : '' }}">{{ $task->author->name }}</div>
                 </div>
             </div>
             <div class="files-box box-white rounded-block with-shadow">
-{{--                <div class="title with-icon">--}}
-{{--                    {{ svg('icon-attach') }}--}}
-{{--                    Прикрепленные файлы--}}
-{{--                </div>--}}
                 @if(count(only_images_files($task->files, false)))
                 <ul class="files-list">
                     @foreach(only_images_files($task->files, false) as $file)

@@ -18,7 +18,8 @@ class Commentable extends React.Component {
         comments: null,
         clearEditor: false,
         replyTo: null,
-        isLoading: true
+        isLoading: true,
+        inProcess: false
     };
 
     componentDidMount() {
@@ -34,23 +35,36 @@ class Commentable extends React.Component {
     }
 
     saveComment = (commentBody) => {
+        this.setState({
+            inProcess: true
+        });
+
         const {task} = this.props;
         const {saveComment} = this.commentsServiceApi;
-        const {replyTo} = this.state;
+        const {replyTo, inProcess} = this.state;
 
-        saveComment(task, commentBody, replyTo).then(({data}) => {
-            this.setState({
-                comments: [data, ...this.state.comments],
-                clearEditor: true,
-                replyTo: null
+        if (!inProcess) {
+            saveComment(task, commentBody, replyTo).then(({data}) => {
+                this.setState({
+                    comments: [data, ...this.state.comments],
+                    clearEditor: true,
+                    replyTo: null,
+                    inProcess: false
+                });
+            }).catch(() => {
+                this.setState({inProcess: false});
             });
-        });
+        }
     };
 
     toggleClearEditor = () => {
         this.setState({
             clearEditor: ! this.state.clearEditor
         });
+    };
+
+    clearReply = () => {
+        this.setState({replyTo: null});
     };
 
     replyTo = (id) => {
@@ -71,7 +85,7 @@ class Commentable extends React.Component {
         return (
             <ErrorBoundary>
                 <Comments comments={modifyCommentsArray(comments)} replyTo={this.replyTo} />
-                { comments && replyTo && <ReplyToInfo comments={comments} replyTo={replyTo} /> }
+                { comments && replyTo && <ReplyToInfo comments={comments} replyTo={replyTo} clearReply={this.clearReply} /> }
                 <CommentsEditor
                     clearEditor={this.state.clearEditor}
                     toggleClearEditor={this.toggleClearEditor}

@@ -50,10 +50,20 @@
                         @endif
                     </ul>
 
-                    <a href="{{ route('tasks.create') }}" class="btn btn-add with-icon">
+                    <a href="{{ route('tasks.create') }}" class="btn btn-add btn-small with-icon">
                         {{ svg('icon-add-circle') }}
                         Добавить задачу
                     </a>
+
+                    <div id="btn-logout" class="btn btn-exit btn-small with-icon">
+                        {{ svg('icon-door-exit') }}
+                        <div>
+                            Выйти <span class="current-user">({{ auth()->user()->name }})</span>
+                        </div>
+                        <form class="hidden" action="{{ route('logout') }}" method="post">
+                            {{ csrf_field() }}
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

@@ -6,13 +6,13 @@ namespace App\Http\Controllers;
 
 use App\Events\NewStoryHasAppeared;
 use Domain\Task\Commands\SetStatusCommand;
-use Domain\Task\Queries\GetClosedTasksByGroupsQuery;
-use Domain\Task\Queries\GetCompletedTasksByGroupsQuery;
+use Domain\Task\Queries\GetClosedTasksQuery;
+use Domain\Task\Queries\GetCompletedTasksQuery;
 use Domain\Task\Commands\CreateTaskCommand;
 use Domain\Task\Commands\DeleteTaskCommand;
 use Domain\Task\Entities\AbstractTaskStatus;
 use Domain\Task\Queries\GetTaskByUuidQuery;
-use Domain\Task\Queries\GetTasksByGroupsQuery;
+use Domain\Task\Queries\GetTasksQuery;
 use Domain\Task\Requests\CreateTaskRequest;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -46,7 +46,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = $this->dispatch(new GetTasksByGroupsQuery($this->taskStatus));
+        $tasks = $this->dispatch(new GetTasksQuery($this->taskStatus));
 
         return view('tasks.index', [
             'tasks' => $tasks,
@@ -131,7 +131,7 @@ class TaskController extends Controller
      */
     public function completed()
     {
-        $tasks = $this->dispatch(new GetCompletedTasksByGroupsQuery($this->taskStatus));
+        $tasks = $this->dispatch(new GetCompletedTasksQuery($this->taskStatus));
 
         return view('tasks.completed', [
             'tasks' => $tasks,
@@ -144,7 +144,7 @@ class TaskController extends Controller
      */
     public function closed()
     {
-        $tasks = $this->dispatch(new GetClosedTasksByGroupsQuery($this->taskStatus));
+        $tasks = $this->dispatch(new GetClosedTasksQuery($this->taskStatus));
 
         return view('tasks.closed', [
             'tasks' => $tasks,

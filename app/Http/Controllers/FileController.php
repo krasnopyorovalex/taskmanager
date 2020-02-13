@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Services\ThumbCreator;
+use Domain\File\Commands\DeleteFileCommand;
 use Domain\File\Commands\UploadFileCommand;
+use Domain\File\Queries\GetFileByIdQuery;
 use Domain\File\Queries\GetFileByTaskUuidAndFileIdQuery;
 use Domain\File\Requests\UploadFilesRequest;
 use Domain\Task\Queries\GetTaskByUuidQuery;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Storage;
@@ -59,5 +62,28 @@ class FileController extends Controller
         }
 
         return redirect(route('tasks.show', $task));
+    }
+
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function destroy(int $id): JsonResponse
+    {
+        try {
+            $file = $this->dispatch(new GetFileByIdQuery($id));
+
+            $this->authorize('delete', $file);
+
+            $this->dispatch(new DeleteFileCommand($this->thumbCreator->getImageNameChanger(), $file));
+        } catch (Exception $exception) {
+            return response()->json([
+                'status' => $exception->getMessage()
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'success'
+        ]);
     }
 }

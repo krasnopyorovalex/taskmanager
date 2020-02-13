@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const task = document.querySelector('.aside-box .status');
     const filesBox = document.querySelector('.files-box');
     const requestToComplete = document.getElementById('request-to-complete');
+    const requestToDestroyFile = document.getElementsByClassName('destroy-image');
+    const btnLogout = document.getElementById('btn-logout');
 
     if (tasks.length) {
         const tasksLength = tasks.length;
@@ -34,6 +36,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
         filesBox.querySelector('form').addEventListener("change", function (event) {
             return event.currentTarget.submit();
+        });
+    }
+
+    if (requestToDestroyFile) {
+        const length = requestToDestroyFile.length;
+
+        for (let i = 0; i < length; i++) {
+            requestToDestroyFile[i].addEventListener("click", function (event) {
+                const el = event.currentTarget;
+                const url = el.getAttribute("data-url");
+
+                if (confirm('Вы уверены?')) {
+                    return window.axios.delete(url).then(function () {
+                        return el.closest(".images-files-item").remove();
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                }
+            });
+        }
+    }
+
+    if (btnLogout) {
+        btnLogout.addEventListener("click", function (event) {
+            event.currentTarget.querySelector('form').submit();
         });
     }
 });

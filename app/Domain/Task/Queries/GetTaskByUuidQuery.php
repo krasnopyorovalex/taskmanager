@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Domain\Task\Queries;
 
+use App\Scopes\WithUsersByMyGroupsScope;
 use App\Task;
 
 /**
@@ -31,10 +32,9 @@ class GetTaskByUuidQuery
      */
     public function handle()
     {
-        return Task::where('uuid', $this->uuid)->with(['author' => static function ($query) {
-            return $query->withTrashed();
-        }, 'performer' => static function ($query) {
-            return $query->withTrashed();
-        }, 'files'])->firstOrFail();
+        return Task::withoutGlobalScope(WithUsersByMyGroupsScope::class)
+            ->where('uuid', $this->uuid)
+            ->with(['timer', 'author', 'performer', 'files'])
+            ->firstOrFail();
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Services\ImageNameChanger;
 use App\Services\ThumbCreator;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,7 +22,7 @@ class ThumbCreatorProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(ThumbCreator::class, static function () {
-            return new ThumbCreator();
+            return new ThumbCreator(new ImageNameChanger);
         });
     }
 }

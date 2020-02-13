@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\File;
+use App\Policies\FilePolicy;
 use App\Policies\TaskPolicy;
 use App\Task;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -18,7 +20,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        Task::class => TaskPolicy::class
+        Task::class => TaskPolicy::class,
+        File::class => FilePolicy::class
     ];
 
     /**
