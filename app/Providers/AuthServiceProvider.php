@@ -5,7 +5,9 @@ namespace App\Providers;
 use App\File;
 use App\Policies\FilePolicy;
 use App\Policies\TaskPolicy;
+use App\Policies\TimerPolicy;
 use App\Task;
+use App\Timer;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 /**
@@ -21,7 +23,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Task::class => TaskPolicy::class,
-        File::class => FilePolicy::class
+        File::class => FilePolicy::class,
+        Timer::class => TimerPolicy::class
     ];
 
     /**
@@ -32,7 +35,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->registerPolicies();
-
-        //
     }
 }

@@ -29,7 +29,8 @@ Route::group(['middleware' => ['auth']], static function () {
 
         Route::resources([
             'users' => 'UserController',
-            'groups' => 'GroupController'
+            'groups' => 'GroupController',
+            'billing' => 'BillingController'
         ]);
     });
 });

@@ -9,10 +9,10 @@ use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class TaskExist
+ * Class TaskExistRule
  * @package App\Rules
  */
-class TaskExist implements Rule
+class TaskExistRule implements Rule
 {
     use DispatchesJobs;
 

@@ -47,6 +47,7 @@
                         @if(auth()->check() && auth()->user()->isAdmin())
                             <li{{ is_active_link(route('users.index')) }}><a href="{{ route('users.index') }}">Пользователи</a></li>
                             <li{{ is_active_link(route('groups.index')) }}><a href="{{ route('groups.index') }}">Группы</a></li>
+                            <li{{ is_active_link(route('billing.index')) }}><a href="{{ route('billing.index') }}">Биллинг</a></li>
                         @endif
                     </ul>
 
@@ -70,6 +71,7 @@
         @yield('content')
     </div>
 </main>
+<div class="notification" id="notify"></div>
 <script src="{{ asset('js/vendor.min.js') }}"></script>
 <script src="{{ asset('js/main.min.js') }}"></script>
 <script src="{{ mix('js/app.js') }}"></script>

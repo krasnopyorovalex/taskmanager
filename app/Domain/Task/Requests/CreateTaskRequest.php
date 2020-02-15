@@ -21,7 +21,7 @@ class CreateTaskRequest extends Request
             'name' => 'required|string|max:255',
             'body' => 'required|string',
             'deadline' => 'date_format:Y-m-d|nullable',
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:users,id,deleted_at,NULL',
             'files' => 'array'
         ];
     }

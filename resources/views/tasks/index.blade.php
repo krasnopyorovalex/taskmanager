@@ -34,7 +34,7 @@
                             </td>
                             <td class="align-right">
                                 <div class="with-icon">
-                                    <div class="time">
+                                    <div class="time" data-total="{{ $task->timer->total }}">
                                         {{ svg('icon-time') }}
                                         <div class="time-value">
                                             {{ format_seconds($task->timer->total) }}

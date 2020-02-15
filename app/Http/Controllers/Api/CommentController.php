@@ -59,7 +59,7 @@ class CommentController extends Controller
         /** @var Comment $comment */
         $comment = $this->dispatch(new CreateTaskCommentCommand($request, $task));
 
-        event(new NewStoryHasAppeared("Добавлен новый комментарий к задаче #{$comment->commentable->name}"));
+        event(new NewStoryHasAppeared(__('comment.add', ['task' => $comment->commentable->name])));
 
         return response()->json($this->commentsDataMap->itemToArray($comment));
     }

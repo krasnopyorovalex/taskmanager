@@ -19,7 +19,7 @@ class CreateCommentRequest extends Request
     {
         return [
             'body' => 'required|string',
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:users,id,deleted_at,NULL',
             'parent_id' => 'integer|exists:comments,id|nullable'
         ];
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Domain\File\Commands;
 
-use App\Services\ThumbCreator;
+use App\Services\ThumbCreatorService;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use App\Task;
 
@@ -25,7 +25,7 @@ class UploadFileCommand
      */
     private $task;
     /**
-     * @var ThumbCreator
+     * @var ThumbCreatorService
      */
     private $thumbCreator;
 
@@ -33,9 +33,9 @@ class UploadFileCommand
      * UploadFileCommand constructor.
      * @param array $uploadedFiles
      * @param Task $task
-     * @param ThumbCreator $thumbCreator
+     * @param ThumbCreatorService $thumbCreator
      */
-    public function __construct(array $uploadedFiles, Task $task, ThumbCreator $thumbCreator)
+    public function __construct(array $uploadedFiles, Task $task, ThumbCreatorService $thumbCreator)
     {
         $this->uploadedFiles = $uploadedFiles;
         $this->task = $task;

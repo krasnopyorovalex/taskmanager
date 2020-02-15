@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Domain\File\Requests;
 
 use App\Http\Requests\Request;
-use App\Rules\TaskExist;
+use App\Rules\TaskExistRule;
 
 /**
  * Class UploadFilesRequest
@@ -20,7 +20,7 @@ class UploadFilesRequest extends Request
     {
         return [
             'files' => 'array|required',
-            'uuid' => [new TaskExist]
+            'uuid' => [new TaskExistRule]
         ];
     }
 }

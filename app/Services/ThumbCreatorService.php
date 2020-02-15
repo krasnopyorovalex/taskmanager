@@ -8,17 +8,17 @@ use Illuminate\Http\UploadedFile;
 use Intervention\Image\ImageManager;
 
 /**
- * Class ThumbCreator
+ * Class ThumbCreatorService
  * @package App\Services
  */
-class ThumbCreator
+class ThumbCreatorService
 {
     /**
-     * @var ImageNameChanger
+     * @var ImageNameChangerService
      */
     private $imageNameChanger;
 
-    public function __construct(ImageNameChanger $imageNameChanger)
+    public function __construct(ImageNameChangerService $imageNameChanger)
     {
         $this->imageNameChanger = $imageNameChanger;
     }
@@ -47,9 +47,9 @@ class ThumbCreator
     }
 
     /**
-     * @return ImageNameChanger
+     * @return ImageNameChangerService
      */
-    public function getImageNameChanger(): ImageNameChanger
+    public function getImageNameChanger(): ImageNameChangerService
     {
         return $this->imageNameChanger;
     }

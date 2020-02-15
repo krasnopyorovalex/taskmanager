@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Domain\File\Commands;
 
 use App\File;
-use App\Services\ThumbCreator;
+use App\Services\ThumbCreatorService;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use App\Task;
 use Illuminate\Http\UploadedFile;
@@ -40,7 +40,7 @@ class CreateFileCommand
      */
     private $uploadedFile;
     /**
-     * @var ThumbCreator
+     * @var ThumbCreatorService
      */
     private $thumbCreator;
 
@@ -49,9 +49,9 @@ class CreateFileCommand
      * @param string $path
      * @param UploadedFile $uploadedFile
      * @param Task $task
-     * @param ThumbCreator $thumbCreator
+     * @param ThumbCreatorService $thumbCreator
      */
-    public function __construct(string $path, UploadedFile $uploadedFile, Task $task, ThumbCreator $thumbCreator)
+    public function __construct(string $path, UploadedFile $uploadedFile, Task $task, ThumbCreatorService $thumbCreator)
     {
         $this->task = $task;
         $this->path = $path;

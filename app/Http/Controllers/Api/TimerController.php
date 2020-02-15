@@ -11,6 +11,7 @@ use Domain\Task\Entities\AbstractTaskStatus;
 use Domain\Task\Queries\GetTaskByUuidQuery;
 use Domain\Timer\Commands\TimerChangeCommand;
 use Domain\Timer\DataMaps\DataMapForTimer;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -32,16 +33,19 @@ class TimerController extends Controller
     /**
      * @param string $uuid
      * @return JsonResponse
+     * @throws AuthorizationException
      */
     public function __invoke(string $uuid)
     {
         $task = $this->dispatch(new GetTaskByUuidQuery($uuid));
 
+        $this->authorize('update', $task->timer);
+
         $this->dispatch(new TimerChangeCommand($task, $this->taskStatus));
 
         $this->dispatch(new ChangeTaskStatusCommand($task, $this->taskStatus));
 
-        event(new NewStoryHasAppeared("Изменён статус задачи #{$task->name} на «{$this->taskStatus->getLabelStatus($task)}»"));
+        event(new NewStoryHasAppeared(__('task.status.change', ['task' => $task->name, 'status' => $this->taskStatus->getLabelStatus($task)])));
 
         return response()->json(
             (new DataMapForTimer($task->fresh(), $this->taskStatus))->toArray()

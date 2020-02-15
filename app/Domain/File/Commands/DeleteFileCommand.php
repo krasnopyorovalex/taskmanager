@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Domain\File\Commands;
 
 use App\File;
-use App\Services\ImageNameChanger;
+use App\Services\ImageNameChangerService;
 use Exception;
 use Storage;
 
@@ -17,16 +17,16 @@ class DeleteFileCommand
 {
     private $file;
     /**
-     * @var ImageNameChanger
+     * @var ImageNameChangerService
      */
     private $imageNameChanger;
 
     /**
      * DeleteFileCommand constructor.
-     * @param ImageNameChanger $imageNameChanger
+     * @param ImageNameChangerService $imageNameChanger
      * @param File $file
      */
-    public function __construct(ImageNameChanger $imageNameChanger, File $file)
+    public function __construct(ImageNameChangerService $imageNameChanger, File $file)
     {
         $this->imageNameChanger = $imageNameChanger;
         $this->file = $file;

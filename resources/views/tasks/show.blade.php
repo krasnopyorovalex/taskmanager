@@ -24,7 +24,7 @@
                 <div class="with-icon text-right time-box">
                     <div class="time">
                         {{ svg('icon-time') }}
-                        <div class="time-value">
+                        <div class="time-value" data-seconds="{{ $task->timer->total }}">
                             {{ format_seconds($task->timer->total) }}
                         </div>
                     </div>

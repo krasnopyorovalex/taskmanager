@@ -1,3 +1,5 @@
+//const INTERVAL_FOR_UPDATE = 600000;
+
 export function changeTimer(event, endpoint) {
     const target = event.currentTarget;
     const uuid = target.getAttribute('data-uuid').toString();
@@ -24,14 +26,41 @@ export function changeTimer(event, endpoint) {
             containerStatus.querySelector('.time-value').innerHTML = time;
             containerStatus.querySelector('.user').innerHTML = performer;
         })
-        .catch(function (error) {
-            // handle error
-            console.log(error);
+        .catch(function ({response}) {
+            if (response) {
+                const message = response.data.message;
+                notify(message);
+            }
         })
         .then(function () {
             return target.classList.toggle('loading');
         });
 }
+
+// export function updateTimeByInterval() {
+//     const times = document.getElementsByClassName('time');
+//     if (times) {
+//         const timesLength = times.length;
+//         setInterval(() => {
+//             for (let i = 0; i < timesLength; i++) {
+//                 const total = parseInt(times[i].getAttribute('data-total'));
+//
+//                 times[i].setAttribute('data-total', (total + INTERVAL_FOR_UPDATE/1000).toString());
+//                 times[i].querySelector('.time-value').innerHTML = parseSeconds(total);
+//             }
+//         }, INTERVAL_FOR_UPDATE);
+//     }
+// }
+//
+// export function parseSeconds(seconds) {
+//
+//     seconds += INTERVAL_FOR_UPDATE/1000;
+//
+//     const hours = Math.floor(seconds / 3600);
+//     const minutes = Math.floor(seconds % 3600 / 60);
+//
+//     return hours ? `${hours}<span>ч</span> ${minutes}<span>мин</span>` : `${minutes}<span>мин</span>`;
+// }
 
 export function modifyCommentsArray(comments) {
     return comments ? comments.map((comment) => {
@@ -39,4 +68,15 @@ export function modifyCommentsArray(comments) {
 
         return comment;
     }).filter(({parent_id}) => ! parent_id) : null;
+}
+
+export function notify(message) {
+    const notification = document.getElementById('notify');
+
+    if (notification) {
+        notification.innerHTML = message;
+        setTimeout(() => {
+            notification.innerHTML = '';
+        }, 5000);
+    }
 }

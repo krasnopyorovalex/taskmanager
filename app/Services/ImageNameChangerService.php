@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Services;
 
 /**
- * Class ImageNameChanger
+ * Class ImageNameChangerService
  * @package App\Services
  */
-class ImageNameChanger
+class ImageNameChangerService
 {
     /**
      * @param string $path

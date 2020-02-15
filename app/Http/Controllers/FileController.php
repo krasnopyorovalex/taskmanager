@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Services\ThumbCreator;
+use App\Services\ThumbCreatorService;
 use Domain\File\Commands\DeleteFileCommand;
 use Domain\File\Commands\UploadFileCommand;
 use Domain\File\Queries\GetFileByIdQuery;
@@ -25,11 +25,11 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class FileController extends Controller
 {
     /**
-     * @var ThumbCreator
+     * @var ThumbCreatorService
      */
     private $thumbCreator;
 
-    public function __construct(ThumbCreator $thumbCreator)
+    public function __construct(ThumbCreatorService $thumbCreator)
     {
         $this->thumbCreator = $thumbCreator;
     }
