@@ -9,8 +9,10 @@ use Domain\Task\Commands\ChangeTaskStatusCommand;
 use App\Http\Controllers\Controller;
 use Domain\Task\Entities\AbstractTaskStatus;
 use Domain\Task\Queries\GetTaskByUuidQuery;
+use Domain\Task\Queries\GetTasksQuery;
 use Domain\Timer\Commands\TimerChangeCommand;
 use Domain\Timer\DataMaps\DataMapForTimer;
+use Domain\Timer\DataMaps\DataMapForTimers;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 
@@ -35,7 +37,7 @@ class TimerController extends Controller
      * @return JsonResponse
      * @throws AuthorizationException
      */
-    public function __invoke(string $uuid)
+    public function update(string $uuid): JsonResponse
     {
         $task = $this->dispatch(new GetTaskByUuidQuery($uuid));
 
@@ -49,6 +51,36 @@ class TimerController extends Controller
 
         return response()->json(
             (new DataMapForTimer($task->fresh(), $this->taskStatus))->toArray()
+        );
+    }
+
+    /**
+     * @param string $uuid
+     * @return JsonResponse
+     * @throws AuthorizationException
+     */
+    public function timer(string $uuid): JsonResponse
+    {
+        $task = $this->dispatch(new GetTaskByUuidQuery($uuid));
+
+        $this->authorize('update', $task->timer);
+
+        $this->dispatch(new TimerChangeCommand($task, $this->taskStatus));
+
+        return response()->json(
+            (new DataMapForTimer($task->fresh(), $this->taskStatus))->toArrayTimer()
+        );
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function timers(): JsonResponse
+    {
+        $tasks = $this->dispatch(new GetTasksQuery($this->taskStatus));
+
+        return response()->json(
+            (new DataMapForTimers($tasks, $this->taskStatus))->toArray()
         );
     }
 }

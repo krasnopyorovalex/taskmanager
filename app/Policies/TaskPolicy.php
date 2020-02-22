@@ -7,6 +7,7 @@ namespace App\Policies;
 use App\Task;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
 /**
  * Class TaskPolicy
@@ -34,6 +35,20 @@ class TaskPolicy
         }
 
         return $user->id === $task->author->id;
+    }
+
+    /**
+     * Determine whether the user can update the task.
+     *
+     * @param User $user
+     * @param Task $task
+     * @return Response
+     */
+    public function update(User $user, Task $task): Response
+    {
+        return $user->id === $task->author->id
+            ? Response::allow()
+            : Response::deny(view('layouts.partials.notify', ['message' => __('task.update.denied')]));
     }
 
     /**

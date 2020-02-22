@@ -1,4 +1,4 @@
-//const INTERVAL_FOR_UPDATE = 600000;
+const INTERVAL_FOR_UPDATE = 600000;
 
 export function changeTimer(event, endpoint) {
     const target = event.currentTarget;
@@ -37,30 +37,35 @@ export function changeTimer(event, endpoint) {
         });
 }
 
-// export function updateTimeByInterval() {
-//     const times = document.getElementsByClassName('time');
-//     if (times) {
-//         const timesLength = times.length;
-//         setInterval(() => {
-//             for (let i = 0; i < timesLength; i++) {
-//                 const total = parseInt(times[i].getAttribute('data-total'));
-//
-//                 times[i].setAttribute('data-total', (total + INTERVAL_FOR_UPDATE/1000).toString());
-//                 times[i].querySelector('.time-value').innerHTML = parseSeconds(total);
-//             }
-//         }, INTERVAL_FOR_UPDATE);
-//     }
-// }
-//
-// export function parseSeconds(seconds) {
-//
-//     seconds += INTERVAL_FOR_UPDATE/1000;
-//
-//     const hours = Math.floor(seconds / 3600);
-//     const minutes = Math.floor(seconds % 3600 / 60);
-//
-//     return hours ? `${hours}<span>ч</span> ${minutes}<span>мин</span>` : `${minutes}<span>мин</span>`;
-// }
+export function updateTaskTimeByInterval() {
+    const timeBox = document.querySelector('.time-box');
+
+    if (timeBox) {
+        setInterval(() => {
+            return axios.get(`/timer/load-timer/${timeBox.getAttribute('data-key')}`)
+                .then(function ({data}) {
+                    return timeBox.querySelector(`[data-key='${data.key}'] .time-value`).innerHTML = data.time;
+                });
+        }, INTERVAL_FOR_UPDATE);
+    }
+}
+
+export function updateTasksTimeByInterval() {
+
+    const tasks = document.querySelector('.tasks-list');
+
+    if (tasks) {
+        setInterval(() => {
+            return axios.get('/timer/load-timers')
+                .then(function ({data}) {
+                    for (let i = 0; i < data.length; i++) {
+                        const task = data[i];
+                        tasks.querySelector(`[data-key='${task.key}'] .time-value`).innerHTML = task.time;
+                    }
+                });
+        }, INTERVAL_FOR_UPDATE);
+    }
+}
 
 export function modifyCommentsArray(comments) {
     return comments ? comments.map((comment) => {

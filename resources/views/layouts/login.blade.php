@@ -46,7 +46,7 @@
                             </div>
                             <div class="box">
                                 <label for="f-password">Пароль</label>
-                                <input type="password" name="password" id="f-password">
+                                <input type="password" name="password" id="f-password" autocomplete="off">
                                 @if ($errors->has('password'))
                                     <span class="invalid-feedback" role="alert">
                                         <b>{{ $errors->first('password') }}</b>

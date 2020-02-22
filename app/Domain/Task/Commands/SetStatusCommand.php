@@ -14,17 +14,9 @@ use Domain\Task\Entities\AbstractTaskStatus;
 class SetStatusCommand
 {
     /**
-     * @var string
-     */
-    private $uuid;
-    /**
      * @var AbstractTaskStatus
      */
     private $taskStatus;
-    /**
-     * @var string
-     */
-    private $status;
     /**
      * @var Task
      */
@@ -34,12 +26,10 @@ class SetStatusCommand
      * SetStatusCommand constructor.
      * @param Task $task
      * @param AbstractTaskStatus $taskStatus
-     * @param string $status
      */
-    public function __construct(Task $task, AbstractTaskStatus $taskStatus, string $status)
+    public function __construct(Task $task, AbstractTaskStatus $taskStatus)
     {
         $this->taskStatus = $taskStatus;
-        $this->status = $status;
         $this->task = $task;
     }
 
@@ -54,7 +44,7 @@ class SetStatusCommand
         }
 
         return $this->task->update([
-            'status' => $this->status
+            'status' => $this->taskStatus->getCompletedStatus()
         ]);
     }
 }

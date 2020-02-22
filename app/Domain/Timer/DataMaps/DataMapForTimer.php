@@ -46,4 +46,15 @@ class DataMapForTimer
             'performer' => $this->task->performer->name
         ];
     }
+
+    /**
+     * @return array
+     */
+    public function toArrayTimer(): array
+    {
+        return [
+            'key' => $this->task->uuid,
+            'time' => (string) format_seconds($this->task->timer->total)
+        ];
+    }
 }

@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Events\NewStoryHasAppeared;
 use Domain\Task\Commands\SetStatusCommand;
+use Domain\Task\Commands\UpdateTaskCommand;
 use Domain\Task\Queries\GetClosedTasksQuery;
 use Domain\Task\Queries\GetCompletedTasksQuery;
 use Domain\Task\Commands\CreateTaskCommand;
@@ -14,9 +15,11 @@ use Domain\Task\Entities\AbstractTaskStatus;
 use Domain\Task\Queries\GetTaskByUuidQuery;
 use Domain\Task\Queries\GetTasksQuery;
 use Domain\Task\Requests\CreateTaskRequest;
+use Domain\Task\Requests\UpdateTaskRequest;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\View\View;
@@ -72,6 +75,31 @@ class TaskController extends Controller
     }
 
     /**
+     * @param UpdateTaskRequest $request
+     * @param string $uuid
+     * @return Factory|JsonResponse|View
+     */
+    public function update(UpdateTaskRequest $request, string $uuid)
+    {
+        try {
+            $task = $this->dispatch(new GetTaskByUuidQuery($uuid));
+
+            $this->authorize('update', $task);
+
+            $this->dispatch(new UpdateTaskCommand($request, $task));
+        } catch (Exception $exception) {
+            return response()->json([
+                'message' => (string) view('layouts.partials.notify', ['message' => $exception->getMessage()])
+            ], 400);
+        }
+
+        return response()->json([
+            'message' => (string) view('layouts.partials.notify', ['message' => __('task.update.success'), 'icon' => 'icon-mood-happy']),
+            'deadline' => format_deadline($task->fresh()->deadline)
+        ]);
+    }
+
+    /**
      * @return Factory|View
      */
     public function create()
@@ -87,10 +115,10 @@ class TaskController extends Controller
     {
         $task = $this->dispatch(new CreateTaskCommand($request));
 
-        event(new NewStoryHasAppeared("Создана новая задача #{$task->name}"));
+        event(new NewStoryHasAppeared(__('task.created', ['task' => $task->name])));
 
         return redirect(route('tasks.index'))
-            ->with('message', 'Новая задача добавлена');
+            ->with('message', __('task.added'));
     }
 
     /**
@@ -118,7 +146,7 @@ class TaskController extends Controller
         try {
             $task = $this->dispatch(new GetTaskByUuidQuery($uuid));
 
-            $this->dispatch(new SetStatusCommand($task, $this->taskStatus, $this->taskStatus->getCompletedStatus()));
+            $this->dispatch(new SetStatusCommand($task, $this->taskStatus));
         } catch (Exception $exception) {
             return redirect(route('tasks.index'))->with('message', $exception->getMessage());
         }

@@ -21,7 +21,7 @@
         </div>
         <div class="col-3">
             <div class="aside-box box-white rounded-block with-shadow">
-                <div class="with-icon text-right time-box">
+                <div class="with-icon text-right time-box" data-key="{{ $task->uuid }}">
                     <div class="time">
                         {{ svg('icon-time') }}
                         <div class="time-value" data-seconds="{{ $task->timer->total }}">
@@ -45,7 +45,18 @@
                 </div>
                 <div class="task_tech-info-item">
                     <div class="task_tech-info-item-label">Дата сдачи</div>
-                    <div class="task_tech-info-item-value">{{ format_deadline($task->deadline) }}</div>
+                    @can('update', $task)
+                        <div class="task_tech-info-item-value is-edited" id="datepicker-edit" title="@lang('task.edit.deadline')" data-task="{{ $task->uuid }}">
+                            <span class="with-icon dt-hide">{{ svg('icon-edit') }}</span>
+                            <span class="deadline-value">{{ format_deadline($task->deadline) }}</span>
+                            <form action="#">
+                                @csrf
+                                <input type="hidden" id="deadline" name="deadline" value="">
+                            </form>
+                        </div>
+                    @else
+                        <div class="task_tech-info-item-value">{{ format_deadline($task->deadline) }}</div>
+                    @endcan
                 </div>
                 @if($task->performer)
                 <div class="task_tech-info-item">

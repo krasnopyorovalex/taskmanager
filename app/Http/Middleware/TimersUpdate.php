@@ -7,7 +7,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Domain\Task\Commands\UpdateTimersCommand;
 use Domain\Task\Entities\AbstractTaskStatus;
-use Domain\Task\Queries\UpdateTasksTimersInWorkQuery;
+use Domain\Task\Queries\GetUpdateTasksTimersInWorkQuery;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
@@ -38,7 +38,7 @@ class TimersUpdate
      */
     public function handle($request, Closure $next)
     {
-        $tasks = $this->dispatch(new UpdateTasksTimersInWorkQuery($this->taskStatus));
+        $tasks = $this->dispatch(new GetUpdateTasksTimersInWorkQuery($this->taskStatus));
 
         $this->dispatch(new UpdateTimersCommand($tasks, $this->taskStatus));
 

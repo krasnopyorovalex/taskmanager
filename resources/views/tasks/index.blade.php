@@ -27,7 +27,7 @@
                     </thead>
                     <tbody>
                     @foreach($tasks as $task)
-                        <tr>
+                        <tr data-key="{{ $task->uuid }}" class="task-row">
                             <td>
                                 <a href="{{ route('tasks.show', $task) }}" class="task-name">{{ $task->name }}</a>
                                 <div class="author{{ $task->author->deleted_at ? ' deleted-record' : '' }}">{{ $task->author->name }}</div>

@@ -1,4 +1,4 @@
-import {changeTimer} from "../../utils/utils";
+import {changeTimer, updateTasksTimeByInterval, updateTaskTimeByInterval} from "../../utils/utils";
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -61,7 +61,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (btnLogout) {
         btnLogout.addEventListener("click", function (event) {
-            event.currentTarget.querySelector('form').submit();
+            return event.currentTarget.querySelector('form').submit();
         });
     }
+
+    updateTasksTimeByInterval();
+    updateTaskTimeByInterval();
 });
