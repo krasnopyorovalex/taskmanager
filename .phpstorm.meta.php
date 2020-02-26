@@ -5,13 +5,15 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2020-02-12 16:18:16.
+    * Generated on 2020-02-24 14:49:46.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
     */
     override(new \Illuminate\Contracts\Container\Container, map([
         '' => '@',
+        'App\Services\ThumbCreatorService' => \App\Services\ThumbCreatorService::class,
+        'App\Services\TimeCalculator\AbstractTimeCalculatorService' => \App\Services\TimeCalculator\TaskTimeCalculatorService::class,
         'Barryvdh\Debugbar\LaravelDebugbar' => \Barryvdh\Debugbar\LaravelDebugbar::class,
         'Domain\Comment\DataMaps\DataMap' => \App\Domain\Comment\DataMaps\DataMapForComment::class,
         'Domain\Task\Entities\AbstractTaskStatus' => \Domain\Task\Entities\Implementation\TaskStatus::class,
@@ -130,6 +132,8 @@ namespace PHPSTORM_META {
         'db' => \Illuminate\Database\DatabaseManager::class,
         'db.connection' => \Illuminate\Database\MySqlConnection::class,
         'db.factory' => \Illuminate\Database\Connectors\ConnectionFactory::class,
+        'dompdf' => \Dompdf\Dompdf::class,
+        'dompdf.wrapper' => \Barryvdh\DomPDF\PDF::class,
         'encrypter' => \Illuminate\Encryption\Encrypter::class,
         'events' => \Illuminate\Events\Dispatcher::class,
         'files' => \Illuminate\Filesystem\Filesystem::class,
@@ -169,6 +173,8 @@ namespace PHPSTORM_META {
     ]));
     override(\Illuminate\Container\Container::makeWith(0), map([
         '' => '@',
+        'App\Services\ThumbCreatorService' => \App\Services\ThumbCreatorService::class,
+        'App\Services\TimeCalculator\AbstractTimeCalculatorService' => \App\Services\TimeCalculator\TaskTimeCalculatorService::class,
         'Barryvdh\Debugbar\LaravelDebugbar' => \Barryvdh\Debugbar\LaravelDebugbar::class,
         'Domain\Comment\DataMaps\DataMap' => \App\Domain\Comment\DataMaps\DataMapForComment::class,
         'Domain\Task\Entities\AbstractTaskStatus' => \Domain\Task\Entities\Implementation\TaskStatus::class,
@@ -287,6 +293,8 @@ namespace PHPSTORM_META {
         'db' => \Illuminate\Database\DatabaseManager::class,
         'db.connection' => \Illuminate\Database\MySqlConnection::class,
         'db.factory' => \Illuminate\Database\Connectors\ConnectionFactory::class,
+        'dompdf' => \Dompdf\Dompdf::class,
+        'dompdf.wrapper' => \Barryvdh\DomPDF\PDF::class,
         'encrypter' => \Illuminate\Encryption\Encrypter::class,
         'events' => \Illuminate\Events\Dispatcher::class,
         'files' => \Illuminate\Filesystem\Filesystem::class,
@@ -326,6 +334,8 @@ namespace PHPSTORM_META {
     ]));
     override(\Illuminate\Contracts\Container\Container::make(0), map([
         '' => '@',
+        'App\Services\ThumbCreatorService' => \App\Services\ThumbCreatorService::class,
+        'App\Services\TimeCalculator\AbstractTimeCalculatorService' => \App\Services\TimeCalculator\TaskTimeCalculatorService::class,
         'Barryvdh\Debugbar\LaravelDebugbar' => \Barryvdh\Debugbar\LaravelDebugbar::class,
         'Domain\Comment\DataMaps\DataMap' => \App\Domain\Comment\DataMaps\DataMapForComment::class,
         'Domain\Task\Entities\AbstractTaskStatus' => \Domain\Task\Entities\Implementation\TaskStatus::class,
@@ -444,6 +454,8 @@ namespace PHPSTORM_META {
         'db' => \Illuminate\Database\DatabaseManager::class,
         'db.connection' => \Illuminate\Database\MySqlConnection::class,
         'db.factory' => \Illuminate\Database\Connectors\ConnectionFactory::class,
+        'dompdf' => \Dompdf\Dompdf::class,
+        'dompdf.wrapper' => \Barryvdh\DomPDF\PDF::class,
         'encrypter' => \Illuminate\Encryption\Encrypter::class,
         'events' => \Illuminate\Events\Dispatcher::class,
         'files' => \Illuminate\Filesystem\Filesystem::class,
@@ -483,6 +495,8 @@ namespace PHPSTORM_META {
     ]));
     override(\Illuminate\Contracts\Container\Container::makeWith(0), map([
         '' => '@',
+        'App\Services\ThumbCreatorService' => \App\Services\ThumbCreatorService::class,
+        'App\Services\TimeCalculator\AbstractTimeCalculatorService' => \App\Services\TimeCalculator\TaskTimeCalculatorService::class,
         'Barryvdh\Debugbar\LaravelDebugbar' => \Barryvdh\Debugbar\LaravelDebugbar::class,
         'Domain\Comment\DataMaps\DataMap' => \App\Domain\Comment\DataMaps\DataMapForComment::class,
         'Domain\Task\Entities\AbstractTaskStatus' => \Domain\Task\Entities\Implementation\TaskStatus::class,
@@ -601,6 +615,8 @@ namespace PHPSTORM_META {
         'db' => \Illuminate\Database\DatabaseManager::class,
         'db.connection' => \Illuminate\Database\MySqlConnection::class,
         'db.factory' => \Illuminate\Database\Connectors\ConnectionFactory::class,
+        'dompdf' => \Dompdf\Dompdf::class,
+        'dompdf.wrapper' => \Barryvdh\DomPDF\PDF::class,
         'encrypter' => \Illuminate\Encryption\Encrypter::class,
         'events' => \Illuminate\Events\Dispatcher::class,
         'files' => \Illuminate\Filesystem\Filesystem::class,
@@ -640,6 +656,8 @@ namespace PHPSTORM_META {
     ]));
     override(\App::make(0), map([
         '' => '@',
+        'App\Services\ThumbCreatorService' => \App\Services\ThumbCreatorService::class,
+        'App\Services\TimeCalculator\AbstractTimeCalculatorService' => \App\Services\TimeCalculator\TaskTimeCalculatorService::class,
         'Barryvdh\Debugbar\LaravelDebugbar' => \Barryvdh\Debugbar\LaravelDebugbar::class,
         'Domain\Comment\DataMaps\DataMap' => \App\Domain\Comment\DataMaps\DataMapForComment::class,
         'Domain\Task\Entities\AbstractTaskStatus' => \Domain\Task\Entities\Implementation\TaskStatus::class,
@@ -758,6 +776,8 @@ namespace PHPSTORM_META {
         'db' => \Illuminate\Database\DatabaseManager::class,
         'db.connection' => \Illuminate\Database\MySqlConnection::class,
         'db.factory' => \Illuminate\Database\Connectors\ConnectionFactory::class,
+        'dompdf' => \Dompdf\Dompdf::class,
+        'dompdf.wrapper' => \Barryvdh\DomPDF\PDF::class,
         'encrypter' => \Illuminate\Encryption\Encrypter::class,
         'events' => \Illuminate\Events\Dispatcher::class,
         'files' => \Illuminate\Filesystem\Filesystem::class,
@@ -797,6 +817,8 @@ namespace PHPSTORM_META {
     ]));
     override(\App::makeWith(0), map([
         '' => '@',
+        'App\Services\ThumbCreatorService' => \App\Services\ThumbCreatorService::class,
+        'App\Services\TimeCalculator\AbstractTimeCalculatorService' => \App\Services\TimeCalculator\TaskTimeCalculatorService::class,
         'Barryvdh\Debugbar\LaravelDebugbar' => \Barryvdh\Debugbar\LaravelDebugbar::class,
         'Domain\Comment\DataMaps\DataMap' => \App\Domain\Comment\DataMaps\DataMapForComment::class,
         'Domain\Task\Entities\AbstractTaskStatus' => \Domain\Task\Entities\Implementation\TaskStatus::class,
@@ -915,6 +937,8 @@ namespace PHPSTORM_META {
         'db' => \Illuminate\Database\DatabaseManager::class,
         'db.connection' => \Illuminate\Database\MySqlConnection::class,
         'db.factory' => \Illuminate\Database\Connectors\ConnectionFactory::class,
+        'dompdf' => \Dompdf\Dompdf::class,
+        'dompdf.wrapper' => \Barryvdh\DomPDF\PDF::class,
         'encrypter' => \Illuminate\Encryption\Encrypter::class,
         'events' => \Illuminate\Events\Dispatcher::class,
         'files' => \Illuminate\Filesystem\Filesystem::class,
@@ -954,6 +978,8 @@ namespace PHPSTORM_META {
     ]));
     override(\app(0), map([
         '' => '@',
+        'App\Services\ThumbCreatorService' => \App\Services\ThumbCreatorService::class,
+        'App\Services\TimeCalculator\AbstractTimeCalculatorService' => \App\Services\TimeCalculator\TaskTimeCalculatorService::class,
         'Barryvdh\Debugbar\LaravelDebugbar' => \Barryvdh\Debugbar\LaravelDebugbar::class,
         'Domain\Comment\DataMaps\DataMap' => \App\Domain\Comment\DataMaps\DataMapForComment::class,
         'Domain\Task\Entities\AbstractTaskStatus' => \Domain\Task\Entities\Implementation\TaskStatus::class,
@@ -1072,6 +1098,8 @@ namespace PHPSTORM_META {
         'db' => \Illuminate\Database\DatabaseManager::class,
         'db.connection' => \Illuminate\Database\MySqlConnection::class,
         'db.factory' => \Illuminate\Database\Connectors\ConnectionFactory::class,
+        'dompdf' => \Dompdf\Dompdf::class,
+        'dompdf.wrapper' => \Barryvdh\DomPDF\PDF::class,
         'encrypter' => \Illuminate\Encryption\Encrypter::class,
         'events' => \Illuminate\Events\Dispatcher::class,
         'files' => \Illuminate\Filesystem\Filesystem::class,
@@ -1111,6 +1139,8 @@ namespace PHPSTORM_META {
     ]));
     override(\resolve(0), map([
         '' => '@',
+        'App\Services\ThumbCreatorService' => \App\Services\ThumbCreatorService::class,
+        'App\Services\TimeCalculator\AbstractTimeCalculatorService' => \App\Services\TimeCalculator\TaskTimeCalculatorService::class,
         'Barryvdh\Debugbar\LaravelDebugbar' => \Barryvdh\Debugbar\LaravelDebugbar::class,
         'Domain\Comment\DataMaps\DataMap' => \App\Domain\Comment\DataMaps\DataMapForComment::class,
         'Domain\Task\Entities\AbstractTaskStatus' => \Domain\Task\Entities\Implementation\TaskStatus::class,
@@ -1229,6 +1259,8 @@ namespace PHPSTORM_META {
         'db' => \Illuminate\Database\DatabaseManager::class,
         'db.connection' => \Illuminate\Database\MySqlConnection::class,
         'db.factory' => \Illuminate\Database\Connectors\ConnectionFactory::class,
+        'dompdf' => \Dompdf\Dompdf::class,
+        'dompdf.wrapper' => \Barryvdh\DomPDF\PDF::class,
         'encrypter' => \Illuminate\Encryption\Encrypter::class,
         'events' => \Illuminate\Events\Dispatcher::class,
         'files' => \Illuminate\Filesystem\Filesystem::class,

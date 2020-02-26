@@ -8,29 +8,29 @@ use App\Task;
 use Domain\Task\Entities\AbstractTaskStatus;
 
 /**
- * Class SetStatusCommand
+ * Class ChangeTaskStatusByNewCommentCommand
  * @package Domain\Task\Commands
  */
-class SetStatusCommand
+class ChangeTaskStatusByNewCommentCommand
 {
-    /**
-     * @var AbstractTaskStatus
-     */
-    private $taskStatus;
     /**
      * @var Task
      */
     private $task;
+    /**
+     * @var AbstractTaskStatus
+     */
+    private $taskStatus;
 
     /**
-     * SetStatusCommand constructor.
+     * ChangeTaskStatusByNewCommentCommand constructor.
      * @param Task $task
      * @param AbstractTaskStatus $taskStatus
      */
     public function __construct(Task $task, AbstractTaskStatus $taskStatus)
     {
-        $this->taskStatus = $taskStatus;
         $this->task = $task;
+        $this->taskStatus = $taskStatus;
     }
 
     /**
@@ -38,12 +38,13 @@ class SetStatusCommand
      */
     public function handle(): bool
     {
-        if ($this->taskStatus->inWork($this->task)) {
-            $this->task->timer->updateTime($this->taskStatus->inWork($this->task));
+        if (! $this->taskStatus->isActual($this->task)) {
+            return $this->task->update([
+                'status' => $this->taskStatus->changeStatusByNewComment($this->task),
+                'closed_at' => null
+            ]);
         }
 
-        return $this->task->update([
-            'status' => $this->taskStatus->getNextStatus($this->task)
-        ]);
+        return true;
     }
 }

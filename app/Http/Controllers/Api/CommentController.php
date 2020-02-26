@@ -11,8 +11,11 @@ use App\Task;
 use Domain\Comment\DataMaps\DataMap;
 use Domain\Comment\Queries\GetCommentsByTaskUuid;
 use Domain\Comment\Requests\CreateCommentRequest;
+use Domain\Task\Commands\ChangeTaskStatusByNewCommentCommand;
 use Domain\Task\Commands\CreateTaskCommentCommand;
+use Domain\Task\Entities\AbstractTaskStatus;
 use Domain\Task\Queries\GetTaskByUuidQuery;
+use Exception;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -25,14 +28,20 @@ class CommentController extends Controller
      * @var DataMap
      */
     private $commentsDataMap;
+    /**
+     * @var AbstractTaskStatus
+     */
+    private $taskStatus;
 
     /**
      * CommentController constructor.
      * @param DataMap $commentsDataMap
+     * @param AbstractTaskStatus $taskStatus
      */
-    public function __construct(DataMap $commentsDataMap)
+    public function __construct(DataMap $commentsDataMap, AbstractTaskStatus $taskStatus)
     {
         $this->commentsDataMap = $commentsDataMap;
+        $this->taskStatus = $taskStatus;
     }
 
     /**
@@ -53,13 +62,24 @@ class CommentController extends Controller
      */
     public function store(CreateCommentRequest $request, string $uuid): JsonResponse
     {
-        /** @var Task $task */
-        $task = $this->dispatch(new GetTaskByUuidQuery($uuid));
+        try {
+            /** @var Task $task */
+            $task = $this->dispatch(new GetTaskByUuidQuery($uuid));
 
-        /** @var Comment $comment */
-        $comment = $this->dispatch(new CreateTaskCommentCommand($request, $task));
+            $this->authorize('view', $task);
 
-        event(new NewStoryHasAppeared(__('comment.add', ['task' => $comment->commentable->name])));
+            /** @var Comment $comment */
+            $comment = $this->dispatch(new CreateTaskCommentCommand($request, $task));
+
+            $this->dispatch(new ChangeTaskStatusByNewCommentCommand($task, $this->taskStatus));
+
+            event(new NewStoryHasAppeared(__('comment.add', ['task' => $comment->commentable->name])));
+        } catch (Exception $exception) {
+
+            return response()->json([
+                'message' => (string) view('layouts.partials.notify', ['message' => $exception->getMessage()])
+            ], 400);
+        }
 
         return response()->json($this->commentsDataMap->itemToArray($comment));
     }

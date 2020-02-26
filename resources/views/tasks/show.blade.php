@@ -1,4 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.app', [
+    'title' => "Просмотр задачи - {$task->name}"
+])
 
 @section('content')
     <div class="row">
@@ -16,7 +18,7 @@
                         Комментарии
                     </div>
                 </div>
-                <div class="comments-box" id="comments" data-task="{{ $task->uuid }}"></div>
+                <div class="comments-box" id="comments" data-task="{{ $task->uuid }}" data-status="{{ $task->status }}"></div>
             </div>
         </div>
         <div class="col-3">
@@ -34,29 +36,39 @@
                     @include('layouts.partials.task_status')
                 @endunless
 
-                @unless($taskStatus->isCompleted($task) || $taskStatus->isClosed($task))
+                @if($taskStatus->isActual($task) && Auth::user()->can('complete', $task))
                     @include('layouts.partials.task_complete_btn')
-                @endunless
+                @endif
+
+                @if($taskStatus->isCompleted($task) && $taskStatus->isAuthor($task))
+                    @include('layouts.partials.task_close_btn')
+                @endif
             </div>
             <div class="aside-box box-white rounded-block with-shadow">
                 <div class="task_tech-info-item">
                     <div class="task_tech-info-item-label">Создана</div>
                     <div class="task_tech-info-item-value">{{ $task->created_at->formatLocalized('%d %b %Y %H:%M') }}</div>
                 </div>
+                @if($taskStatus->isClosed($task))
+                <div class="task_tech-info-item">
+                    <div class="task_tech-info-item-label">Закрыта</div>
+                    <div class="task_tech-info-item-value">{{ $task->closed_at->formatLocalized('%d %b %Y %H:%M') }}</div>
+                </div>
+                @endif
                 <div class="task_tech-info-item">
                     <div class="task_tech-info-item-label">Дата сдачи</div>
-                    @can('update', $task)
+                    @if(! $taskStatus->isClosed($task) && Auth::user()->can('update', $task))
                         <div class="task_tech-info-item-value is-edited" id="datepicker-edit" title="@lang('task.edit.deadline')" data-task="{{ $task->uuid }}">
                             <span class="with-icon dt-hide">{{ svg('icon-edit') }}</span>
                             <span class="deadline-value">{{ format_deadline($task->deadline) }}</span>
-                            <form action="#">
+                            <form action="{{ route('tasks.update', $task) }}">
                                 @csrf
                                 <input type="hidden" id="deadline" name="deadline" value="">
                             </form>
                         </div>
                     @else
                         <div class="task_tech-info-item-value">{{ format_deadline($task->deadline) }}</div>
-                    @endcan
+                    @endif
                 </div>
                 @if($task->performer)
                 <div class="task_tech-info-item">
@@ -69,6 +81,7 @@
                     <div class="task_tech-info-item-value{{ $task->author->deleted_at ? ' deleted-record' : '' }}">{{ $task->author->name }}</div>
                 </div>
             </div>
+            @if(! $taskStatus->isClosed($task))
             <div class="files-box box-white rounded-block with-shadow">
                 @if(count(only_images_files($task->files, false)))
                 <ul class="files-list">
@@ -88,6 +101,7 @@
                     </form>
                 </div>
             </div>
+            @endif
         </div>
     </div>
 @endsection

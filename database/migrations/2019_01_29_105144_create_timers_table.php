@@ -16,8 +16,8 @@ class CreateTimersTable extends Migration
         Schema::create('timers', static function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('task_id');
-            $table->integer('total')->default(0);
-            $table->integer('job_start')->default(0);
+            $table->unsignedInteger('total')->default(0);
+            $table->unsignedInteger('job_start')->default(0);
 
             $table->foreign('task_id')
                 ->references('id')

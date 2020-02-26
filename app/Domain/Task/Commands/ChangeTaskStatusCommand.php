@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Domain\Task\Commands;
 
 use App\Task;
+use App\User;
 use Domain\Task\Entities\AbstractTaskStatus;
 
 /**
@@ -21,16 +22,22 @@ class ChangeTaskStatusCommand
      * @var AbstractTaskStatus
      */
     private $taskStatus;
+    /**
+     * @var User
+     */
+    private $user;
 
     /**
      * ChangeTaskStatusCommand constructor.
      * @param Task $task
      * @param AbstractTaskStatus $taskStatus
+     * @param User $user
      */
-    public function __construct(Task $task, AbstractTaskStatus $taskStatus)
+    public function __construct(Task $task, AbstractTaskStatus $taskStatus, User $user)
     {
         $this->task = $task;
         $this->taskStatus = $taskStatus;
+        $this->user = $user;
     }
 
     /**
@@ -42,7 +49,7 @@ class ChangeTaskStatusCommand
             'status' => $this->taskStatus->changeStatus($this->task),
             'performer_id' => $this->task->performer
                 ? $this->task->performer->id
-                : auth()->id()
+                : $this->user->id
         ]);
     }
 }

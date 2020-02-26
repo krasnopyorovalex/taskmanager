@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>List of tasks - PHP task tracker</title>
+    <title>{{ $title ?? '' }} | krasber.ru</title>
+    <meta name="description" content="Связаться с нами info@krasber.ru или +7 (978) 754-74-99.">
     <meta name="theme-color" content="#eceff4">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -49,6 +50,7 @@
                             <li{{ is_active_link(route('groups.index')) }}><a href="{{ route('groups.index') }}">Группы</a></li>
                             <li{{ is_active_link(route('billing.index')) }}><a href="{{ route('billing.index') }}">Биллинг</a></li>
                         @endif
+                        <li{{ is_active_link(route('report.index')) }}><a href="{{ route('report.index') }}">Отчёт</a></li>
                     </ul>
 
                     <a href="{{ route('tasks.create') }}" class="btn btn-add btn-small with-icon">

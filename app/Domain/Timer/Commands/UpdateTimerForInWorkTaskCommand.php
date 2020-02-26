@@ -8,10 +8,10 @@ use App\Task;
 use Domain\Task\Entities\AbstractTaskStatus;
 
 /**
- * Class TimerChangeCommand
+ * Class UpdateTimerForInWorkTaskCommand
  * @package Domain\Timer\Commands
  */
-class TimerChangeCommand
+class UpdateTimerForInWorkTaskCommand
 {
     /**
      * @var Task
@@ -23,7 +23,7 @@ class TimerChangeCommand
     private $taskStatus;
 
     /**
-     * TimerChangeCommand constructor.
+     * UpdateTimerForInWorkTaskCommand constructor.
      * @param Task $task
      * @param AbstractTaskStatus $taskStatus
      */
@@ -38,12 +38,8 @@ class TimerChangeCommand
      */
     public function handle(): void
     {
-        $timer = $this->task->timer;
-
         if ($this->taskStatus->inWork($this->task)) {
-            $timer->stop();
-        } elseif ($this->taskStatus->isPaused($this->task)) {
-            $timer->start();
+            $this->task->timer->stop();
         }
     }
 }

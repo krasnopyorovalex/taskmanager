@@ -2,6 +2,7 @@
 
 use App\Providers\TaskStatusProvider;
 use App\Providers\ThumbCreatorProvider;
+use App\Providers\TimeCalculatorProvider;
 
 return [
 
@@ -170,6 +171,8 @@ return [
          */
         TaskStatusProvider::class,
         ThumbCreatorProvider::class,
+        TimeCalculatorProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         /*

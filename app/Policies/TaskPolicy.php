@@ -52,6 +52,30 @@ class TaskPolicy
     }
 
     /**
+     * @param User $user
+     * @param Task $task
+     * @return bool
+     */
+    public function complete(User $user, Task $task): bool
+    {
+        return $user->id === $task->performer->id;
+    }
+
+    /**
+     * Determine whether the user can close the task.
+     *
+     * @param User $user
+     * @param Task $task
+     * @return Response
+     */
+    public function close(User $user, Task $task): Response
+    {
+        return ($user->id === $task->author->id || $user->isAdmin())
+            ? Response::allow()
+            : Response::deny(view('layouts.partials.notify', ['message' => __('task.update.denied')]));
+    }
+
+    /**
      * Determine whether the user can delete the task.
      *
      * @param User $user

@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
             dateFormat: 'yyyy-MM-dd',
             minDate: 1,
             callback: () => {
-                return axios.post(`/tasks/${datepickerEdit.getAttribute('data-task')}/update`, {
+                return axios.post(document.getElementById('deadline').closest('form').getAttribute('action'), {
                     deadline: datepickerEdit.querySelector('input[name=deadline]').value
                 }).then(({data}) => {
                     datepickerEdit.querySelector('.deadline-value').innerText = data.deadline;

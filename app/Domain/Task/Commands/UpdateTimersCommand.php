@@ -6,7 +6,9 @@ namespace Domain\Task\Commands;
 
 use App\Task;
 use Domain\Task\Entities\AbstractTaskStatus;
+use Domain\Timer\Commands\UpdateTimerForInWorkTaskCommand;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class UpdateTimersCommand
@@ -14,6 +16,8 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class UpdateTimersCommand
 {
+    use DispatchesJobs;
+
     /**
      * @var Collection
      */
@@ -36,10 +40,8 @@ class UpdateTimersCommand
 
     public function handle(): void
     {
-        $taskStatus = $this->taskStatus;
-
-        $this->collection->map(static function (Task $task) use ($taskStatus) {
-            $task->timer->updateTime($taskStatus->inWork($task));
+        $this->collection->map(function (Task $task) {
+            $this->dispatch(new UpdateTimerForInWorkTaskCommand($task, $this->taskStatus));
         });
     }
 }

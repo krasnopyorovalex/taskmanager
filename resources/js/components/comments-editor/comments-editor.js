@@ -70,7 +70,11 @@ class CommentsEditor extends Component {
     render() {
         const { editorState } = this.state;
 
-        const { saveComment } = this.props;
+        const { saveComment, status } = this.props;
+
+        if (status === 'CLOSED') {
+            return false;
+        }
 
         return (
             <Fragment>

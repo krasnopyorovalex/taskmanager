@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Events\NewStoryHasAppeared;
+use App\Task;
+use Domain\Task\Commands\CloseTaskCommand;
 use Domain\Task\Commands\SetStatusCommand;
 use Domain\Task\Commands\UpdateTaskCommand;
 use Domain\Task\Queries\GetClosedTasksQuery;
@@ -16,6 +18,7 @@ use Domain\Task\Queries\GetTaskByUuidQuery;
 use Domain\Task\Queries\GetTasksQuery;
 use Domain\Task\Requests\CreateTaskRequest;
 use Domain\Task\Requests\UpdateTaskRequest;
+use Domain\Timer\Commands\UpdateTimerForInWorkTaskCommand;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\Factory;
@@ -64,9 +67,15 @@ class TaskController extends Controller
      */
     public function show(string $uuid)
     {
+        /** @var Task $task */
         $task = $this->dispatch(new GetTaskByUuidQuery($uuid));
 
         $this->authorize('view', $task);
+
+        $this->dispatch(new UpdateTimerForInWorkTaskCommand($task, $this->taskStatus));
+
+        // оптимизирем количество запросов [https://reinink.ca/articles/optimizing-circular-relationships-in-laravel]
+        $task->files->each->setRelation('task', $task);
 
         return view('tasks.show', [
             'task' => $task,
@@ -146,12 +155,14 @@ class TaskController extends Controller
         try {
             $task = $this->dispatch(new GetTaskByUuidQuery($uuid));
 
+            $this->authorize('complete', $task);
+
             $this->dispatch(new SetStatusCommand($task, $this->taskStatus));
         } catch (Exception $exception) {
             return redirect(route('tasks.index'))->with('message', $exception->getMessage());
         }
 
-        return redirect(route('tasks.index'));
+        return redirect(route('tasks.completed'));
     }
 
     /**
@@ -165,6 +176,23 @@ class TaskController extends Controller
             'tasks' => $tasks,
             'taskStatus' => $this->taskStatus
         ]);
+    }
+
+    /**
+     * @param string $uuid
+     * @return RedirectResponse|Redirector
+     */
+    public function close(string $uuid)
+    {
+        try {
+            $task = $this->dispatch(new GetTaskByUuidQuery($uuid));
+
+            $this->dispatch(new CloseTaskCommand($task, $this->taskStatus));
+        } catch (Exception $exception) {
+            return redirect(route('tasks.index'))->with('message', $exception->getMessage());
+        }
+
+        return redirect(route('tasks.closed'));
     }
 
     /**

@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Domain\Task\Commands;
 
 use App\Task;
+use Carbon\Carbon;
 use Domain\Task\Entities\AbstractTaskStatus;
 
 /**
- * Class SetStatusCommand
+ * Class CloseTaskCommand
  * @package Domain\Task\Commands
  */
-class SetStatusCommand
+class CloseTaskCommand
 {
     /**
      * @var AbstractTaskStatus
@@ -38,11 +39,8 @@ class SetStatusCommand
      */
     public function handle(): bool
     {
-        if ($this->taskStatus->inWork($this->task)) {
-            $this->task->timer->updateTime($this->taskStatus->inWork($this->task));
-        }
-
         return $this->task->update([
+            'closed_at' => Carbon::now(),
             'status' => $this->taskStatus->getNextStatus($this->task)
         ]);
     }

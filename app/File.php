@@ -32,7 +32,7 @@ class File extends Model
 
     protected $guarded = [];
 
-    protected $with = ['task'];
+    //protected $with = ['task'];
 
     protected $casts = [
         'is_image' => 'boolean'

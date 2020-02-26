@@ -1,4 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.app', [
+    'title' => 'Создание новой задачи'
+])
 
 @section('content')
     <div class="row">

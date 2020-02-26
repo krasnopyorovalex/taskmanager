@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tasks = document.querySelectorAll('.tasks-list .status');
     const task = document.querySelector('.aside-box .status');
     const filesBox = document.querySelector('.files-box');
-    const requestToComplete = document.getElementById('request-to-complete');
+    const requestToAction = document.getElementById('request-to-action');
     const requestToDestroyFile = document.getElementsByClassName('destroy-image');
     const btnLogout = document.getElementById('btn-logout');
 
@@ -21,8 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
         task.addEventListener("click", (event) => changeTimer(event, '/timer/change/'));
     }
 
-    if (requestToComplete) {
-        requestToComplete.addEventListener("click", (event) => {
+    if (requestToAction) {
+        requestToAction.addEventListener("click", (event) => {
             if (confirm('Вы уверены?')) {
                 return event.currentTarget.querySelector("form").submit();
             }

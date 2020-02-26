@@ -276,10 +276,6 @@ const DatePicker = (function () {
                     _self.monthChange = false;
                 }
             }, 150);
-
-            if (typeof _self.options.callback === 'function') {
-                _self.options.callback();
-            }
         };
 
         // Select date
@@ -305,6 +301,10 @@ const DatePicker = (function () {
             _self.isPickerClicked = false;
             _self.isDateClicked = true;
             _self.hidePicker();
+
+            if (typeof _self.options.callback === 'function') {
+                _self.options.callback();
+            }
         };
 
         _self.removeListeners = function (id) {

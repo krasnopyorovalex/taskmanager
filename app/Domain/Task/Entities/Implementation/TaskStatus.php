@@ -6,7 +6,6 @@ namespace Domain\Task\Entities\Implementation;
 
 use App\Task;
 use Domain\Task\Entities\AbstractTaskStatus;
-use Illuminate\Support\HtmlString;
 
 /**
  * Class TaskStatus
@@ -31,12 +30,37 @@ class TaskStatus extends AbstractTaskStatus
         self::TASK_CLOSED_STATUS => 'закрыта'
     ];
 
+    private const STATUSES_STEPS_MAP = [
+        self::TASK_IN_WORK_STATUS => self::TASK_COMPLETED_STATUS,
+        self::TASK_PAUSED_STATUS => self::TASK_COMPLETED_STATUS,
+        self::TASK_COMPLETED_STATUS => self::TASK_CLOSED_STATUS,
+        self::TASK_NEW_STATUS => self::TASK_COMPLETED_STATUS
+    ];
+
     /**
      * @return array
      */
     public function onlyActual(): array
     {
         return [self::TASK_NEW_STATUS, self::TASK_IN_WORK_STATUS, self::TASK_PAUSED_STATUS];
+    }
+
+    /**
+     * @param Task $task
+     * @return bool
+     */
+    public function isActual($task): bool
+    {
+        return in_array($task->status, $this->onlyActual(), true);
+    }
+
+    /**
+     * @param Task $task
+     * @return string
+     */
+    public function changeStatusByNewComment(Task $task): string
+    {
+        return ! $this->isActual($task) ? self::TASK_NEW_STATUS : $task->status;
     }
 
     /**
@@ -76,9 +100,36 @@ class TaskStatus extends AbstractTaskStatus
      * @param Task $task
      * @return bool
      */
+    public function isNew(Task $task): bool
+    {
+        return $task->status === self::TASK_NEW_STATUS;
+    }
+
+    /**
+     * @param Task $task
+     * @return bool
+     */
+    public function inPause(Task $task): bool
+    {
+        return $task->status === self::TASK_PAUSED_STATUS;
+    }
+
+    /**
+     * @param Task $task
+     * @return bool
+     */
+    public function isPaused(Task $task): bool
+    {
+        return $this->inPause($task) || $this->isCompleted($task) || $this->isNew($task);
+    }
+
+    /**
+     * @param Task $task
+     * @return bool
+     */
     public function isCompleted(Task $task): bool
     {
-        return $task->status === self::TASK_COMPLETED_STATUS || $task->status === self::TASK_CLOSED_STATUS;
+        return $task->status === self::TASK_COMPLETED_STATUS;
     }
 
     /**
@@ -111,6 +162,15 @@ class TaskStatus extends AbstractTaskStatus
      * @param Task $task
      * @return string
      */
+    public function getNextStatus(Task $task): string
+    {
+        return self::STATUSES_STEPS_MAP[$task->status];
+    }
+
+    /**
+     * @param Task $task
+     * @return string
+     */
     public function changeStatus(Task $task): string
     {
         return $this->inWork($task) ? self::TASK_PAUSED_STATUS : self::TASK_IN_WORK_STATUS;
@@ -123,5 +183,14 @@ class TaskStatus extends AbstractTaskStatus
     public function icon(Task $task): string
     {
         return $this->inWork($task) ? (string) svg(self::ICON_PAUSE) : (string) svg(self::ICON_PLAY);
+    }
+
+    /**
+     * @param Task $task
+     * @return bool
+     */
+    public function isAuthor(Task $task): bool
+    {
+        return $task->author->id === auth()->user()->id;
     }
 }

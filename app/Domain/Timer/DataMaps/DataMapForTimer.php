@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Domain\Timer\DataMaps;
 
 use App\Task;
+use App\User;
 use Domain\Task\Entities\AbstractTaskStatus;
 
 /**
@@ -21,16 +22,22 @@ class DataMapForTimer
      * @var AbstractTaskStatus
      */
     private $taskStatus;
+    /**
+     * @var User
+     */
+    private $user;
 
     /**
      * DataMapForTimer constructor.
      * @param Task $task
      * @param AbstractTaskStatus $taskStatus
+     * @param User $user
      */
-    public function __construct(Task $task, AbstractTaskStatus $taskStatus)
+    public function __construct(Task $task, AbstractTaskStatus $taskStatus, User $user)
     {
         $this->task = $task;
         $this->taskStatus = $taskStatus;
+        $this->user = $user;
     }
 
     /**
@@ -43,7 +50,7 @@ class DataMapForTimer
             'icon' => $this->taskStatus->icon($this->task),
             'label' => $this->taskStatus->getLabelStatus($this->task),
             'time' => (string) format_seconds($this->task->timer->total),
-            'performer' => $this->task->performer->name
+            'performer' => $this->user->name
         ];
     }
 

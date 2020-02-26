@@ -31,6 +31,7 @@ use Illuminate\Support\Str;
  * @property-read Timer $timer
  * @property-read User $performer
  * @property-read User $author
+ * @property-read File $files
  */
 class Task extends Model
 {

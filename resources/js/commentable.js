@@ -90,6 +90,7 @@ class Commentable extends React.Component {
                     clearEditor={this.state.clearEditor}
                     toggleClearEditor={this.toggleClearEditor}
                     saveComment={(text) => this.saveComment(text)}
+                    status={this.props.status}
                 />
             </ErrorBoundary>
         );
@@ -99,5 +100,5 @@ class Commentable extends React.Component {
 const el = document.getElementById('comments');
 
 if (document.getElementById('comments')) {
-    ReactDOM.render(<Commentable task={el.getAttribute('data-task')} />, el);
+    ReactDOM.render(<Commentable task={el.getAttribute('data-task')} status={el.getAttribute('data-status')} />, el);
 }
