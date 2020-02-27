@@ -30,7 +30,7 @@ class GetUsersWithMyGroupsQuery
     {
         $groups = $this->groups;
 
-        return User::select('id')->whereHas('groups', static function (Builder $query) use ($groups) {
+        return User::select(['id', 'name'])->whereHas('groups', static function (Builder $query) use ($groups) {
             $query->whereIn('id', $groups);
         })->get();
     }

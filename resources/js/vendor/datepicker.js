@@ -191,6 +191,17 @@ const DatePicker = (function () {
                             }
                         }
 
+                        if (typeof instance.options.maxDate === 'number') {
+                            const currentDateOfDateType = new Date(
+                                parseInt(el[count].dataset.year),
+                                parseInt(el[count].dataset.month) - 1,
+                                parseInt(el[count].dataset.day) + (instance.options.maxDate * -1)
+                            );
+                            if (currentDateOfDateType >= date) {
+                                disabled = 'datepicker__day--disabled';
+                            }
+                        }
+
                         el[count].className = 'datepicker__day';
                         if ((count + 1) === day && this.month() === instance.selectedMonth - 1 &&
                             this.year() === instance.selectedYear) {
@@ -236,6 +247,7 @@ const DatePicker = (function () {
             dateFormat: 'dd-MMM-yyyy',
             disable: [],
             minDate: false,
+            maxDate: false,
             callback: false
         };
 
@@ -303,7 +315,7 @@ const DatePicker = (function () {
             _self.hidePicker();
 
             if (typeof _self.options.callback === 'function') {
-                _self.options.callback();
+                _self.options.callback(event);
             }
         };
 

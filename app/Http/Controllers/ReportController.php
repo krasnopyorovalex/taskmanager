@@ -7,8 +7,10 @@ namespace App\Http\Controllers;
 use App\Services\TimeCalculator\AbstractTimeCalculatorService;
 use Domain\Task\Entities\AbstractTaskStatus;
 use Domain\Task\Queries\GetTasksToReportQuery;
+use Domain\User\Queries\GetUsersWithMyGroupsQuery;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Response;
+use Illuminate\Support\Carbon;
 use Illuminate\View\View;
 use PDF;
 
@@ -43,12 +45,19 @@ class ReportController extends Controller
      */
     public function index()
     {
+        $firstDayOfCurrentMonth = Carbon::today()->startOfMonth()->format('Y-m-d');
+
         $tasks = $this->dispatch(new GetTasksToReportQuery($this->taskStatus));
+
+        $groups = auth()->user()->onlyMyGroups();
+        $performers = $this->dispatch(new GetUsersWithMyGroupsQuery($groups));
 
         return view('reports.index', [
             'tasks' => $tasks,
             'taskStatus' => $this->taskStatus,
-            'timeCalculator' => $this->timeCalculator
+            'timeCalculator' => $this->timeCalculator,
+            'firstDayOfCurrentMonth' => $firstDayOfCurrentMonth,
+            'performers' => $performers
         ]);
     }
 

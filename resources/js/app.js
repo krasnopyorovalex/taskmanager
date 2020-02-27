@@ -15,4 +15,5 @@ require('./bootstrap');
 require('./components/simple-editor/index');
 require('./components/edit-deadline/edit-deadline');
 require('./components/tasks/tasks');
+require('./components/task-filter/task-filter');
 require('./commentable');
