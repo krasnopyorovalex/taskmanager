@@ -6,11 +6,11 @@
             </div>
             <div class="box">
                 <label for="f-started-at">Задачи от:</label>
-                <input type="text" name="started-at" id="f-started-at" value="{{ request('started-at') ?: $firstDayOfCurrentMonth }}">
+                <input type="text" name="startedAt" id="f-started-at" value="{{ $startedAt }}">
             </div>
             <div class="box">
                 <label for="f-stop-at">Задачи до:</label>
-                <input type="text" name="stop-at" id="f-stop-at" value="{{ request('stop-at') ?: date('Y-m-d') }}">
+                <input type="text" name="stopAt" id="f-stop-at" value="{{ $stopAt }}">
             </div>
             <div class="box">
                 <label for="f-user">Исполнитель</label>

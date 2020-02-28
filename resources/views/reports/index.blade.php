@@ -11,6 +11,7 @@
                 <table class="tasks-list">
                     <thead>
                     <tr>
+                        <th>#</th>
                         <th>
                             Название
                         </th>
@@ -31,6 +32,7 @@
                     <tbody>
                     @foreach($tasks as $task)
                         <tr>
+                            <td>{{ $loop->index + 1 }}</td>
                             <td>
                                 <a href="{{ route('tasks.show', $task) }}" class="task-name">{{ $task->name }}</a>
                                 <div class="author{{ $task->author->deleted_at ? ' deleted-record' : '' }}">{{ $task->author->name }}</div>
@@ -73,7 +75,7 @@
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td class="align-right" colspan="5">
+                        <td class="align-right" colspan="6">
                             <div>
                                 <div class="time-label">
                                     Всего:

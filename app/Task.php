@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App;
 
 use App\Scopes\WithUsersByMyGroupsScope;
+use Domain\Report\Filters\ReportFilter;
 use Domain\Task\Events\TaskCreated;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
 /**
@@ -114,5 +116,17 @@ class Task extends Model
     public function files(): HasMany
     {
         return $this->hasMany(File::class);
+    }
+
+    /**
+     * Apply all relevant tasks by filters.
+     *
+     * @param Builder $query
+     * @param ReportFilter $filter
+     * @return Builder
+     */
+    public function scopeByFilter($query, ReportFilter $filter): Builder
+    {
+        return $filter->apply($query);
     }
 }

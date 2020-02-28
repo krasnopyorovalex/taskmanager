@@ -80,6 +80,9 @@
                         <thead>
                         <tr>
                             <th>
+                                #
+                            </th>
+                            <th>
                                 Название
                             </th>
                             <th class="align-right">
@@ -96,6 +99,7 @@
                         <tbody>
                         @foreach($tasks as $task)
                             <tr>
+                                <td>{{ $loop->index + 1 }}</td>
                                 <td>
                                     <div class="task-name">{{ $task->name }}</div>
                                     <div class="author{{ $task->author->deleted_at ? ' deleted-record' : '' }}">{{ $task->author->name }}</div>
@@ -118,7 +122,7 @@
                         </tbody>
                         <tfoot>
                         <tr>
-                            <td class="align-right f-bg" colspan="5">
+                            <td class="align-right f-bg" colspan="6">
                                 Всего:  <b>{{ format_seconds($timeCalculator->total($tasks)) }}</b>
                             </td>
                         </tr>
