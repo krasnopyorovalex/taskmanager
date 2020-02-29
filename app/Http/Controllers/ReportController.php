@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Services\TimeCalculator\AbstractTimeCalculatorService;
+use Domain\Report\Dto\DatePeriodDto;
 use Domain\Report\Filters\ReportFilter;
 use Domain\Task\Entities\AbstractTaskStatus;
 use Domain\Task\Queries\GetTasksToReportQuery;
 use Domain\User\Queries\GetUsersWithMyGroupsQuery;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Response;
-use Illuminate\Support\Carbon;
 use Illuminate\View\View;
 use PDF;
 
@@ -36,11 +36,7 @@ class ReportController extends Controller
     /**
      * @var string
      */
-    private $startedAt;
-    /**
-     * @var string
-     */
-    private $stopAt;
+    private $datePeriod;
 
     /**
      * TaskController constructor.
@@ -54,8 +50,9 @@ class ReportController extends Controller
         $this->timeCalculator = $timeCalculator;
         $this->reportFilter = $reportFilter;
 
-        $this->startedAt = request('startedAt') ?: Carbon::today()->startOfMonth()->format('Y-m-d');
-        $this->stopAt = request('stopAt') ?: Carbon::today()->format('Y-m-d');
+        $dateStart = request('start') ?: today()->startOfMonth()->format('Y-m-d');
+        $dateStop = request('stop') ?: today()->format('Y-m-d');
+        $this->datePeriod = new DatePeriodDto($dateStart, $dateStop);
     }
 
     /**
@@ -63,7 +60,7 @@ class ReportController extends Controller
      */
     public function index()
     {
-        $tasks = $this->dispatch(new GetTasksToReportQuery($this->taskStatus, $this->reportFilter, $this->startedAt, $this->stopAt));
+        $tasks = $this->dispatch(new GetTasksToReportQuery($this->taskStatus, $this->reportFilter, $this->datePeriod));
 
         $groups = auth()->user()->onlyMyGroups();
         $performers = $this->dispatch(new GetUsersWithMyGroupsQuery($groups));
@@ -72,8 +69,7 @@ class ReportController extends Controller
             'tasks' => $tasks,
             'taskStatus' => $this->taskStatus,
             'timeCalculator' => $this->timeCalculator,
-            'startedAt' => $this->startedAt,
-            'stopAt' => $this->stopAt,
+            'datePeriod' => $this->datePeriod,
             'performers' => $performers
         ]);
     }
@@ -83,7 +79,7 @@ class ReportController extends Controller
      */
     public function pdf(): Response
     {
-        $tasks = $this->dispatch(new GetTasksToReportQuery($this->taskStatus, $this->reportFilter, $this->startedAt, $this->stopAt));
+        $tasks = $this->dispatch(new GetTasksToReportQuery($this->taskStatus, $this->reportFilter, $this->datePeriod));
 
         $report = sprintf('отчёт_за_%s.pdf', date('d-m-Y'));
 

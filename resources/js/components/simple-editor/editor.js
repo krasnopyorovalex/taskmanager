@@ -17,6 +17,11 @@ export const transformToEditor = (editor, textarea = null) => {
   // Set default paragraph to <p>
   execCommand('defaultParagraphSeparator', 'p');
 
+  //Set text if exist
+  if (textarea) {
+    editor.innerHTML = textarea.innerText;
+  }
+
   // Create a toolbar
   const toolbar = createToolbar(editor.dataset, execCommand);
   editor.insertAdjacentElement(BEFORE_BEGIN, toolbar);

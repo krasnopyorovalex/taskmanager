@@ -260,3 +260,7 @@ pre code {
   width: auto;
 }
 
+.customer-add .__editor {
+  height: 180px;
+}
+

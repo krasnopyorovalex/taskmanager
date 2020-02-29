@@ -48,7 +48,7 @@
                         @if(auth()->check() && auth()->user()->isAdmin())
                             <li{{ is_active_link(route('users.index')) }}><a href="{{ route('users.index') }}">Пользователи</a></li>
                             <li{{ is_active_link(route('groups.index')) }}><a href="{{ route('groups.index') }}">Группы</a></li>
-                            <li{{ is_active_link(route('billing.index')) }}><a href="{{ route('billing.index') }}">Биллинг</a></li>
+                            <li{{ is_active_link(route('customers.index')) }}><a href="{{ route('customers.index') }}">Заказчики</a></li>
                         @endif
                         <li{{ is_active_link(route('report.index')) }}><a href="{{ route('report.index') }}">Отчёт</a></li>
                     </ul>

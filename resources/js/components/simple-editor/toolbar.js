@@ -132,13 +132,13 @@ export const createToolbar = (options, execCommand) => {
   }
 
   // info text
-  const infoText = document.createElement('div');
-  infoText.className = 'info-text';
-  infoText.innerText = '*для ссылок: [анкор ссылки](https://if-true.ru)';
-  toolbar.insertAdjacentElement(
-    BEFORE_END,
-      infoText
-  );
+  // const infoText = document.createElement('div');
+  // infoText.className = 'info-text';
+  // infoText.innerText = '*для ссылок: [анкор ссылки](https://if-true.ru)';
+  // toolbar.insertAdjacentElement(
+  //   BEFORE_END,
+  //     infoText
+  // );
 
   return toolbar;
 };

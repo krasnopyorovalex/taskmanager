@@ -88,7 +88,7 @@
                                 </div>
                             </div>
                             <div class="action-buttons">
-                                <a href="{{ route('report.pdf') }}" class="btn with-icon btn-small" target="_blank">
+                                <a href="{{ route('report.pdf', [request()->getQueryString()]) }}" class="btn with-icon btn-small" target="_blank">
                                     {{ svg('icon-cloud-download') }}
                                     <div>
                                         Скачать pdf

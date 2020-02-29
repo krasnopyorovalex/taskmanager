@@ -38,8 +38,7 @@ class DataMapForComment extends DataMap
             'parent_id' => $comment->parent_id,
             'body' => $comment->body,
             'author' => $comment->author->name,
-            'created_at' => $comment->created_at->shortRelativeDiffForHumans(),
-            'comments' => []
+            'created_at' => $comment->created_at->shortRelativeDiffForHumans()
         ];
     }
 }

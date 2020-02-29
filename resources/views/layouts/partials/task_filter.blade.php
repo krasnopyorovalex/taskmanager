@@ -6,11 +6,11 @@
             </div>
             <div class="box">
                 <label for="f-started-at">Задачи от:</label>
-                <input type="text" name="startedAt" id="f-started-at" value="{{ $startedAt }}">
+                <input type="text" name="start" id="f-started-at" value="{{ $datePeriod->getDateStart() }}">
             </div>
             <div class="box">
                 <label for="f-stop-at">Задачи до:</label>
-                <input type="text" name="stopAt" id="f-stop-at" value="{{ $stopAt }}">
+                <input type="text" name="stop" id="f-stop-at" value="{{ $datePeriod->getDateStop() }}">
             </div>
             <div class="box">
                 <label for="f-user">Исполнитель</label>
