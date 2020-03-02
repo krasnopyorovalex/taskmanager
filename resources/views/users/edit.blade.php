@@ -1,4 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.app', [
+    'title' => 'Форма редактирования пользователя'
+])
 
 @section('content')
     <div class="row">

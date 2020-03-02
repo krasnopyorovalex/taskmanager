@@ -45,7 +45,8 @@ class UploadFileCommand
     public function handle(): void
     {
         foreach ($this->uploadedFiles as $uploadedFile) {
-            $path = $uploadedFile->store("public/files/{$this->task->id}");
+            $year = date('Y');
+            $path = $uploadedFile->store("public/files/{$year}/{$this->task->id}");
 
             $this->dispatch(new CreateFileCommand($path, $uploadedFile, $this->task, $this->thumbCreator));
         }

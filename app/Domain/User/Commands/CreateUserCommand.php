@@ -37,7 +37,7 @@ class CreateUserCommand
 
         $result = $user->save();
 
-        $this->attachGroups($user);
+        $this->attachGroups($user->fresh());
 
         return $result;
     }
@@ -48,8 +48,7 @@ class CreateUserCommand
     protected function attachGroups(User $user): void
     {
         if ($this->request->has('groups')) {
-            $groups = array_keys($this->request->post('groups'));
-            $user->groups()->attach($groups);
+            $user->groups()->attach($this->request->post('groups'));
         }
     }
 }

@@ -7,7 +7,7 @@ import CommentsEditor from "./components/comments-editor";
 
 import CommentsServiceApi from "./services/comments-service-api";
 import ReplyToInfo from "./components/reply-to-info";
-import {modifyCommentsArray} from "./utils/utils";
+import {modifyCommentsArray, notify} from "./utils/utils";
 import Spinner from "./components/spinner";
 
 class Commentable extends React.Component {
@@ -24,9 +24,9 @@ class Commentable extends React.Component {
 
     componentDidMount() {
         const {getComments} = this.commentsServiceApi;
-        const {task} = this.props;
+        const {url} = this.props;
 
-        getComments(task).then(({data}) => {
+        getComments(url).then(({data}) => {
             this.setState({
                 comments: data,
                 isLoading: false
@@ -39,20 +39,21 @@ class Commentable extends React.Component {
             inProcess: true
         });
 
-        const {task} = this.props;
+        const {url} = this.props;
         const {saveComment} = this.commentsServiceApi;
         const {replyTo, inProcess} = this.state;
 
         if (!inProcess) {
-            saveComment(task, commentBody, replyTo).then(({data}) => {
+            saveComment(url, commentBody, replyTo).then(({data}) => {
                 this.setState({
                     comments: [data, ...this.state.comments],
                     clearEditor: true,
                     replyTo: null,
                     inProcess: false
                 });
-            }).catch(() => {
+            }).catch(({response}) => {
                 this.setState({inProcess: false});
+                return response ? notify(response.data.message) : false;
             });
         }
     };
@@ -100,5 +101,5 @@ class Commentable extends React.Component {
 const el = document.getElementById('comments');
 
 if (document.getElementById('comments')) {
-    ReactDOM.render(<Commentable task={el.getAttribute('data-task')} status={el.getAttribute('data-status')} />, el);
+    ReactDOM.render(<Commentable url={el.getAttribute('data-url')} status={el.getAttribute('data-status')} />, el);
 }

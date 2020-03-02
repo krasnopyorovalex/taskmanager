@@ -18,7 +18,7 @@
                         Комментарии
                     </div>
                 </div>
-                <div class="comments-box" id="comments" data-task="{{ $task->uuid }}" data-status="{{ $task->status }}"></div>
+                <div class="comments-box" id="comments" data-url="{{ route('comments.task.show', $task) }}" data-status="{{ $task->status }}"></div>
             </div>
         </div>
         <div class="col-3">
@@ -81,7 +81,7 @@
                     <div class="task_tech-info-item-value{{ $task->author->deleted_at ? ' deleted-record' : '' }}">{{ $task->author->name }}</div>
                 </div>
             </div>
-            @if(! $taskStatus->isClosed($task))
+
             <div class="files-box box-white rounded-block with-shadow">
                 @if(count(only_images_files($task->files, false)))
                 <ul class="files-list">
@@ -101,7 +101,6 @@
                     </form>
                 </div>
             </div>
-            @endif
         </div>
     </div>
 @endsection

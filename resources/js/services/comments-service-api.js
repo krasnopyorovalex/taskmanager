@@ -1,10 +1,10 @@
 export default class CommentsServiceApi {
-    getComments = (task) => {
-        return axios.get(`/comments/${task}`);
+    getComments = (url) => {
+        return axios.get(url);
     };
 
-    saveComment = async (task, comment, replyTo) => {
-        return await axios.post(`/comments/${task}`, {
+    saveComment = async (url, comment, replyTo) => {
+        return await axios.post(url, {
             body: comment,
             parent_id: replyTo
         });

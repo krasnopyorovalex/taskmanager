@@ -9,7 +9,7 @@ const Comment = ({id, body, author, created_at, comments, replyTo}) => {
         <li>
             <div className="comment-header with-icon">
                 <div className="comment-header-user">
-                    <div className="comment-header-user-img" dangerouslySetInnerHTML={{__html: '<svg><use xlink:href="../img/sprites/sprite.svg#icon-identification"></use></svg>'}}>
+                    <div className="comment-header-user-img" dangerouslySetInnerHTML={{__html: '<svg><use xlink:href="/img/sprites/sprite.svg#icon-identification"></use></svg>'}}>
                     </div>
                     <div className="comment-header-user-name">
                         {author}

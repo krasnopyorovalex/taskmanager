@@ -72,4 +72,17 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="comments box-white with-shadow rounded-block">
+                <div class="comments-header">
+                    <div class="title with-icon">
+                        {{ svg('icon-chat-group-alt') }}
+                        Комментарии
+                    </div>
+                </div>
+                <div class="comments-box" id="comments" data-url="{{ route('comments.customer.show', $customer) }}" data-status="{{ $customer->status }}"></div>
+            </div>
+        </div>
+    </div>
 @endsection

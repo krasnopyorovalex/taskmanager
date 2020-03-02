@@ -7,7 +7,6 @@ namespace Domain\Task\Commands;
 use App\Comment;
 use App\Http\Requests\Request;
 use App\Task;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class CreateTaskCommentCommand
@@ -15,16 +14,10 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class CreateTaskCommentCommand
 {
-    use DispatchesJobs;
-
     /**
      * @var Request
      */
     private $request;
-    /**
-     * @var string
-     */
-    private $uuid;
     /**
      * @var Task
      */
