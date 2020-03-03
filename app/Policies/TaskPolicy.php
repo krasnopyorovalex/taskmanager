@@ -58,7 +58,7 @@ class TaskPolicy
      */
     public function complete(User $user, Task $task): bool
     {
-        return $user->id === $task->performer->id;
+        return $task->performer && $user->id === $task->performer->id;
     }
 
     /**
