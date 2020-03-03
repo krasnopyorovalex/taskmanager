@@ -25,6 +25,7 @@ use Illuminate\Support\Str;
  * @property string $status
  * @property integer $author_id
  * @property integer $performer_id
+ * @property integer $group_id
  * @property string $deadline
  * @property string $created_at
  * @property string $updated_at
@@ -42,8 +43,6 @@ class Task extends Model
     public $perPage = 12;
 
     protected $guarded = [];
-
-    //protected $with = ['timer'];
 
     protected $dates = [
         'deadline',
@@ -89,6 +88,16 @@ class Task extends Model
     }
 
     /**
+     * Get the group record associated with the task.
+     *
+     * @return BelongsTo
+     */
+    public function group(): BelongsTo
+    {
+        return $this->belongsTo(Group::class)->withTrashed();
+    }
+
+    /**
      * Get the user which created a task.
      *
      * @return BelongsTo
@@ -128,5 +137,14 @@ class Task extends Model
     public function scopeByFilter($query, ReportFilter $filter): Builder
     {
         return $filter->apply($query);
+    }
+
+    /**
+     * @param Group $group
+     * @return bool
+     */
+    public function hasGroup(Group $group): bool
+    {
+        return $group->id === $this->group->id;
     }
 }

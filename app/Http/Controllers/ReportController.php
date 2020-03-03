@@ -62,8 +62,7 @@ class ReportController extends Controller
     {
         $tasks = $this->dispatch(new GetTasksToReportQuery($this->taskStatus, $this->reportFilter, $this->datePeriod));
 
-        $groups = auth()->user()->onlyMyGroups();
-        $performers = $this->dispatch(new GetUsersWithMyGroupsQuery($groups));
+        $performers = $this->dispatch(new GetUsersWithMyGroupsQuery());
 
         return view('reports.index', [
             'tasks' => $tasks,

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Scopes;
 
-use Domain\User\Queries\GetUsersWithMyGroupsQuery;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
@@ -18,7 +18,7 @@ class WithUsersByMyGroupsScope implements Scope
 {
     use DispatchesJobs;
 
-    private static $authors;
+    private static $groups;
 
     /**
      * Apply the scope to a given Eloquent query builder.
@@ -29,16 +29,16 @@ class WithUsersByMyGroupsScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
-        if (! self::$authors) {
-            $groups = auth()->user()->onlyMyGroups();
-            self::$authors = $this->dispatch(new GetUsersWithMyGroupsQuery($groups));
+        if (! self::$groups) {
+            /** @var Collection $groups */
+            self::$groups = auth()->user()->onlyMyGroups();
         }
 
-        $authors = self::$authors;
+        $groups = self::$groups;
 
-        $builder->with(['timer', 'author', 'performer'])->where(static function ($query) use ($authors) {
-            return $query->whereIn('author_id', $authors->pluck('id'))
-                ->orWhere('author_id', auth()->user()->id);
+        $builder->with(['timer', 'author', 'performer'])->where(static function ($query) use ($groups) {
+            return $query->where('author_id', auth()->user()->id)
+                ->orWhereIn('group_id', $groups->pluck('id'));
         })->latest();
     }
 }

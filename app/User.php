@@ -70,6 +70,14 @@ class User extends Authenticatable
     }
 
     /**
+     * @return HasMany
+     */
+    public function tasksByPerformer(): HasMany
+    {
+        return $this->hasMany(Task::class, 'performer_id');
+    }
+
+    /**
      * @param Group $group
      * @return bool
      */
@@ -87,10 +95,10 @@ class User extends Authenticatable
     }
 
     /**
-     * @return array
+     * @return Collection
      */
-    public function onlyMyGroups(): array
+    public function onlyMyGroups(): Collection
     {
-        return $this->groups()->get()->pluck('id')->toArray();
+        return $this->groups()->get();
     }
 }

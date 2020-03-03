@@ -6,6 +6,7 @@ namespace Domain\User\Commands;
 
 use App\Http\Requests\Request;
 use App\User;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * Class CreateUserCommand
@@ -34,6 +35,8 @@ class CreateUserCommand
     {
         $user = new User();
         $user->fill($this->request->all());
+
+        $user->password = Hash::make($this->request->get('password'));
 
         $result = $user->save();
 

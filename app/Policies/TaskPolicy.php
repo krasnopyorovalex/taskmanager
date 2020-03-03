@@ -26,10 +26,10 @@ class TaskPolicy
      */
     public function view(User $user, Task $task): bool
     {
-        $groups = $task->author->groups()->get();
+        $groups = $user->groups()->get();
 
         foreach ($groups as $group) {
-            if ($user->hasGroup($group)) {
+            if ($task->hasGroup($group)) {
                 return true;
             }
         }

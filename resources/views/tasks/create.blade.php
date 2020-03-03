@@ -12,9 +12,23 @@
                 @include('layouts.partials.errors')
                 <form action="{{ route('tasks.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
-                    <div class="box">
-                        <label for="f_name">Название задачи</label>
-                        <input type="text" id="f_name" name="name" value="{{ old('name') }}" required />
+                    <div class="row">
+                        <div class="col-9">
+                            <div class="box">
+                                <label for="f_name">Название задачи</label>
+                                <input type="text" id="f_name" name="name" value="{{ old('name') }}" required />
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="box">
+                                <label for="f_group">Группа для задачи</label>
+                                <select name="group_id" id="f_group">
+                                    @foreach($groups as $group)
+                                        <option value="{{ $group['id'] }}">{{ $group['name'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="box">
                         <label for="editor">Описание задачи</label>

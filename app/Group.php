@@ -6,6 +6,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Group
@@ -24,6 +25,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Group extends Model
 {
+    use SoftDeletes;
+
     public $timestamps = false;
 
     protected $guarded = [];
