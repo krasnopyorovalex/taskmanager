@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Domain\Comment\DataMaps\DataMapForComment;
-use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Domain\Comment\DataMaps\DataMap;
 use Illuminate\Support\ServiceProvider;
 
@@ -35,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         if ($this->app->environment() !== 'production') {
-            $this->app->register(IdeHelperServiceProvider::class);
+            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
             $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
         }
     }
