@@ -86,7 +86,7 @@ class Commentable extends React.Component {
         return (
             <ErrorBoundary>
                 <Comments comments={modifyCommentsArray(comments)} replyTo={this.replyTo} />
-                { comments && replyTo && <ReplyToInfo comments={comments} replyTo={replyTo} clearReply={this.clearReply} /> }
+                { comments && replyTo && <ReplyToInfo comments={comments} replyTo={replyTo} clearReply={this.clearReply} status={this.props.status} /> }
                 <CommentsEditor
                     clearEditor={this.state.clearEditor}
                     toggleClearEditor={this.toggleClearEditor}

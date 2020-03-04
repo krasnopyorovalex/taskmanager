@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Domain\Task\Commands;
 
 use App\Http\Requests\Request;
+use App\Services\ThumbCreatorService;
 use App\Task;
 use Domain\File\Commands\UploadFileCommand;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -21,14 +22,20 @@ class CreateTaskCommand
      * @var Request
      */
     private $request;
+    /**
+     * @var ThumbCreatorService
+     */
+    private $thumbCreator;
 
     /**
      * CreateUserCommand constructor.
      * @param Request $request
+     * @param ThumbCreatorService $thumbCreator
      */
-    public function __construct(Request $request)
+    public function __construct(Request $request, ThumbCreatorService $thumbCreator)
     {
         $this->request = $request;
+        $this->thumbCreator = $thumbCreator;
     }
 
     /**
@@ -42,7 +49,7 @@ class CreateTaskCommand
         $task->save();
 
         if ($this->request->has('files')) {
-            $this->dispatch(new UploadFileCommand($this->request->file('files'), $task));
+            $this->dispatch(new UploadFileCommand($this->request->file('files'), $task, $this->thumbCreator));
         }
 
         return $task;

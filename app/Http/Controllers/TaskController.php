@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Events\NewStoryHasAppeared;
+use App\Services\ThumbCreatorService;
 use App\Task;
 use Domain\Task\Commands\CloseTaskCommand;
 use Domain\Task\Commands\SetStatusCommand;
@@ -37,14 +38,20 @@ class TaskController extends Controller
      * @var AbstractTaskStatus
      */
     private $taskStatus;
+    /**
+     * @var ThumbCreatorService
+     */
+    private $thumbCreator;
 
     /**
      * TaskController constructor.
      * @param AbstractTaskStatus $taskStatus
+     * @param ThumbCreatorService $thumbCreator
      */
-    public function __construct(AbstractTaskStatus $taskStatus)
+    public function __construct(AbstractTaskStatus $taskStatus, ThumbCreatorService $thumbCreator)
     {
         $this->taskStatus = $taskStatus;
+        $this->thumbCreator = $thumbCreator;
     }
 
     /**
@@ -124,7 +131,7 @@ class TaskController extends Controller
      */
     public function store(CreateTaskRequest $request)
     {
-        $task = $this->dispatch(new CreateTaskCommand($request));
+        $task = $this->dispatch(new CreateTaskCommand($request, $this->thumbCreator));
 
         event(new NewStoryHasAppeared(__('task.created', ['task' => $task->name])));
 

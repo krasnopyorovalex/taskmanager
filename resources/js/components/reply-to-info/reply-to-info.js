@@ -1,6 +1,10 @@
 import React from 'react';
 
-const ReplyToInfo = ({comments, replyTo, clearReply}) => {
+const ReplyToInfo = ({comments, replyTo, clearReply, status}) => {
+
+    if (status === 'CLOSED') {
+        return false;
+    }
 
     const findComment = comments.find((item) => {
         return item.id === replyTo;
