@@ -37,6 +37,11 @@
                     <a href="{{ route('tasks.index') }}">
                         <img src="{{ asset('img/php_elephant.svg') }}" alt="PHP task tracker logo" title="Перейти к списку текущих задач">
                     </a>
+                    <div class="btn-menu with-icon">
+                        <svg>
+                            <use xlink:href="../img/sprites/sprite.svg#icon-menu"></use>
+                        </svg>
+                    </div>
                 </div>
             </div>
             <div class="col-11">
