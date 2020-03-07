@@ -171,7 +171,7 @@ class TaskController extends Controller
             return redirect(route('tasks.index'))->with('message', $exception->getMessage());
         }
 
-        return redirect(route('tasks.completed'));
+        return redirect(route('tasks.index'));
     }
 
     /**
@@ -201,7 +201,7 @@ class TaskController extends Controller
             return redirect(route('tasks.index'))->with('message', $exception->getMessage());
         }
 
-        return redirect(route('tasks.closed'));
+        return redirect(route('tasks.completed'));
     }
 
     /**
