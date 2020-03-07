@@ -1,4 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.app', [
+    'title' => 'Редактирование группы'
+])
 
 @section('content')
     <div class="row">

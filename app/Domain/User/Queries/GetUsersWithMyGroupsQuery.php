@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Domain\User\Queries;
 
 use App\User;
+use Illuminate\Support\Collection;
 
 /**
  * Class GetUsersWithMyGroupsQuery
@@ -13,10 +14,10 @@ use App\User;
 class GetUsersWithMyGroupsQuery
 {
     /**
-     * Execute the job.
+     * @return Collection
      */
-    public function handle()
+    public function handle(): Collection
     {
-        return User::select(['id', 'name'])->whereHas('tasksByPerformer')->get();
+        return User::select(['id', 'name'])->get();
     }
 }

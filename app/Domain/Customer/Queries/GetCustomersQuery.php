@@ -19,6 +19,7 @@ class GetCustomersQuery
     public function handle(): LengthAwarePaginator
     {
         return Customer::with('manager')
+            ->latest()
             ->paginate();
     }
 }

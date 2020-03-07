@@ -18,7 +18,7 @@ class UpdateCustomerRequest extends Request
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:512',
             'services' => 'required|string|max:512',
             'contacts' => 'required|string',
             'description' => 'string|nullable',

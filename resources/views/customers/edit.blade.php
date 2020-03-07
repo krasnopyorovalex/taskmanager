@@ -58,7 +58,7 @@
                         <div class="col-6">
                             <div class="box">
                                 <label for="description">Описание</label>
-                                <textarea id="description" class="simple-editor" name="description" required>{!! old('description', $customer->description) !!}</textarea>
+                                <textarea id="description" class="simple-editor" name="description">{!! old('description', $customer->description) !!}</textarea>
                             </div>
                         </div>
                     </div>

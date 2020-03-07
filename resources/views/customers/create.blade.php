@@ -56,7 +56,7 @@
                         <div class="col-6">
                             <div class="box">
                                 <label for="description">Описание</label>
-                                <textarea id="description" class="simple-editor" name="description" required>{{ old('description') }}</textarea>
+                                <textarea id="description" class="simple-editor" name="description">{{ old('description') }}</textarea>
                             </div>
                         </div>
                     </div>

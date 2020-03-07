@@ -23,7 +23,7 @@
                             Услуги
                         </th>
                         <th>
-                            Сайт
+                            Контакты
                         </th>
                         <th></th>
                     </tr>
@@ -39,11 +39,7 @@
                                 {{ $customer->services }}
                             </td>
                             <td>
-                                @if($customer->site)
-                                    <a href="{{ $customer->site }}" target="_blank">
-                                        {{ $customer->site }}
-                                    </a>
-                                @endif
+                                {!! $customer->contacts !!}
                             </td>
                             <td>
                                 <div class="actions">
