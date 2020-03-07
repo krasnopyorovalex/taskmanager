@@ -47,9 +47,9 @@ Route::get('/test', static function () {
     $data = [];
     $data['chat_id'] = 187050562;
     $data['parse_mode'] = 'Markdown';
-    $data['text'] = "\x23\xE2\x83\xA3" . " *Поставлена задача № {$this->event->task->uuid}*" . "\n";
-    $data['text'] .= "*Название:* {$this->event->task->name}" . "\n";
-    $data['text'] .= "*Инициатор:* {$this->event->task->author->name}" . "\n";
+    $data['text'] = "\x23\xE2\x83\xA3" . " *Поставлена задача № 12*" . "\n";
+    $data['text'] .= "*Название:* test" . "\n";
+    $data['text'] .= "*Инициатор:* I am" . "\n";
     $data['text'] .= "=============================\n";
     $data['text'] .= '$description' . "\n";
 
