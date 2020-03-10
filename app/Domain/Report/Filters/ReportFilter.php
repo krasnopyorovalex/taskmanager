@@ -17,7 +17,7 @@ final class ReportFilter extends Filter
      *
      * @var array
      */
-    protected $filters = ['performer'];
+    protected $filters = ['performer', 'group'];
 
     /**
      * Filter the query by a given performer.
@@ -28,5 +28,16 @@ final class ReportFilter extends Filter
     protected function performer(string $performer): Builder
     {
         return $this->builder->where('performer_id', (int)$performer);
+    }
+
+    /**
+     * Filter the query by a given group.
+     *
+     * @param string $group
+     * @return Builder
+     */
+    protected function group(string $group): Builder
+    {
+        return $this->builder->where('group_id', (int)$group);
     }
 }

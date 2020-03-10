@@ -64,12 +64,15 @@ class ReportController extends Controller
 
         $performers = $this->dispatch(new GetUsersWithMyGroupsQuery());
 
+        $groups = auth()->user()->onlyMyGroups();
+
         return view('reports.index', [
             'tasks' => $tasks,
             'taskStatus' => $this->taskStatus,
             'timeCalculator' => $this->timeCalculator,
             'datePeriod' => $this->datePeriod,
-            'performers' => $performers
+            'performers' => $performers,
+            'groups' => $groups
         ]);
     }
 
