@@ -14,10 +14,26 @@ use Illuminate\Support\Collection;
 class GetUsersWithMyGroupsQuery
 {
     /**
+     * @var Collection
+     */
+    private $groups;
+
+    /**
+     * GetUsersWithMyGroupsQuery constructor.
+     * @param Collection $groups
+     */
+    public function __construct(Collection $groups)
+    {
+        $this->groups = $groups;
+    }
+
+    /**
      * @return Collection
      */
     public function handle(): Collection
     {
-        return User::select(['id', 'name'])->get();
+        return User::select(['id', 'name'])->whereHas('tasksByPerformer', function ($query) {
+            return $query->whereIn('group_id', $this->groups);
+        })->get();
     }
 }

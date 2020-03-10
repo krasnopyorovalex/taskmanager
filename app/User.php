@@ -70,6 +70,14 @@ class User extends Authenticatable
     }
 
     /**
+     * @return HasMany
+     */
+    public function tasksByPerformer(): HasMany
+    {
+        return $this->hasMany(Task::class, 'performer_id');
+    }
+
+    /**
      * @param Group $group
      * @return bool
      */

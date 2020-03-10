@@ -47,7 +47,7 @@ class SendRequestByNewTaskJob implements ShouldQueue
             $data = [];
             $data['chat_id'] = 187050562;
             $data['parse_mode'] = 'Markdown';
-            $data['text'] = "\x23\xE2\x83\xA3" . " *Поставлена задача № {$this->event->task->uuid}*" . "\n";
+            $data['text'] = "\x23\xE2\x83\xA3" . " *Поставлена задача № {$this->event->task->id}*" . "\n";
             $data['text'] .= "*Название:* {$this->event->task->name}" . "\n";
             $data['text'] .= "*Инициатор:* {$this->event->task->author->name}" . "\n";
             $data['text'] .= "=============================\n";
