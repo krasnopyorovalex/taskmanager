@@ -42,7 +42,7 @@ class SendRequestByNewTaskJob implements ShouldQueue
         try {
             new Telegram(env('TG_API_TOKEN'), env('TG_BOT_NAME'));
 
-            $description = Str::words($this->event->task->body, 10, '...');
+            $description = Str::words(strip_tags($this->event->task->body), 10, '...');
 
             $data = [];
             $data['chat_id'] = 187050562;
