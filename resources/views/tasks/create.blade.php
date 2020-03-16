@@ -16,7 +16,7 @@
                         <div class="col-9">
                             <div class="box">
                                 <label for="f_name">Название задачи</label>
-                                <input type="text" id="f_name" name="name" value="{{ old('name') }}" required />
+                                <input type="text" id="f_name" name="name" value="{{ old('name') }}" autocomplete="off" required />
                             </div>
                         </div>
                         <div class="col-3">
