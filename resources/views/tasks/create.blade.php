@@ -38,7 +38,7 @@
                         <div class="col-3">
                             <div class="box">
                                 <label for="datepicker">Дата сдачи</label>
-                                <input type="text" id="datepicker" name="deadline" value="{{ old('deadline') }}" />
+                                <input type="text" id="datepicker" name="deadline" value="{{ old('deadline') }}" autocomplete="off" />
                             </div>
 
                         </div>
