@@ -72,7 +72,7 @@
                     @endforeach
                     </tbody>
                 </table>
-                {{ $tasks->links('vendor/pagination/paginate') }}
+                {{ $tasks->appends(['keyword' => request('keyword')])->links('vendor/pagination/paginate') }}
             </div>
         </div>
     </div>
