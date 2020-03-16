@@ -23,6 +23,8 @@ Route::group(['middleware' => ['auth']], static function () {
     Route::get('report', 'ReportController@index')->name('report.index');
     Route::get('report-to-pdf', 'ReportController@pdf')->name('report.pdf');
 
+    Route::get('search', 'SearchController')->name('search.index');
+
     foreach (glob(app_path('Domain/**/routes.php')) as $item) {
         require $item;
     }

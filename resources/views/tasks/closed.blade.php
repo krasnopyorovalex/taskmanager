@@ -3,6 +3,7 @@
 ])
 
 @section('content')
+    @include('layouts.partials.task_search')
     <div class="row">
         <div class="col-12">
             @include('layouts.partials.flash-message')
