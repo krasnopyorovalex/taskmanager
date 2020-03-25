@@ -43,6 +43,7 @@ class GetTasksByKeyword
                 return $query->where('name', 'like', "%{$this->keyword}%")
                     ->orWhere('body', 'like', "%{$this->keyword}%");
             })
+            ->latest('closed_at')
             ->paginate();
     }
 }
