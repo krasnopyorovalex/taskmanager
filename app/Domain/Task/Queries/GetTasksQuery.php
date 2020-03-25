@@ -32,6 +32,8 @@ class GetTasksQuery
      */
     public function handle()
     {
-        return Task::whereIn('status', $this->taskStatus->onlyActual())->paginate();
+        return Task::whereIn('status', $this->taskStatus->onlyActual())
+            ->latest()
+            ->paginate();
     }
 }

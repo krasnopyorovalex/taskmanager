@@ -39,6 +39,6 @@ class WithUsersByMyGroupsScope implements Scope
         $builder->with(['timer', 'author', 'performer'])->where(static function ($query) use ($groups) {
             return $query->where('author_id', auth()->user()->id)
                 ->orWhereIn('group_id', $groups->pluck('id'));
-        })->latest();
+        });
     }
 }

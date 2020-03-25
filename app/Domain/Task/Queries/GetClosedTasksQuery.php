@@ -32,6 +32,8 @@ class GetClosedTasksQuery
      */
     public function handle()
     {
-        return Task::where('status', $this->taskStatus->onlyClosed())->paginate();
+        return Task::where('status', $this->taskStatus->onlyClosed())
+            ->latest('closed_at')
+            ->paginate();
     }
 }

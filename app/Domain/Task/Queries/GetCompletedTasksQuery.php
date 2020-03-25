@@ -32,6 +32,8 @@ class GetCompletedTasksQuery
      */
     public function handle()
     {
-        return Task::where('status', $this->taskStatus->onlyCompleted())->paginate();
+        return Task::where('status', $this->taskStatus->onlyCompleted())
+            ->latest()
+            ->paginate();
     }
 }

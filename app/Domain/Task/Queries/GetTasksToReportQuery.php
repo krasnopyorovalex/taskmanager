@@ -49,6 +49,7 @@ class GetTasksToReportQuery
         return Task::where('status', $this->taskStatus->onlyClosed())
             ->whereBetween('closed_at', [$this->datePeriod->getDateStart(), "{$this->datePeriod->getDateStop()} 23:59:59"])
             ->byFilter($this->reportFilter)
+            ->latest('closed_at')
             ->get();
     }
 }
