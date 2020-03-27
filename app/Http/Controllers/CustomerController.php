@@ -38,7 +38,9 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        $managers = $this->dispatch(new GetUsersWithMyGroupsQuery());
+        $groups = auth()->user()->onlyMyGroups();
+
+        $managers = $this->dispatch(new GetUsersWithMyGroupsQuery($groups));
 
         return view('customers.create', compact('managers'));
     }
