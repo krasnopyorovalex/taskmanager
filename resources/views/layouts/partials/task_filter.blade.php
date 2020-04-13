@@ -17,7 +17,6 @@
                         <option value="{{ $group->id }}" {{ (int) request('group') === $group->id ? 'selected' : '' }}>{{ $group->name }}</option>
                     @endforeach
                 </select>
-                <span class="icon-cheveron-down"></span>
             </div>
             <div class="box">
                 <label for="f-user">Исполнитель</label>
@@ -27,7 +26,6 @@
                         <option value="{{ $performer->id }}" {{ (int) request('performer') === $performer->id ? 'selected' : '' }}>{{ $performer->name }}</option>
                     @endforeach
                 </select>
-                <span class="icon-cheveron-down"></span>
             </div>
             <div class="box">
                 <button class="btn with-icon btn-small" type="submit">
