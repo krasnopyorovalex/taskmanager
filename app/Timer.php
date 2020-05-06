@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use Domain\Task\Entities\AbstractTaskStatus;
 use Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -64,5 +65,16 @@ class Timer extends Model
             'total' => $total,
             'job_start' => $time
         ]);
+    }
+
+    /**
+     * @param AbstractTaskStatus $taskStatus
+     * @return int
+     */
+    public function readTime(AbstractTaskStatus $taskStatus): int
+    {
+        return $taskStatus->inWork($this->task)
+            ? time() - $this->job_start + $this->total
+            : $this->total;
     }
 }

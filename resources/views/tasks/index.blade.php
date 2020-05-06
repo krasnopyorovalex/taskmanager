@@ -39,7 +39,7 @@
                                     <div class="time" data-total="{{ $task->timer->total }}">
                                         {{ svg('icon-time') }}
                                         <div class="time-value">
-                                            {{ format_seconds($task->timer->total) }}
+                                            {{ format_seconds($task->timer->readTime($taskStatus)) }}
                                         </div>
                                     </div>
                                 </div>

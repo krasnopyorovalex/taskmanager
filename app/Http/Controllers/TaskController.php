@@ -19,7 +19,6 @@ use Domain\Task\Queries\GetTaskByUuidQuery;
 use Domain\Task\Queries\GetTasksQuery;
 use Domain\Task\Requests\CreateTaskRequest;
 use Domain\Task\Requests\UpdateTaskRequest;
-use Domain\Timer\Commands\UpdateTimerForInWorkTaskCommand;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\Factory;
@@ -61,6 +60,10 @@ class TaskController extends Controller
     {
         $tasks = $this->dispatch(new GetTasksQuery($this->taskStatus));
 
+        $tasks->each(static function (Task $task) {
+            $task->timer->setRelation('task', $task);
+        });
+
         return view('tasks.index', [
             'tasks' => $tasks,
             'taskStatus' => $this->taskStatus
@@ -79,10 +82,9 @@ class TaskController extends Controller
 
         $this->authorize('view', $task);
 
-        $this->dispatch(new UpdateTimerForInWorkTaskCommand($task, $this->taskStatus));
-
         // оптимизирем количество запросов [https://reinink.ca/articles/optimizing-circular-relationships-in-laravel]
         $task->files->each->setRelation('task', $task);
+        $task->timer->setRelation('task', $task);
 
         return view('tasks.show', [
             'task' => $task,

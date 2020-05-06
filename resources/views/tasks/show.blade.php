@@ -26,8 +26,8 @@
                 <div class="with-icon text-right time-box" data-key="{{ $task->uuid }}">
                     <div class="time">
                         {{ svg('icon-time') }}
-                        <div class="time-value" data-seconds="{{ $task->timer->total }}">
-                            {{ format_seconds($task->timer->total) }}
+                        <div class="time-value">
+                            {{ format_seconds($task->timer->readTime($taskStatus)) }}
                         </div>
                     </div>
                 </div>

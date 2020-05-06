@@ -17,7 +17,7 @@ Auth::routes(['register' => false]);
 
 Route::group(['middleware' => ['auth']], static function () {
 
-    Route::get('', 'TaskController@index')->name('tasks.index')->middleware('timers.update');
+    Route::get('', 'TaskController@index')->name('tasks.index');
     Route::get('completed', 'TaskController@completed')->name('tasks.completed');
     Route::get('closed', 'TaskController@closed')->name('tasks.closed');
     Route::get('report', 'ReportController@index')->name('report.index');
