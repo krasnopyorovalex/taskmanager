@@ -87,6 +87,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @if($timeCalculator->total($tasks))
                             <div class="action-buttons">
                                 <a href="{{ route('report.pdf', [request()->getQueryString()]) }}" class="btn with-icon btn-small" target="_blank">
                                     {{ svg('icon-cloud-download') }}
@@ -95,6 +96,7 @@
                                     </div>
                                 </a>
                             </div>
+                            @endif
                         </td>
                     </tr>
                     </tfoot>
