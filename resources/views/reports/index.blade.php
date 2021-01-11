@@ -73,6 +73,7 @@
                         </tr>
                     @endforeach
                     </tbody>
+                    @if($timeCalculator->total($tasks))
                     <tfoot>
                     <tr>
                         <td class="align-right" colspan="6">
@@ -87,7 +88,6 @@
                                     </div>
                                 </div>
                             </div>
-                            @if($timeCalculator->total($tasks))
                             <div class="action-buttons">
                                 <a href="{{ route('report.pdf', [request()->getQueryString()]) }}" class="btn with-icon btn-small" target="_blank">
                                     {{ svg('icon-cloud-download') }}
@@ -96,10 +96,10 @@
                                     </div>
                                 </a>
                             </div>
-                            @endif
                         </td>
                     </tr>
                     </tfoot>
+                    @endif
                 </table>
             </div>
         </div>
