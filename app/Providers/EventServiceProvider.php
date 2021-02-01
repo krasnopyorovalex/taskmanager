@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Events\NewStoryHasAppeared;
+use App\Events\TaskStatusChanged;
 use App\Listeners\CreateRecordForHistory;
 use App\Listeners\SendToTelegramBotTask;
+use App\Listeners\SendToTelegramBotTaskChangeStatus;
 use Domain\Task\Events\TaskCreated;
 use App\Listeners\CreateTimerForTask;
 use Illuminate\Auth\Events\Registered;
@@ -28,6 +30,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         NewStoryHasAppeared::class => [
             CreateRecordForHistory::class
+        ],
+        TaskStatusChanged::class => [
+            SendToTelegramBotTaskChangeStatus::class
         ]
     ];
 

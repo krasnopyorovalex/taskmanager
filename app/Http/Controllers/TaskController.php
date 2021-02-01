@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Events\NewStoryHasAppeared;
+use App\Events\TaskStatusChanged;
 use App\Services\ThumbCreatorService;
 use App\Task;
 use Domain\Task\Commands\CloseTaskCommand;
@@ -169,6 +170,13 @@ class TaskController extends Controller
             $this->authorize('complete', $task);
 
             $this->dispatch(new SetStatusCommand($task, $this->taskStatus));
+
+            event(new TaskStatusChanged(
+                __('task.status.change', [
+                    'task' => $task->name,
+                    'status' => $this->taskStatus->getLabelStatus($task)]
+                ))
+            );
         } catch (Exception $exception) {
             return redirect(route('tasks.index'))->with('message', $exception->getMessage());
         }
