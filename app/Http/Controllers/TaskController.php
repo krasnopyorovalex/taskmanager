@@ -171,12 +171,7 @@ class TaskController extends Controller
 
             $this->dispatch(new SetStatusCommand($task, $this->taskStatus));
 
-            event(new TaskStatusChanged(
-                __('task.status.change', [
-                    'task' => $task->name,
-                    'status' => $this->taskStatus->getLabelStatus($task)]
-                ))
-            );
+            event(new TaskStatusChanged($task));
         } catch (Exception $exception) {
             return redirect(route('tasks.index'))->with('message', $exception->getMessage());
         }

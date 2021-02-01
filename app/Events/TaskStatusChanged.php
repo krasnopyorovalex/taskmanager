@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Events;
 
+use App\Task;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -17,16 +18,16 @@ class TaskStatusChanged
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * @var string
+     * @var Task
      */
-    public $body;
+    public $task;
 
     /**
-     * NewStoryHasAppeared constructor.
-     * @param string $body
+     * TaskStatusChanged constructor.
+     * @param Task $task
      */
-    public function __construct(string $body)
+    public function __construct(Task $task)
     {
-        $this->body = $body;
+        $this->task = $task;
     }
 }

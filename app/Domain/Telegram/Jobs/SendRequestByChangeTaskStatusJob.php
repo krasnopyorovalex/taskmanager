@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Domain\Telegram\Jobs;
 
+use App\Events\TaskStatusChanged;
 use Domain\Task\Entities\AbstractTaskStatus;
-use Domain\Task\Events\TaskCreated;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -24,7 +24,7 @@ class SendRequestByChangeTaskStatusJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     /**
-     * @var TaskCreated
+     * @var TaskStatusChanged
      */
     private $event;
     /**
@@ -33,11 +33,11 @@ class SendRequestByChangeTaskStatusJob implements ShouldQueue
     private $taskStatus;
 
     /**
-     * SendRequestByNewTaskJob constructor.
-     * @param TaskCreated $event
+     * SendRequestByChangeTaskStatusJob constructor.
+     * @param TaskStatusChanged $event
      * @param AbstractTaskStatus $taskStatus
      */
-    public function __construct(TaskCreated $event, AbstractTaskStatus $taskStatus)
+    public function __construct(TaskStatusChanged $event, AbstractTaskStatus $taskStatus)
     {
         $this->event = $event;
         $this->taskStatus = $taskStatus;
