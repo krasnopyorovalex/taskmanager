@@ -202,6 +202,8 @@ class TaskController extends Controller
             $task = $this->dispatch(new GetTaskByUuidQuery($uuid));
 
             $this->dispatch(new CloseTaskCommand($task, $this->taskStatus));
+
+            event(new TaskStatusChanged($task));
         } catch (Exception $exception) {
             return redirect(route('tasks.index'))->with('message', $exception->getMessage());
         }
