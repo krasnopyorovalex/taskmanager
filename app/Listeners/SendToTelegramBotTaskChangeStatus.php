@@ -18,11 +18,24 @@ class SendToTelegramBotTaskChangeStatus
     use DispatchesJobs;
 
     /**
-     * @param TaskStatusChanged $event
+     * @var AbstractTaskStatus
+     */
+    private $taskStatus;
+
+    /**
+     * SendToTelegramBotTaskChangeStatus constructor.
      * @param AbstractTaskStatus $taskStatus
      */
-    public function handle(TaskStatusChanged $event, AbstractTaskStatus $taskStatus): void
+    public function __construct(AbstractTaskStatus $taskStatus)
     {
-        $this->dispatch(new SendRequestByChangeTaskStatusJob($event, $taskStatus));
+        $this->taskStatus = $taskStatus;
+    }
+
+    /**
+     * @param TaskStatusChanged $event
+     */
+    public function handle(TaskStatusChanged $event): void
+    {
+        $this->dispatch(new SendRequestByChangeTaskStatusJob($event, $this->taskStatus));
     }
 }
