@@ -50,11 +50,11 @@ class SendRequestByChangeTaskStatusJob implements ShouldQueue
 
             $data = [];
             $data['chat_id'] = 187050562;
-            $data['parse_mode'] = 'Markdown';
+            $data['parse_mode'] = 'Html';
             $data['text'] = "\x23\xE2\x83\xA3" . " Задача № {$this->event->task->id}*" . "\n";
-            $data['text'] .= "*Название:* {$this->event->task->name}" . "\n";
-            $data['text'] .= "*Инициатор:* {$this->event->task->author->name}" . "\n";
-            $data['text'] .= "*Изменён статус на:* {$this->taskStatus->getLabelStatus($this->event->task)}" . "\n";
+            $data['text'] .= "<b>Название</b> {$this->event->task->name}" . "\n";
+            $data['text'] .= "<b>Инициатор:</b> {$this->event->task->author->name}" . "\n";
+            $data['text'] .= "<b>Изменён статус на:</b> {$this->taskStatus->getLabelStatus($this->event->task)}" . "\n";
 
             Request::sendMessage($data);
         } catch (Exception $exception) {
