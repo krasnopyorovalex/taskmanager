@@ -46,7 +46,7 @@ class TestTelegramCommand extends Command
 
             $data = [];
             $data['chat_id'] = 187050562;
-            $data['parse_mode'] = 'Markdown';
+            $data['parse_mode'] = 'Html';
             $data['text'] = "Задача № test task*" . "\n";
 
             Log::info(Request::sendMessage($data));
