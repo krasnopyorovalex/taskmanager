@@ -55,12 +55,12 @@ class SendRequestByChangeTaskStatusJob implements ShouldQueue
             $data['text'] .= "<b>Инициатор:</b> {$this->event->task->author->name}" . "\n";
             $data['text'] .= "<b>Изменён статус на:</b> {$this->taskStatus->getLabelStatus($this->event->task)}" . "\n";
 
-            if ($this->event->task->author->telegram_id) {
+            if ($this->event->task->author->telegram_id && $this->event->task->author_id !== auth()->user()->id) {
                 $data['chat_id'] = $this->event->task->author->telegram_id;
                 Request::sendMessage($data);
             }
 
-            if ($this->event->task->performer->telegram_id) {
+            if ($this->event->task->performer->telegram_id && $this->event->task->performer_id !== auth()->user()->id) {
                 $data['chat_id'] = $this->event->task->performer->telegram_id;
                 Request::sendMessage($data);
             }
