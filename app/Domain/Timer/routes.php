@@ -6,5 +6,5 @@ Route::group(['prefix' => 'timer', 'as' => 'timer.', 'namespace' => 'Api'], stat
     Route::get('change/{uuid}', 'TimerController@update');
 
     Route::get('load-timer/{uuid}', 'TimerController@timer');
-    Route::get('load-timers', 'TimerController@timers')->middleware('timers.update');
+    Route::get('load-timers', 'TimerController@timers');
 });
