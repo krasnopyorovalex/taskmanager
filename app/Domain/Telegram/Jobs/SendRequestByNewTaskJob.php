@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Domain\Telegram\Jobs;
 
+use App\Domain\User\Queries\GetUsersToInfoOnCreatedTask;
 use Domain\Task\Events\TaskCreated;
 use Exception;
 use Illuminate\Bus\Queueable;
@@ -40,20 +41,24 @@ class SendRequestByNewTaskJob implements ShouldQueue
     public function handle(): void
     {
         try {
+            $usersToInfo = self::dispatch(new GetUsersToInfoOnCreatedTask());
+
             new Telegram(env('TG_API_TOKEN'), env('TG_BOT_NAME'));
 
             $description = Str::words(strip_tags($this->event->task->body), 10, '...');
 
             $data = [];
-            $data['chat_id'] = 187050562;
             $data['parse_mode'] = 'Html';
-            $data['text'] = "\x23\xE2\x83\xA3" . " *Поставлена задача № {$this->event->task->id}*" . "\n";
+            $data['text'] = "\x23\xE2\x83\xA3" . " <b>Поставлена задача № {$this->event->task->id}</b>" . "\n";
             $data['text'] .= "<b>Название:</b> {$this->event->task->name}" . "\n";
             $data['text'] .= "<b>Инициатор:</b> {$this->event->task->author->name}" . "\n";
             $data['text'] .= "=============================\n";
             $data['text'] .= $description . "\n";
 
-            Request::sendMessage($data);
+            foreach ($usersToInfo as $user) {
+                $data['chat_id'] = $user->telegram_id;
+                Request::sendMessage($data);
+            }
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
         }

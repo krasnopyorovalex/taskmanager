@@ -49,14 +49,21 @@ class SendRequestByChangeTaskStatusJob implements ShouldQueue
             new Telegram(env('TG_API_TOKEN'), env('TG_BOT_NAME'));
 
             $data = [];
-            $data['chat_id'] = 187050562;
             $data['parse_mode'] = 'Html';
-            $data['text'] = "\x23\xE2\x83\xA3" . " Задача № {$this->event->task->id}*" . "\n";
+            $data['text'] = "\x23\xE2\x83\xA3" . " <b>Задача № {$this->event->task->id}</b>" . "\n";
             $data['text'] .= "<b>Название</b> {$this->event->task->name}" . "\n";
             $data['text'] .= "<b>Инициатор:</b> {$this->event->task->author->name}" . "\n";
             $data['text'] .= "<b>Изменён статус на:</b> {$this->taskStatus->getLabelStatus($this->event->task)}" . "\n";
 
-            Request::sendMessage($data);
+            if ($this->event->task->author->telegram_id) {
+                $data['chat_id'] = $this->event->task->author->telegram_id;
+                Request::sendMessage($data);
+            }
+
+            if ($this->event->task->performer->telegram_id) {
+                $data['chat_id'] = $this->event->task->performer->telegram_id;
+                Request::sendMessage($data);
+            }
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
         }
