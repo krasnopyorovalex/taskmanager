@@ -49,7 +49,7 @@ class TestTelegramCommand extends Command
             $data['parse_mode'] = 'Markdown';
             $data['text'] = "Задача № test task*" . "\n";
 
-            Request::sendMessage($data);
+            Log::info(Request::sendMessage($data));
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
         }
