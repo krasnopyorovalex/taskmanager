@@ -57,8 +57,10 @@ class SendRequestByNewTaskJob implements ShouldQueue
 
             foreach ($usersToInfo as $user) {
                 $data['chat_id'] = $user->telegram_id;
-                Log::info(Request::sendMessage($data));
+                Request::sendMessage($data);
             }
+
+            Log::info('EVENT CALLED');
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
         }
