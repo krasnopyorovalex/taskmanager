@@ -40,7 +40,7 @@ class SendRequestByNewTaskJob implements ShouldQueue
 
     public function handle(): void
     {
-        $usersToInfo = dispatch(new GetUsersToInfoOnCreatedTask());
+        $usersToInfo = dispatch_now(new GetUsersToInfoOnCreatedTask());
 
         dd($usersToInfo);
 
