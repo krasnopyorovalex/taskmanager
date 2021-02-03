@@ -43,6 +43,8 @@ class SendRequestByNewTaskJob implements ShouldQueue
         try {
             $usersToInfo = dispatch(new GetUsersToInfoOnCreatedTask());
 
+            Log::info($usersToInfo);
+
             new Telegram(env('TG_API_TOKEN'), env('TG_BOT_NAME'));
 
             $description = Str::words(strip_tags($this->event->task->body), 10, '...');
@@ -58,8 +60,6 @@ class SendRequestByNewTaskJob implements ShouldQueue
             foreach ($usersToInfo as $user) {
                 $data['chat_id'] = $user->telegram_id;
                 Request::sendMessage($data);
-
-                Log::info('EVENT CALLED for foreach');
             }
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
