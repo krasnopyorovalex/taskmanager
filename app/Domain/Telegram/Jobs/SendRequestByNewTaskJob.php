@@ -43,7 +43,7 @@ class SendRequestByNewTaskJob implements ShouldQueue
         try {
             $usersToInfo = dispatch(new GetUsersToInfoOnCreatedTask());
 
-            Log::info($usersToInfo);
+            Log::info(serialize($usersToInfo));
 
             new Telegram(env('TG_API_TOKEN'), env('TG_BOT_NAME'));
 
