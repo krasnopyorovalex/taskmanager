@@ -13,9 +13,9 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class TaskTimeCalculatorService extends AbstractTimeCalculatorService
 {
-    public function total(Collection $tasks): int
+    public function total(Collection $collection): int
     {
-        return $tasks->sum(static function (Task $task) {
+        return $collection->sum(static function (Task $task) {
             return $task->timer->total;
         });
     }

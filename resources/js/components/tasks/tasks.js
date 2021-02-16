@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    if (task) {
+    if (task && task.hasAttribute('data-uuid')) {
         task.addEventListener("click", (event) => changeTimer(event, '/timer/change/'));
     }
 

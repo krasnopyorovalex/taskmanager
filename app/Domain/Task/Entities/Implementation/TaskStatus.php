@@ -49,7 +49,7 @@ class TaskStatus extends AbstractTaskStatus
      * @param Task $task
      * @return bool
      */
-    public function isActual($task): bool
+    public function isActual(Task $task): bool
     {
         return in_array($task->status, $this->onlyActual(), true);
     }
