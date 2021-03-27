@@ -22,7 +22,7 @@ class TaskTimeCalculatorService extends AbstractTimeCalculatorService
         });
     }
 
-    public function cost(Collection $collection): int
+    public function cost(Collection $collection): float
     {
         return $this->total($collection) * self::COST_PER_SECOND;
     }
