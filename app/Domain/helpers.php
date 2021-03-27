@@ -44,7 +44,7 @@ if (! function_exists('format_cost')) {
     {
         $total = round($total);
 
-        return new HtmlString(sprintf('%s р.', number_format($total, 2, ',', ' ')));
+        return new HtmlString(sprintf('%sр.', number_format($total, 0, ',', ' ')));
     }
 }
 
