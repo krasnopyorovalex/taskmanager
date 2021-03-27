@@ -85,6 +85,9 @@
                                     {{ svg('icon-time') }}
                                     <div class="time-value">
                                         {{ format_seconds($timeCalculator->total($tasks)) }}
+                                        @if(auth()->check() && auth()->user()->isAdmin())
+                                            {{ format_cost($timeCalculator->cost($tasks)) }}
+                                        @endif
                                     </div>
                                 </div>
                             </div>

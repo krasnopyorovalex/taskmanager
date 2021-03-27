@@ -13,10 +13,17 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class TaskTimeCalculatorService extends AbstractTimeCalculatorService
 {
+    private const COST_PER_SECOND = 0.2084;
+
     public function total(Collection $collection): int
     {
         return $collection->sum(static function (Task $task) {
             return $task->timer->total;
         });
+    }
+
+    public function cost(Collection $collection): int
+    {
+        return $this->total($collection) * self::COST_PER_SECOND;
     }
 }
