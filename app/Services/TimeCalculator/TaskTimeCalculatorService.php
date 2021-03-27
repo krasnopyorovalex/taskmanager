@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class TaskTimeCalculatorService extends AbstractTimeCalculatorService
 {
-    private const COST_PER_SECOND = 0.2084;
+    private const COST_PER_SECOND = 0.20833334;
 
     public function total(Collection $collection): int
     {
