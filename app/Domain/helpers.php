@@ -42,7 +42,9 @@ if (! function_exists('format_seconds')) {
 if (! function_exists('format_cost')) {
     function format_cost(int $total): HtmlString
     {
-        return new HtmlString(sprintf('%s U+20BD', round($total)));
+        $total = round($total);
+
+        return new HtmlString(sprintf('%s р.', number_format($total, 2, ',', ' ')));
     }
 }
 
