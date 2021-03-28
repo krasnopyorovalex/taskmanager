@@ -24,6 +24,6 @@ class TaskTimeCalculatorService extends AbstractTimeCalculatorService
 
     public function cost(Collection $tasks): float
     {
-        return $this->total($tasks) / 60 * self::COST_PER_MINUTE;
+        return $this->total($tasks) / 60;
     }
 }
