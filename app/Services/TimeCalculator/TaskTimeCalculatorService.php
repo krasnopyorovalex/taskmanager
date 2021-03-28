@@ -26,6 +26,8 @@ class TaskTimeCalculatorService extends AbstractTimeCalculatorService
     {
         $minutes = (int) $this->total($tasks) / 60;
 
+        echo $minutes;
+
         return $minutes * self::COST_PER_MINUTE;
     }
 }
