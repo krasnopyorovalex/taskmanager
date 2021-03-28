@@ -123,7 +123,7 @@
                         <tfoot>
                         <tr>
                             <td class="align-right f-bg" colspan="6">
-                                <p>Всего:  <b>{{ format_seconds($timeCalculator->total($tasks)) }}</b></p>
+                                <p>Всего затрачено времени:  <b>{{ format_seconds($timeCalculator->total($tasks)) }}</b></p>
                                 <p>К оплате: <b>{{ format_cost($timeCalculator->cost($tasks)) }}</b></p>
                             </td>
                         </tr>
