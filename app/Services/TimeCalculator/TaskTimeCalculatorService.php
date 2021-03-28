@@ -15,15 +15,15 @@ class TaskTimeCalculatorService extends AbstractTimeCalculatorService
 {
     private const COST_PER_MINUTE = 12.5;
 
-    public function total(Collection $collection): int
+    public function total(Collection $tasks): int
     {
-        return $collection->sum(static function (Task $task) {
+        return $tasks->sum(static function (Task $task) {
             return $task->timer->total;
         });
     }
 
-    public function cost(Collection $collection): float
+    public function cost(Collection $tasks): float
     {
-        return $this->total($collection) / 60 * self::COST_PER_MINUTE;
+        return $this->total($tasks) / 60 * self::COST_PER_MINUTE;
     }
 }
