@@ -123,7 +123,7 @@
                         <tfoot>
                         <tr>
                             <td class="align-right f-bg" colspan="6">
-                                Всего:  <b>{{ format_seconds($timeCalculator->total($tasks)) }}</b>
+                                Всего:  <b>{{ format_seconds($timeCalculator->total($tasks)) }}</b>. К оплате: <b>{{ format_cost($timeCalculator->cost($tasks)) }}</b>
                             </td>
                         </tr>
                         </tfoot>
