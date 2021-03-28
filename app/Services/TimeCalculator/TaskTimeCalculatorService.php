@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class TaskTimeCalculatorService extends AbstractTimeCalculatorService
 {
-    private const COST_PER_SECOND = 0.2083333334;
+    private const COST_PER_MINUTE = 12.5;
 
     public function total(Collection $collection): int
     {
@@ -24,6 +24,6 @@ class TaskTimeCalculatorService extends AbstractTimeCalculatorService
 
     public function cost(Collection $collection): float
     {
-        return $this->total($collection) * self::COST_PER_SECOND;
+        return $this->total($collection) / 60 * self::COST_PER_MINUTE;
     }
 }
