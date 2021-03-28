@@ -40,9 +40,11 @@ if (! function_exists('format_seconds')) {
 }
 
 if (! function_exists('format_cost')) {
-    function format_cost(int $total): HtmlString
+    function format_cost(float $cost): HtmlString
     {
-        return new HtmlString(sprintf('%sр.', number_format($total, 2, ',', ' ')));
+        $cost = round($cost);
+
+        return new HtmlString(sprintf('%sр.', number_format($cost, 0, ',', ' ')));
     }
 }
 
